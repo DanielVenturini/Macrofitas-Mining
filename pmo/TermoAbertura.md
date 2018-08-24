@@ -64,9 +64,9 @@ O fato de a tecnologia ser nova para a maioria dos membros | Realizar treinament
 
  **Entregas**     | **Data**           
 -----------------------------|
-Release 01                   | 14/09/2018 
-Release 02                   | 28/09/2018
-Release 02                   | 19/10/2018
+Release 01                   | 14/09/2018 |
+Release 02                   | 28/09/2018 |
+Release 02                   | 19/10/2018 |
 
 # 9. Custo estimado do projeto
 ## 9.1. Recursos Humanos
@@ -120,9 +120,9 @@ Custo Estimado          |              |                | R$ 39,58 |
 
 | Nome | E-mail |   GitHub |  
 |---|---|--- |
-|Daniel Venturini|danielventurini021@gmail.com|(https://github.com/danielventurini)|   
-|Douglas Vinicius de Abreu|douglasabrel97@gmail.com|(https://github.com/doouglasabreu)|  
-|Luiz Augusto da Silva Silveira|luiz_ssilveira@hotmail.com|(https://github.com/LuizASSilveira)|
+|Daniel Venturini|danielventurini021@gmail.com|https://github.com/danielventurini|   
+|Douglas Vinicius de Abreu|douglasabrel97@gmail.com|https://github.com/doouglasabreu|  
+|Luiz Augusto da Silva Silveira|luiz_ssilveira@hotmail.com|https://github.com/LuizASSilveira|
 
 ## 10.3. Equipe de Desenvolvimento
 
