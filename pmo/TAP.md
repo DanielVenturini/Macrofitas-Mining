@@ -113,6 +113,7 @@ Custo Estimado          |              |                | R$ 39,58 |
 ## 10.1. Cliente
 
 <p align = "justify"> Aluna de doutorado em Biológia Comparada e suas orientadoras. </p>
+
 | Nome | E-mail | Lattes |  
 |---|---|--- |
 |Tânia Camila Crivelari|taniacrivelari@hotmail.com|http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4400924P9|   
