@@ -63,7 +63,7 @@ O fato de a tecnologia ser nova para a maioria dos membros | Realizar treinament
 <p align = "justify"> O cronograma do projeto se dá início ao semestre letivo da disciplina Engenharia de software 2, de maneira que teve seu marco inicial no dia 15/08/2018 e a data de finalização dia 29/11/2018. Entre essas datas acontece três entregas parcial, onde devem ser apresentados os casos de uso priorizados, além de 30% de cobertura de testes sobre o sistema e a entrega final, com uma cobertura de testes maior ou igual a 90%, como segue o quadro: </p>
 
  **Entregas**     | **Data**           
------------------------------|
+------------|-----------------|
 Release 01                   | 14/09/2018 |
 Release 02                   | 28/09/2018 |
 Release 02                   | 19/10/2018 |
@@ -95,7 +95,7 @@ Os custos totais podem ser observados na tabela abaixo:
 
  **Descrição**| **Preço Unitários** | **Quantidade** | **Preço Final** |  
 --------------|---------------------|----------------|-----------------|
-Notebook Dell | -  |          3 |    - |      
+Notebook | -  |          3 |    - |      
 Banda Larga        | -     | 3 por 4 meses | -  |      
 Energia Elétrica        | R$ 2,45024   | 3 por 4 meses | R$ 39,58    | 
 Custo Estimado          |              |                | R$ 39,58 |
@@ -112,7 +112,12 @@ Custo Estimado          |              |                | R$ 39,58 |
 
 ## 10.1. Cliente
 
-<p align = "justify"> Turma de engenharia de software, professor Reginaldo Re. </p>
+<p align = "justify"> Aluna de doutorado em Biológia Comparada e suas orientadoras. </p>
+| Nome | E-mail | Lattes |  
+|---|---|--- |
+|Tânia Camila Crivelari|taniacrivelari@hotmail.com|http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4400924P9|   
+|Karina Fidanza Rodrigues|karina.fidanza@gmail.com|http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4775416E9|  
+|Dayani Bailly|dayanibailly@gmail.com|http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4762458J6|
 
 ## 10.2.  Equipe de Gerência
 
