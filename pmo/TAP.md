@@ -1,66 +1,54 @@
 ## Sumário
  
 1. [Introdução](#1-introdu%C3%A7%C3%A3o)
-2. [Descrição do Projeto](#2-descri%C3%A7%C3%A3o-do-projeto)
-3. [Justificativa](#3-justificativa)
-4. [Objetivo do Projeto (SMART)](#4-objetivo-do-projeto-smart)
-5. [Produto do Projeto](#5-produto-do-projeto)
-6. [Restrições](#6-restrições)
-7. [Riscos Iniciais](#7-riscos-iniciais)
-8. [Cronograma e Marcos](#8-cronograma-e-marcos)
-9. [Custo Estimado do Projeto](#9-custo-estimado-do-projeto)    
-  9.1. [Recursos Humanos](#91-recursos-humanos)    
-  9.2. [Equipamentos e Serviços](#92-equipamentos-e-serviços)    
-  9.3. [Custo Total](#93-custo-total)    
-10. [Stakeholders (Partes interessadas)](#10-stakeholders-partes-interessadas)    
-  10.1. [Cliente](#101-cliente)    
-  10.2. [Equipe de Gerência](#102-equipe-de-gerencia)    
-  10.3. [Equipe de Desenvolvimento](#103-equipe-de-desenvolvimento)    
-11. [Referência Bibliográfica](#11-refer%C3%AAncia-bibliogr%C3%A1fica)
+2. [Justificativa](2-justificativa)
+3. [Objetivo do Projeto (SMART)](#3-objetivo-do-projeto-smart)
+4. [Requisitos](#4-requisitos)
+5. [Riscos](#5-riscos)
+6. [Cronograma e Marcos](#6-cronograma-e-marcos)
+7. [Custo Estimado do Projeto](#7-custo-estimado-do-projeto)
+  8.1. [Recursos Humanos](#91-recursos-humanos)    
+  8.2. [Equipamentos e Serviços](#92-equipamentos-e-serviços)    
+  8.3. [Custo Total](#93-custo-total)    
+9. [Stakeholders (Partes interessadas)](#10-stakeholders-partes-interessadas)    
+  9.1. [Cliente](#101-cliente)    
+  9.2. [Equipe de Gerência](#102-equipe-de-gerencia)
+10. [Referência Bibliográfica](#11-refer%C3%AAncia-bibliogr%C3%A1fica)
 
 # 1. Introdução
-<p align = "justify"> </p>
 
-# 2. Descrição do Projeto
+<p align = "justify"> O sistema em questão é aplicado à pesquisas em Ecologia de ambientes aquáticos continentais, as quais têm o objetivo de investigar padrões biogeográficos de Macrófitas aquáticas (plantas que vivem permanentemente ou por alguns períodos do ano, com a parte fotossintetizante em contato com a água) na América do Sul. Com base em dados sobre a ocorrência dessas plantas, pretendemos identificar áreas de maior diversidade, famílias e táxons amplamente distribuídas, famílias e táxons com áreas restritas de ocorrência, entre outros. Em adição, dados de ocorrência das espécies serão correlacionados à variáveis ambientais para a predição da área de distribuição geográfica das espécies no presente e no futuro, considerando o efeito das mudanças climáticas. </p>
 
-<p align = "justify"> </p>
+# 2. Justificativa
 
-# 3. Justificativa
+<p align = "justify"> Atualmente os dados eram coletados e análisados individualmente e manualmente. Com isso, o tempo perdido somente nestas etapas, eram demasiados. Por isso, se torna inviável a realização da pesquisa de forma manual. </p>
 
-<p align = "justify"> A definir</p>
+# 3. Objetivo do Projeto (SMART)
 
-# 4. Objetivo do Projeto (SMART)
+ <p align = "justify"> - Validar os nomes das espécies de macrófitas em online databases, trazendo também informações acerca da
+taxonomia/ecologia/biologia referentes aos nomes aceitos. </p>
+ 
+ <p align = "justify"> - Congregar informações de registros ocorrências dessas espécies de macrófitas no continente, corrigindo erros e indicando padrões e tendências considerando as bacias hidrográficas Sul-Americanas. </p>
 
-<p align = "justify">A definir </p>
+# 4. Requisitos
 
-# 5. Produto do Projeto
-A. **Escopo**
-- A definir
+<p align = "justify"> 1. O sistema deve validar o nome das espécies da lista de entrada (1900 espécies) com base nas informações disponibilizadas em online databases (Flora do Brasil e PlantList), fornecendo o nome atualmente aceito e autor, bem como a lista de sinonímias para cada nome válido ou aceito; </p>
 
-B. **Não Escopo**
-- A definir
+<p align = "justify"> 2. Para cada espécie válida o sistema deve buscar e extrair das online databases os seguintes informações: ordem, classe, família, tribo, forma de vida, substrato, origem, endemismo e distribuição geográfica; </p>
 
-C. **Requisitos de alto nível**
+<p align = "justify"> 3. O sistema deve buscar os dados de ocorrência de cada espécie (para o nome aceito e suas sinonímias) nas plataformas Specieslink e GBIF; </p>
 
-Os requisitos de maior prioridade ao cliente são:
-- A definir
+<p align = "justify"> 4. O sistema deve executar um processo de triagem dos dados de ocorrências disponibilizados pelo GBIF e Specieslink de modo a corrigir nomes duplicados, erros de digitação, coordenadas ausentes, registros de grupos não plantas (ex. peixes, insetos, répteis, etc), entre outras inconsistências; e </p>
 
-# 6. Restrições
+<p align = "justify"> 5. O sistema deverá fornecer gráficos/tabelas/mapas com as principais tendências dos dados entre as 14 grandes bacias Sul-Americanas e do continente como um todo, como por exemplo, número de espécies de macrófitas por bacia, família mais especiosa, família mais amplamente distribuída. </p>
 
-As restrições do projeto são:
-- A definir
+# 5. Riscos
 
-# 7. Riscos Iniciais
+<p align = "justify"> O principal risco é a limitação de tempo. Visto que o projeto será desenvolvido até meados de dezembro de 2018. Outro risco, será a extração das bases de dados. Que demandará tempo e análise para uma implementação que venha ser conveniente com as bases. </p>
 
-<p align = "justify"> Os principais riscos do projeto envolvem a equipe e a tecnologia a ser utilizada. Esses riscos exigem um plano de ação para se obter o sucesso do projeto, que são: </p>
+# 6. Cronograma e Marcos
 
-**Riscos** | **Plano de Ação** 
------------|------------|
-O fato de a tecnologia ser nova para a maioria dos membros | Realizar treinamentos com a equipe de desenvolvimento sobre as tecnologias a serem utilizadas e buscar pessoas capacitadas que possam ajudar a sanar dúvidas
-
-# 8. Cronograma e Marcos
-
-<p align = "justify"> O cronograma do projeto se dá início ao semestre letivo da disciplina Engenharia de software 2, de maneira que teve seu marco inicial no dia 15/08/2018 e a data de finalização dia 29/11/2018. Entre essas datas acontece três entregas parcial, onde devem ser apresentados os casos de uso priorizados, além de 30% de cobertura de testes sobre o sistema e a entrega final, com uma cobertura de testes maior ou igual a 90%, como segue o quadro: </p>
+<p align = "justify"> O projeto será dividido em três entregas, sendo estas a seguir: </p>
 
  **Entregas**     | **Data**           
 ------------|-----------------|
@@ -68,49 +56,22 @@ Release 01                   | 14/09/2018 |
 Release 02                   | 28/09/2018 |
 Release 02                   | 19/10/2018 |
 
-# 9. Custo estimado do projeto
-## 9.1. Recursos Humanos
+# 7. Custo estimado do projeto
+## 7.1. Nota
 
-<p align = "justify"> O custo existente no projeto relativo aos recursos humanos refere-se ao valor gasto com toda equipe presente em seu desenvolvimento e gestão.</p>
+<p align = "justify"> O principal custo será a nota requerida para o exito com nota 10,0 na disciplina. </p>
 
-<p align = "justify"> A equipe conta com 3 membros. O valor custo médio de um membro da equipe, o qual será medido em hora, supondo que cada participante reserve em média 5h por semana, extra aula para realizar as atividades do projeto, teremos o custo:</p>
+## 7.2. Degustação de carne assada
 
+<p align = "justify"> O segundo custo será uma degustação de carne assada na churrascaria Costelão, pago com a monetização do Reginaldo Ré. </p>
 
-|            | **Quantidade de Pessoas** | **Horas Por Semana** | **Semanas** | Preço Por Pessoa | Custo Final     |
-|---|:---:|:---:|:---:|:---:|-----------------|
-Membro |   3    |          5h          |      14      |      -    |   219h  |
-## 9.2. Equipamentos e Serviços
+## 7.3. Custo Total
 
-<p align = "justify"> O custo existente no projeto relativo aos equipamentos e serviços refere-se a todo e qualquer equipamento ou serviço utilizado para o desenvolvimento do mesmo. </p>
+<p align = "justify"> A alegria de fim de ano. </p>
 
-<p align = "justify"> Fora estimado que cada membro irá utilizar um Notebook com todas as ferramentas necessárias para o desenvolvimento do projeto. Fora estimado também que haveria um plano de Banda Larga por integrante durante 14 semanas (4 meses).</p>
+# 8. Stakeholders (Partes interessadas)
 
-<p align = "justify"> Há também o custo mensal de energia elétrica gasta. Para o seu cálculo foi considerado que o preço do kWh seria de aproximadamente R$ 0,589. Como cada Notebook tem potência em torno de 80W e cada integrante irá trabalhar por 5 horas semanais, o gasto individual com energia elétrica mensal fica da seguinte forma:</p>
-
-(1 Notebook * 80W *  5 horas/semana * 14 semanas) / 1000 = 0,056 kWh/mês
- 
-4,16 kWh/mês * 0,589 = R$ 3,29
-
-Os custos totais podem ser observados na tabela abaixo:
-
- **Descrição**| **Preço Unitários** | **Quantidade** | **Preço Final** |  
---------------|---------------------|----------------|-----------------|
-Notebook | -  |          3 |    - |      
-Banda Larga        | -     | 3 por 4 meses | -  |      
-Energia Elétrica        | R$ 2,45024   | 3 por 4 meses | R$ 39,58    | 
-Custo Estimado          |              |                | R$ 39,58 |
-
-## 9.3. Custo Total
-
-<p align = "justify"> O custo total é representado pela soma dos custos de Recursos Humanos e o custo total dos equipamentos e serviços: </p>
-
- **Custo de Recursos Humanos**| **Custo de Equipamentos e Serviços** | **Custo Total Estimado** |  
-------------------------------|--------------------------------------|--------------------------|
-219h                  |              R$ 39,58            |       219h e R$ 39,58       |
-
-# 10. Stakeholders (Partes interessadas)
-
-## 10.1. Cliente
+## 8.1. Cliente
 
 <p align = "justify"> Aluna de doutorado em Biológia Comparada e suas orientadoras. </p>
 
@@ -120,9 +81,9 @@ Custo Estimado          |              |                | R$ 39,58 |
 |Karina Fidanza Rodrigues|karina.fidanza@gmail.com|http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4775416E9|  
 |Dayani Bailly|dayanibailly@gmail.com|http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4762458J6|
 
-## 10.2.  Equipe de Gerência
+## 8.2.  Equipe de Gerência
 
-<p align = "justify"> Os alunos da disciplina de engenharia de software têm o objetivo de planejar, controlar e tomar decisões importantes para que o projeto seja concluído com êxito. </p>
+<p align = "justify"> Os seguintes desenvolvedores têm o objetivo de planejar, controlar e tomar decisões para que o projeto seja concluído com êxito. </p>
 
 | Nome | E-mail |   GitHub |  
 |---|---|--- |
@@ -130,11 +91,7 @@ Custo Estimado          |              |                | R$ 39,58 |
 |Douglas Vinicius de Abreu|douglasabrel97@gmail.com|https://github.com/doouglasabreu|  
 |Luiz Augusto da Silva Silveira|luiz_ssilveira@hotmail.com|https://github.com/LuizASSilveira|
 
-## 10.3. Equipe de Desenvolvimento
-
-<p align = "justify"> A equipe de desenvolvimento são os membros da equipe de gerência, considerando que o objetivo do projeto é a aprendizagem de gerência de projetos.  </p>
-
-# 11. Referência Bibliográfica
+# 9. Referência Bibliográfica
 
 * PMI. *Um guia do conhecimento em gerenciamento de projetos. * Guia PMBOK® 5a. ed. - EUA: Project Management Institute, 2013
 
