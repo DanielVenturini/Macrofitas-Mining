@@ -7,13 +7,11 @@
 5. [Riscos](#5-riscos)
 6. [Cronograma e Marcos](#6-cronograma-e-marcos)
 7. [Custo Estimado do Projeto](#7-custo-estimado-do-projeto)
-  8.1. [Recursos Humanos](#81-recursos-humanos)    
-  8.2. [Equipamentos e Serviços](#82-equipamentos-e-serviços)    
-  8.3. [Custo Total](#83-custo-total)    
-9. [Stakeholders (Partes interessadas)](#9-stakeholders-partes-interessadas)    
-  9.1. [Cliente](#91-cliente)    
-  9.2. [Equipe de Gerência](#92-equipe-de-gerencia)
-10. [Referência Bibliográfica](#10-refer%C3%AAncia-bibliogr%C3%A1fica)
+  7.1. [Nota](#71-nota)    
+8. [Stakeholders (Partes interessadas)](#8-stakeholders-partes-interessadas)
+  8.1. [Cliente](#81-cliente)    
+  8.2. [Equipe de Gerência](#82-equipe-de-gerencia)
+9. [Referência Bibliográfica](#9-refer%C3%AAncia-bibliogr%C3%A1fica)
 
 # 1. Introdução
 
