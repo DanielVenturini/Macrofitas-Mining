@@ -1,19 +1,19 @@
 ## Sumário
  
 1. [Introdução](#1-introdu%C3%A7%C3%A3o)
-2. [Justificativa](2-justificativa)
+2. [Justificativa](#2-justificativa)
 3. [Objetivo do Projeto (SMART)](#3-objetivo-do-projeto-smart)
 4. [Requisitos](#4-requisitos)
 5. [Riscos](#5-riscos)
 6. [Cronograma e Marcos](#6-cronograma-e-marcos)
 7. [Custo Estimado do Projeto](#7-custo-estimado-do-projeto)
-  8.1. [Recursos Humanos](#91-recursos-humanos)    
-  8.2. [Equipamentos e Serviços](#92-equipamentos-e-serviços)    
-  8.3. [Custo Total](#93-custo-total)    
-9. [Stakeholders (Partes interessadas)](#10-stakeholders-partes-interessadas)    
-  9.1. [Cliente](#101-cliente)    
-  9.2. [Equipe de Gerência](#102-equipe-de-gerencia)
-10. [Referência Bibliográfica](#11-refer%C3%AAncia-bibliogr%C3%A1fica)
+  8.1. [Recursos Humanos](#81-recursos-humanos)    
+  8.2. [Equipamentos e Serviços](#82-equipamentos-e-serviços)    
+  8.3. [Custo Total](#83-custo-total)    
+9. [Stakeholders (Partes interessadas)](#9-stakeholders-partes-interessadas)    
+  9.1. [Cliente](#91-cliente)    
+  9.2. [Equipe de Gerência](#92-equipe-de-gerencia)
+10. [Referência Bibliográfica](#10-refer%C3%AAncia-bibliogr%C3%A1fica)
 
 # 1. Introdução
 
@@ -59,15 +59,7 @@ Release 02                   | 19/10/2018 |
 # 7. Custo estimado do projeto
 ## 7.1. Nota
 
-<p align = "justify"> O principal custo será a nota requerida para o exito com nota 10,0 na disciplina. </p>
-
-## 7.2. Degustação de carne assada
-
-<p align = "justify"> O segundo custo será uma degustação de carne assada na churrascaria Costelão, pago com a monetização do Reginaldo Ré. </p>
-
-## 7.3. Custo Total
-
-<p align = "justify"> A alegria de fim de ano. </p>
+<p align = "justify"> O custo será a nota requerida para o exito na disciplina com o mínimo de 9,5. </p>
 
 # 8. Stakeholders (Partes interessadas)
 
