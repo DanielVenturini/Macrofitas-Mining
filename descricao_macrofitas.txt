@@ -1,22 +1,22 @@
 Species Link: www.splink.cria.org.br
 GBIF: www.gbif.org
 Flora do Brasil: floradobrasil.jbrj.gov.br
-Distância de Levenshtein: https://pt.wikipedia.org/wiki/Dist%C3%A2ncia_Levenshtein
+Distancia de Levenshtein: https://pt.wikipedia.org/wiki/Dist%C3%A2ncia_Levenshtein
 Microsoft Access
 ------------------------ RESUMO --------------------------------------------------
-Da planilha, procurar no Flora do Brasil se contêm a planta da planilha;
+Da planilha, procurar no Flora do Brasil se contem a planta da planilha;
 Corrigir o nome da planta; e
 Recuperar a coordenada pelo GBIF.
 ---------------- PLANILHA --------------------- 1 PARTE
-Primeira coluna é o genero, segundo o nome da espécie.
+Primeira coluna e o genero, segundo o nome da especie.
 Procurar pelo nome completo no Flora do Brasil.
 
-Se o nome for Sinônimo, trocar o nome e guarda em uma coluna que foi trocado.
-The Plant List é somente para validar o nome.
+Se o nome for Sinonimo, trocar o nome e guarda em uma coluna que foi trocado.
+The Plant List e somente para validar o nome.
 
 ------------------------------------------------ 2 PARTE
-Após, pesquisar no GBIF a coordenada da planta.
+Apos, pesquisar no GBIF a coordenada da planta.
 Remover duplicata para o mesmo registro para ambos os bancos
-Salvar somente o nome da espécie, o autor e a coordenada somente das ocorrências da América do Sul.
+Salvar somente o nome da especie, o autor e a coordenada somente das ocorrencias da America do Sul.
 
-SAIDA FINAL: Uma coluna com o nome da espécie válido; o nome do autor; e a coordenada.
+SAIDA FINAL: Uma coluna com o nome da especie valido; o nome do autor; e a coordenada.
