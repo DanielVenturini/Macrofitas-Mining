@@ -4,6 +4,9 @@
 Esta classe contera as implementaçoes das funçoes responsaveis por ler o arquivo
 com os nomes das macrofitas e retornar nome a nome
 '''
+
+import openpyxl
+
 class Reader:
 
     def __init__(self):
@@ -11,13 +14,15 @@ class Reader:
 
     def getLeitorEscritor(self, nomeArquivo):
         try:
-            self.leitor = csv.reader(open(nomeArquivo), delimiter='	', quotechar='\n')   # abrindo arquivo
+            book = openpyxl.load_workbook(nomeArquivo)
+            self.leitor = book.active
         except FileNotFoundError:
+            self.leitor = None
             print("ARQUIVO {0} NAO EXISTE.".format(nomeArquivo))
             raise
 
-        self.leitor.__next__()          # lendo a primeria linha que nao importa
-        return self, Writer(nomeArquivo)
+        self.linha = 1
+        return self, None#, Writer(nomeArquivo)
 
 
     # Esta funçao retorna nome a nome.
@@ -26,8 +31,9 @@ class Reader:
         if not self.leitor:
             raise Exception
 
-        linha = self.leitor.__next__()
-        return str(linha[0]), str(linha[1])       # Primeira coluna e o genero, segunda o nome da especie.
+        linha = self.leitor['A{0}'.format(str(self.linha))].internal_value.split(' ')
+        self.linha += 1
+        return linha[0] + '%20' + linha[1]        # Primeira coluna e o genero, segunda o nome da especie.
 
 
 '''
@@ -35,7 +41,6 @@ Esta classe contera as implementaçoes das funçoes responsaveis por escrever o 
 O que sera escrito sera o nome da planta, se e sinonimo, o nome alterado e a coordenada.
 Na primeira etapa, nao sera usado o campo coordenada.
 '''
-import csv
 
 class Writer:
 
@@ -47,3 +52,6 @@ class Writer:
 
     def fim(self):
         self.file.close()   # fecha o arquivo e salva o conteudo
+
+
+leitor = Reader().getLeitorEscritor('ListaMacrofitas.xlsx')
