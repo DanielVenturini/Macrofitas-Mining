@@ -46,13 +46,14 @@ taxonomia/ecologia/biologia referentes aos nomes aceitos. </p>
 
 # 6. Cronograma e Marcos
 
-<p align = "justify"> O projeto será dividido em três entregas, sendo estas a seguir: </p>
+<p align = "justify"> O projeto será dividido em quatro entregas, sendo estas a seguir: </p>
 
  **Entregas**     | **Data**           
 ------------|-----------------|
-Release 01                   | 14/09/2018 |
-Release 02                   | 28/09/2018 |
-Release 02                   | 19/10/2018 |
+Release 01                   | 21/09/2018 |
+Release 02                   | 05/10/2018 |
+Release 03                   | 19/10/2018 |
+Release 04                   | 07/11/2018 |
 
 # 7. Custo estimado do projeto
 ## 7.1. Nota
