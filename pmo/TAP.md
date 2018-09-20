@@ -55,6 +55,11 @@ Release 02                   | 05/10/2018 |
 Release 03                   | 19/10/2018 |
 Release 04                   | 07/11/2018 |
 
+<p>Na figura abaixo esta o EOP referente a cada entrega das release</p>
+<kbd>
+ <img src="https://github.com/DanielVenturini/Macrofitas-Mining/blob/master/pmo/teste.png"/>
+</kbd>
+
 # 7. Custo estimado do projeto
 ## 7.1. Nota
 
