@@ -5,7 +5,9 @@
 3. [Objetivo do Projeto (SMART)](#3-objetivo-do-projeto-smart)
 4. [Requisitos](#4-requisitos)
 5. [Riscos](#5-riscos)
-6. [Cronograma e Marcos](#6-cronograma-e-marcos)
+6. [Cronograma e Marcos](#6-cronograma-e-marcos)    
+  6.1. [Estimativa de Três pontos PERT](#61-estimativa-de-tres-pontos-pert)    
+  6.2. [Gráfico de Gantt](#62-grafico-de-gantt)    
 7. [Custo Estimado do Projeto](#7-custo-estimado-do-projeto)    
   7.1. [Nota](#71-nota)    
 8. [Stakeholders (Partes interessadas)](#8-stakeholders-partes-interessadas)           
@@ -52,18 +54,15 @@ taxonomia/ecologia/biologia referentes aos nomes aceitos. </p>
 ------------|-----------------|
 Release 01                   | 21/09/2018 |
 Release 02                   | 05/10/2018 |
-Release 03                   | 19/10/2018 |
-Release 04                   | 07/11/2018 |
-
-<br />
+Release 03                   | 19/11/2018 |
+Release 04                   | 07/12/2018 |
 
 <p>Na Figura abaixo esta o EOP referente a cada entrega das release:</p>
 <kbd>
  <img src="https://github.com/DanielVenturini/Macrofitas-Mining/blob/master/pmo/teste.png"/>
 </kbd>
 
-<br />
-
+## 6.1. Estimativa de Três pontos PERT
 Na tabela abaixo vemos os valores da estimativa PERT:
 
 | Atividade | Otimista | Média | Pessimista | Final |
@@ -78,14 +77,12 @@ Na tabela abaixo vemos os valores da estimativa PERT:
 | 4.1.2 | 10h | 12h | 13h | 11h |
 | Duração |||| 36h |
 
-<br />
+## 6.2. Gráfico de Gantt
 
-<p>Na Figura abaixo esta o Grafico de Gantt, referente ao EAP:</p>
+<p>Na Figura abaixo esta o Gráfico de Gantt, referente ao EAP:</p>
 <kbd>
  <img src="https://github.com/DanielVenturini/Macrofitas-Mining/blob/master/pmo/gantt.png"/>
 </kbd>
-
-<br />
 
 # 7. Custo estimado do projeto
 ## 7.1. Nota
