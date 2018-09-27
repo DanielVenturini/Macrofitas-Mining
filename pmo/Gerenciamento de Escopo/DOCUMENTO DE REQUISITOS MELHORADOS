@@ -1,0 +1,9 @@
+DOCUMENTO DE REQUISITOS MELHORADOS
+
+O sistema deve carregar o nome das espécies disponibilizadas pelo arquivo disponibilizado;
+O sistema deve obter os dados das espécies disponibilizadas pelo aruqivo nas plataformas Flora do Brasil e The Plant List;
+O sistema deve corrigir os dados inválidos;
+O sistema deve gerar um arquivo CSV com as informações atualizadas;
+O sistema deve buscar as ocorrências das espécies validadas nas plataformas SpecieLink e GBIF;
+O sistema deve corrigir dados inválidos. Ex: nomes duplicados, erros de digitação...; e
+O sistema deve gerar gráficos/tabelas/mapas sobre os dados obtidos.

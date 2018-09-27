@@ -10,7 +10,7 @@ import json
 import sys
 
 def getUrl(nomePlanta):
-    return "curl -X GET --header 'Accept: text/html' 'http://servicos.jbrj.gov.br/flora/taxon/" + nomePlanta + "'"
+    return "http://servicos.jbrj.gov.br/flora/taxon/" + nomePlanta
 
 def baixaArquivo(url):
     subprocess.getstatusoutput(url + ' -o arquivobaixado')

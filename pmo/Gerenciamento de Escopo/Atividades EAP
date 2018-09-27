@@ -1,0 +1,19 @@
+Atividades EAP
+
+1.2 Release 2
+	1.2.1 Validar nomes das espécies.
+		1.2.1.1 Carregar o nome das espécies disponibilizadas.
+		1.2.1.2 Obter os dados das espécies no Flora do Brasil e PlantList.
+		1.2.1.3 Corrigir os dados inválidos.
+		1.2.1.4 Gerar um arquivo CSV com os dados válidos.
+
+1.3 Release 3
+	1.3.1 Buscar os dados de ocorrência de cada espécie.
+		1.3.1.1 Buscar as ocorrências no SpecieLink.
+		1.3.1.2 Buscar as ocorrências no GBIF.
+
+1.4 Release 4
+	1.4.1 Realizar a triagem dos dados.
+		1.4.1.1 Corrigir os dados inválidos. Ex: nomes duplicados, erros de digitação, e etc.
+	1.4.2 Gerar gráficos/tabela/mapas.
+		1.4.2.1 Gerar as tendências entre as bacias Sul-Americanas.

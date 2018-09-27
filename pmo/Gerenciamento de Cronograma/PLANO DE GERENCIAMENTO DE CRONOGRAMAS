@@ -1,0 +1,15 @@
+PLANO DE GERENCIAMENTO DE CRONOGRAMAS
+
+a) definição de atividades a partir do EAP;
+
+b) Lançar as atividades como issues do GitHub:
+	Ver issues.
+
+c) Sequenciar (não precisa aplicar técnica de sequenciamento, como MDP) e estimar as durações das atividades (usando estimativas de três pontos PERT);
+	Ver arquivo pert.png
+
+d) fazer um cronograma usando um gráfico de GANTT, associando atividades às pessoas:
+	Ver arquivo gantt.png
+
+e) colocar as datas das entregas principais contidas no TAP como milestones do github:
+	Ver issues.

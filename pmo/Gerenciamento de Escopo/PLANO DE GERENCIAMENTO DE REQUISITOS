@@ -1,0 +1,14 @@
+PLANO DE GERENCIAMENTO DE REQUISITOS
+
+a) Como o repositório (GitHub) vai ser usado:
+	O repositório será usado para gerenciar o desenvolvimento do projeto. Neste, estará contidos todos os documentos pertinentes para o gerenciamento do projeto, tais como, as issues serão usadas para acompanhar o desenvolvimento da parte prática dos projetos. Junto com as issues, há os Millestone referentes a cada uma das entregas. Também há todos os documentos sobre o planejamento do projeto.
+
+
+b) Como será o processo para alterar os requisitos quando for necessário:
+	O interessado em alterar um requisito, deverá solicitar o fechamento da issue comentando na mesma, e abrir outra issue especificando os detalhes da alteração.
+
+c) Declaração de Escopo:
+	Ver Termo de Abertura de Projeto: TAP.md
+
+d) EAP:
+	arquivo EAP.png
