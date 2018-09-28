@@ -6,8 +6,6 @@
 4. [Requisitos](#4-requisitos)
 5. [Riscos](#5-riscos)
 6. [Cronograma e Marcos](#6-cronograma-e-marcos)    
-  6.1. [Estimativa de Três pontos PERT](#61-estimativa-de-tres-pontos-pert)    
-  6.2. [Gráfico de Gantt](#62-grafico-de-gantt)    
 7. [Custo Estimado do Projeto](#7-custo-estimado-do-projeto)    
   7.1. [Nota](#71-nota)    
 8. [Stakeholders (Partes interessadas)](#8-stakeholders-partes-interessadas)           
@@ -56,33 +54,6 @@ Release 01                   | 21/09/2018 |
 Release 02                   | 05/10/2018 |
 Release 03                   | 19/11/2018 |
 Release 04                   | 07/12/2018 |
-
-<p>Na Figura abaixo esta o EOP referente a cada entrega das release:</p>
-<kbd>
- <img src="https://github.com/DanielVenturini/Macrofitas-Mining/blob/master/pmo/teste.png"/>
-</kbd>
-
-## 6.1. Estimativa de Três pontos PERT
-Na tabela abaixo vemos os valores da estimativa PERT:
-
-| Atividade | Otimista | Média | Pessimista | Final |
-|---|---|---|---|---|
-| 2.1.1 | 1/4h | 1h | 2h | 1h |
-| 2.1.2 | 3h | 5h | 10h | 6h |
-| 2.1.3 | 1h | 2h | 3h | 2h |
-| 2.1.4 | 1/4h | 1h | 2h | 1h |
-| 3.1.1 | 4h | 5h | 12h | 6h |
-| 3.1.2 | 2h | 2h | 4h | 3h |
-| 4.1.1 | 13h | 14h | 18h | 8h |
-| 4.1.2 | 10h | 12h | 13h | 11h |
-| Duração |||| 36h |
-
-## 6.2. Gráfico de Gantt
-
-<p>Na Figura abaixo esta o Gráfico de Gantt, referente ao EAP:</p>
-<kbd>
- <img src="https://github.com/DanielVenturini/Macrofitas-Mining/blob/master/pmo/gantt.png"/>
-</kbd>
 
 # 7. Custo estimado do projeto
 ## 7.1. Nota
