@@ -8,15 +8,19 @@ from OperacoesArquivo import Reader
 import requests
 import sys
 
-def getUrl(nomePlanta):
-    return "http://servicos.jbrj.gov.br/flora/taxon/" + nomePlanta
+def getUrl(nomePlanta, site):
+    if site.__eq__('FB'):
+        return "http://servicos.jbrj.gov.br/flora/taxon/" + nomePlanta.replace(' ','%20')
+    elif site.__eq__('PL'):
+        return "link"
 
-def requisicao(url):
-    return requests.get(url).json()
+def requisicao(url, site):
+    if site.__eq__('FB'):
+        return requests.get(url).json()
+    elif site.__eq__('PL'):
+        pass
 
 def start(nomeArquivo):
-
-    leitor, escritor = None, None
 
     try:
         leitor = Reader(nomeArquivo)
@@ -25,14 +29,15 @@ def start(nomeArquivo):
 
     try:
         while True:
-            nomePlanta = leitor.getNome()               # recupera o nome da planta
-            jsonResp = requisicao(getUrl(nomePlanta))   # baixando o arquivo JSON
+            nomePlanta = leitor.getNome()                           # recupera o nome da planta
+            jsonResp = requisicao(getUrl(nomePlanta, 'FB'), 'FB')   # baixando o arquivo JSON
 
-            if jsonResp['result'] == None:
-                print(nomePlanta.replace('%20', ' ') + ' -- ' + "ERR")
+            if jsonResp['result'] != None:
+                print(nomePlanta + ' -- ' + 'OK!')
                 continue
 
-            print(nomePlanta.replace('%20', ' ') + ' -- ' + 'OK!')
+            print(nomePlanta + ' -- ' + 'ERR!')
+            plResp = requisicao(getUrl(nomePlanta, 'PL'), 'PL')     # recuperando dados do PlantList
     except AttributeError:
         print("Fim do arquivo")
 
