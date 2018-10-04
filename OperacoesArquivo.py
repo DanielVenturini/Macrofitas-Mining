@@ -36,7 +36,7 @@ class Reader:
         try:
             linha = self.leitor['A{0}'.format(str(self.linha))].internal_value.split(' ')   # recupera o objeto da linha e desta, os valores da linha
             self.linha += 1                     # atualiza o valor da linha
-            return linha[0] + '%20' + linha[1]  # Primeira coluna é o genero, segunda é o nome da espécie.
+            return linha[0] + ' ' + linha[1]  	# Primeira coluna é o genero, segunda é o nome da espécie.
         except AttributeError:                  # quando chegar no fim do arquivo
             self.leitor = None                  # atribui None ao leitor, para, se chamar novamente, gere a exceção no bloco if
             raise                               # Re-lança a exceção
