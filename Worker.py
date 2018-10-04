@@ -14,11 +14,11 @@ def getUrl(nomePlanta, site):
     elif site.__eq__('PL'):
         return "link"
 
-def requisicao(url, site):
-    if site.__eq__('FB'):
-        return requests.get(url).json()
-    elif site.__eq__('PL'):
-        pass
+def requisicaoFB(url):
+    return requests.get(url).json()
+
+def requisicaoPL(url):
+    return True
 
 def start(nomeArquivo):
 
@@ -30,14 +30,15 @@ def start(nomeArquivo):
     try:
         while True:
             nomePlanta = leitor.getNome()                           # recupera o nome da planta
-            jsonResp = requisicao(getUrl(nomePlanta, 'FB'), 'FB')   # baixando o arquivo JSON
+            jsonResp = requisicaoFB(getUrl(nomePlanta, 'FB'))   # baixando o arquivo JSON
 
             if jsonResp['result'] != None:
                 print(nomePlanta + ' -- ' + 'OK!')
                 continue
 
             print(nomePlanta + ' -- ' + 'ERR!')
-            plResp = requisicao(getUrl(nomePlanta, 'PL'), 'PL')     # recuperando dados do PlantList
+            plResp = requisicaoPL(getUrl(nomePlanta, 'PL'))     # recuperando dados do PlantList
+            
     except AttributeError:
         print("Fim do arquivo")
 
