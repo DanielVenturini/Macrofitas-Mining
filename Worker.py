@@ -4,47 +4,41 @@
 Este arquivo chamara as funçoes reponsaveis por cada parte do projeto
 '''
 
-from OperacoesArquivo import (Reader, Writer)
-import subprocess
-import json
+from OperacoesArquivo import Reader
+import requests
 import sys
 
 def getUrl(nomePlanta):
     return "http://servicos.jbrj.gov.br/flora/taxon/" + nomePlanta
 
-def baixaArquivo(url):
-    subprocess.getstatusoutput(url + ' -o arquivobaixado')
+def requisicao(url):
+    return requests.get(url).json()
 
 def start(nomeArquivo):
 
     leitor, escritor = None, None
 
     try:
-
-        leitor, escritor = Reader().getLeitorEscritor(nomeArquivo)
-
+        leitor = Reader(nomeArquivo)
     except FileNotFoundError:
-        print("Arquivo nao existe")
         return
 
     try:
         while True:
-            nomePlanta = leitor.getNome()
-            baixaArquivo(getUrl(nomePlanta))            # baixando o arquivo JSON
-            arquivo = json.load(open('arquivobaixado')) # convertendo para um objeto JSON
+            nomePlanta = leitor.getNome()               # recupera o nome da planta
+            jsonResp = requisicao(getUrl(nomePlanta))   # baixando o arquivo JSON
 
-            if arquivo['result'] == None:
-                print("Uma planta nao encontrada: " + nomePlanta)
+            if jsonResp['result'] == None:
+                print(nomePlanta.replace('%20', ' ') + ' -- ' + "ERR")
                 continue
 
-            print(arquivo['result'][0]['genus'])
+            print(nomePlanta.replace('%20', ' ') + ' -- ' + 'OK!')
     except AttributeError:
         print("Fim do arquivo")
-        escritor.fim()
 
-# python3 Worker arquivo.csv
+# python3 Worker arquivo.xlsx
 if sys.argv.__len__() == 2:
     start(sys.argv[1])
 else:
-    print("Erro. Use: python3 Worker.py arquivo.csv")
+    print("Erro. Use: python3 Worker.py arquivo.xlsx")
 
