@@ -16,7 +16,7 @@ def urlPL(genero, especie):
 def dadosPL(name):
 	try:
 		genero, especie = name.split(' ')
-		response = {'checked': False, 'message': '', 'nameAccepted':'', 'trocado': False, 'obj': []}
+		response = {'checked': 'NAO', 'message': '', 'nameAccepted':'', 'trocado': False, 'obj': []}
 		soup = requisicaoPL(urlPL(genero, especie))
 	except urllib.error.URLError:
 		return response
@@ -45,7 +45,7 @@ def dadosPL(name):
 						if(status == 'Accepted'): #verifica se eh o nome aceito
 							response['nameAccepted'] = nome
 							if(name.__contains__(nome)): #verifica se foi trocado nome de entrada
-								response['trocado'] = True
+								response['trocado'] = 'SIM'
 					count+=1
 		return response 
 	response['message'] = 'genero invalido'

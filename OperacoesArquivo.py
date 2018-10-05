@@ -54,10 +54,11 @@ class Writer:
     def __init__(self, nomeArquivo):
         self.file = open(nomeArquivo+'_validado.csv', 'w')                                                  # abrindo o arquivo para escrita
         nomeCampos = ['nome entrada', 'validado', 'site validado', 'trocado', 'nome aceito', 'observacao']  # os campos que terao o arquivo csv
-        self.escritor = csvWriter = csv.DictWriter(self.file, fieldnames=nomeCampos)# abrindo como csv
+        self.escritor = csv.DictWriter(self.file, fieldnames=nomeCampos)# abrindo como csv
         self.escritor.writeheader()                                                 # escreve os campos
 
     def escreve(self, nomeEntrada, validado, siteValidado, trocado, nomeAceito, observacao=''):
+        print(nomeEntrada, validado, siteValidado, trocado, nomeAceito, observacao)
         self.escritor.writerow({'nome entrada': nomeEntrada, 'validado': validado, 'site validado': siteValidado, 'trocado': trocado, 'nome aceito': nomeAceito, 'observacao': observacao})
 
     def fim(self):

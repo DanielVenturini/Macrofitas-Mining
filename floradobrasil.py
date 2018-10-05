@@ -12,7 +12,6 @@ def dadosFB(nomePlanta, jsonResp):
     # para cada um dos resultados
     for result in jsonResp['result']:
         if result['taxonomicstatus'].__eq__('NOME_ACEITO'):     # se for um nome aceito
-            print(nomePlanta + ' -- ' + '+')
             return 'NAO', result['scientificname']              # retorna 'SIM' e o nome completo do site
         else:
             for nome in result['NOME ACEITO']:

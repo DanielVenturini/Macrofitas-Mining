@@ -26,8 +26,6 @@ def start(nomeArquivo):
             try:
                 if jsonResp['result'] != None:
                     trocado, nomeAceito = dadosFB(nomePlanta, jsonResp)
-                    if trocado.__eq__('SIM'):
-                        print("Planta trocada: " + nomePlanta)
                     escritor.escreve(nomePlanta, 'SIM', 'Flora do Brasil', trocado, nomeAceito)
                     continue                                            # se acho no Flora do Brasil, vai para a próxima planta
             except Exception as ex:
@@ -47,7 +45,7 @@ def start(nomeArquivo):
                         nomePlanta, resp['checked'], 'Plant List', resp['trocado'], '', resp['message'])
             else:
                 escritor.escreve(
-                    nomePlanta, resp['checked'], '', '', '', 'Dados Incorretos')
+                    nomePlanta, resp['checked'], ' ', ' ', ' ', 'Dados Incorretos')
 
     except AttributeError:
         escritor.fim()          # fecha o arquivo de saida
