@@ -37,18 +37,14 @@ def start(nomeArquivo):
             resp = dadosPL(nomePlanta)
             if resp['checked']:
                 if resp['nameAccepted'].__len__():
-                    print(nomePlanta + '-->' + resp['nameAccepted'])
                     escritor.escreve(nomePlanta, resp['checked'], 'Plant List',
                                      resp['trocado'], resp['nameAccepted'], resp['message'])
                 elif not resp['message'].__len__():
-                    print(nomePlanta + '-->' + nomePlanta + '  Não possuie nome ACEITO')
                     escritor.escreve(nomePlanta, resp['checked'], 'Plant List',
-                                     resp['trocado'], '', 'Não possuie nome ACEITO')
+                                     resp['trocado'], '', 'Nao possui nome ACEITO')
                 else:
-                    print(nomePlanta + '-->' + resp['message'])
                     escritor.escreve(
                         nomePlanta, resp['checked'], 'Plant List', resp['trocado'], '', resp['message'])
-                                        
             else:
                 escritor.escreve(
                     nomePlanta, resp['checked'], '', '', '', 'Dados Incorretos')

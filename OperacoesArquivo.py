@@ -25,7 +25,7 @@ class Reader:
             self.leitor = None
             raise
 
-        self.linha = 1          # começa em 1 porque na posição 0 é outra coisa
+        self.linha = 1              # começa em 1 porque na posição 0 é outra coisa
 
     # Esta funçao retorna nome a nome.
     # O valor retornado é 'genero especie', pois está no padrão para enviar o GET
@@ -35,7 +35,7 @@ class Reader:
             raise Exception     # lança uma exceção
 
         try:
-            linha = self.leitor['A{0}'.format(str(self.linha))].internal_value.split(' ')   # recupera o objeto da linha e desta, os valores da linha
+            linha = self.leitor['A{0}'.format(str(self.linha))].internal_value.replace('\xa0', ' ').split(' ')   # recupera o objeto da linha e desta, os valores da linha
             self.linha += 1                     # atualiza o valor da linha
             return linha[0] + ' ' + linha[1]  	# Primeira coluna é o genero, segunda é o nome da espécie.
         except AttributeError:                  # quando chegar no fim do arquivo
@@ -53,12 +53,12 @@ class Writer:
 
     def __init__(self, nomeArquivo):
         self.file = open(nomeArquivo+'_validado.csv', 'w')                                                  # abrindo o arquivo para escrita
-        nomeCampos = ['nome entrada', 'validado', 'site validado', 'trocado', 'nome aceito', 'observação']  # os campos que terao o arquivo csv
+        nomeCampos = ['nome entrada', 'validado', 'site validado', 'trocado', 'nome aceito', 'observacao']  # os campos que terao o arquivo csv
         self.escritor = csvWriter = csv.DictWriter(self.file, fieldnames=nomeCampos)# abrindo como csv
         self.escritor.writeheader()                                                 # escreve os campos
 
     def escreve(self, nomeEntrada, validado, siteValidado, trocado, nomeAceito, observacao=''):
-    	self.escritor.writerow({'nome entrada': nomeEntrada, 'validado': validado, 'site validado': siteValidado, 'trocado': trocado, 'nome aceito': nomeAceito, 'observação': observacao})
+        self.escritor.writerow({'nome entrada': nomeEntrada, 'validado': validado, 'site validado': siteValidado, 'trocado': trocado, 'nome aceito': nomeAceito, 'observacao': observacao})
 
     def fim(self):
         self.file.close()   # fecha o arquivo e salva o conteudo

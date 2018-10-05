@@ -3,17 +3,23 @@ import urllib.request
 from bs4 import BeautifulSoup
 
 def requisicaoPL(url):
-	thepage = urllib.request.urlopen(url)
-	soupdata = BeautifulSoup(thepage,"html.parser")
-	return soupdata
+	try:
+		thepage = urllib.request.urlopen(url)
+		soupdata = BeautifulSoup(thepage,"html.parser")
+		return soupdata
+	except urllib.error.URLError:
+		raise
 
 def urlPL(genero, especie):
 	return "http://www.theplantlist.org/tpl1.1/search?q="+genero+'+'+especie
 
 def dadosPL(name):
-	genero, especie = name.split(' ')
-	response = {'checked': False, 'message': '', 'nameAccepted':'', 'trocado': False, 'obj': []}
-	soup = requisicaoPL(urlPL(genero, especie))
+	try:
+		genero, especie = name.split(' ')
+		response = {'checked': False, 'message': '', 'nameAccepted':'', 'trocado': False, 'obj': []}
+		soup = requisicaoPL(urlPL(genero, especie))
+	except urllib.error.URLError:
+		return response
 
 	if(soup.findAll('tbody')):
 		for record in soup.findAll('tr'):	#pega tr paginas
@@ -42,18 +48,5 @@ def dadosPL(name):
 								response['trocado'] = True
 					count+=1
 		return response 
-	response['message'] = 'genero inválido'
+	response['message'] = 'genero invalido'
 	return response
-
-
-# teste = dadosPL('Panicum schwackeanum')
-# teste = dadosPL('Paspalum acuminatum')
-
-# if teste['checked']:
-# 	if teste['nameAccepted'].__le__:
-# 		print('nao possue nome aceito')
-# 	else:
-# 		print('\n\n','todos os nomes e sinonimos',teste['obj'])
-# else:
-# 	print('mensagem com o erro',teste['message'])
-
