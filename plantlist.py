@@ -12,7 +12,7 @@ def urlPL(genero, especie):
 
 def dadosPL(name):
 	genero, especie = name.split(' ')
-	response = {'checked': False, 'message': '', 'obj': [], 'nameAccepted':'', 'trocado': False}
+	response = {'checked': False, 'message': '', 'nameAccepted':'', 'trocado': False, 'obj': []}
 	soup = requisicaoPL(urlPL(genero, especie))
 
 	if(soup.findAll('tbody')):
