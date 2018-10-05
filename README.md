@@ -12,3 +12,7 @@ Instale a dependência ```requests```:
 Instale a dependência ```openpyxl```:
 
 ```python -m pip install openpyxl```
+
+Instale a dependência ```bs4```:
+
+```python -m pip install bs4```
