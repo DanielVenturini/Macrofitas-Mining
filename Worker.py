@@ -4,7 +4,8 @@
 Este arquivo chamara as funçoes reponsaveis por cada parte do projeto
 '''
 
-from OperacoesArquivo import Reader
+from floradobrasil import (requisicaoFB, urlFB, dadosFB)
+from OperacoesArquivo import (Reader, Writer)
 import requests
 import sys
 
@@ -14,32 +15,35 @@ def getUrl(nomePlanta, site):
     elif site.__eq__('PL'):
         return "link"
 
-def requisicaoFB(url):
-    return requests.get(url).json()
-
-def requisicaoPL(url):
-    return True
-
 def start(nomeArquivo):
 
     try:
         leitor = Reader(nomeArquivo)
+        escritor = Writer(nomeArquivo)
     except FileNotFoundError:
         return
 
     try:
         while True:
-            nomePlanta = leitor.getNome()                           # recupera o nome da planta
-            jsonResp = requisicaoFB(getUrl(nomePlanta, 'FB'))   # baixando o arquivo JSON
+            nomePlanta = leitor.getNome()                               # recupera o nome da planta
+            jsonResp = requisicaoFB(requests, getUrl(nomePlanta, 'FB')) # baixando o arquivo JSON
 
-            if jsonResp['result'] != None:
-                print(nomePlanta + ' -- ' + 'OK!')
-                continue
+            # Foi encontrado no Flora do Brasil
+            try:
+                if jsonResp['result'] != None:
+                    validado, nomeValidado = dadosFB(nomePlanta, jsonResp)
+                    #print(validado)
+                    #print(nomeValidado)
+                    escritor.escreve(nomePlanta, validado, 'Flora do Brasil', nomeValidado)
+                    continue
+            except Exception as ex:
+                print(nomePlanta + ' -> ' + str(ex))
 
-            print(nomePlanta + ' -- ' + 'ERR!')
-            plResp = requisicaoPL(getUrl(nomePlanta, 'PL'))     # recuperando dados do PlantList
+            #print(nomePlanta + ' -- ' + 'ERR!')
+            #plResp = requisicaoPL(getUrl(nomePlanta, 'PL'))     # recuperando dados do PlantList
             
     except AttributeError:
+        escritor.fim()          # fecha o arquivo de saida
         print("Fim do arquivo")
 
 # python3 Worker arquivo.xlsx
