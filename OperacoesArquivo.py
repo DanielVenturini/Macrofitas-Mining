@@ -12,6 +12,7 @@ Use:
     leitor.getNome()                            # recupera um nome por linha já no padrão GET: 'genero%20especie'
 '''
 
+import csv
 import openpyxl
 
 class Reader:
@@ -27,7 +28,7 @@ class Reader:
         self.linha = 1          # começa em 1 porque na posição 0 é outra coisa
 
     # Esta funçao retorna nome a nome.
-    # O valor retornado é 'genero%20especie', pois está no padrão para enviar o GET
+    # O valor retornado é 'genero especie', pois está no padrão para enviar o GET
     # Gera a exceção AttributeError quando não houver mais linhas
     def getNome(self):
         if not self.leitor:     # se o leitor for inválido
@@ -51,10 +52,13 @@ Na primeira etapa, não será usado o campo coordenada.
 class Writer:
 
     def __init__(self, nomeArquivo):
-        self.file = open(nomeArquivo+'pt1.csv', 'w')                                # abrindo o arquivo para escrita
-        nomeCampos = ['nome original', 'sinonimo', 'nome alterado']                 # os campos que terao o arquivo csv
+        self.file = open(nomeArquivo+'_validado.csv', 'w')                          # abrindo o arquivo para escrita
+        nomeCampos = ['nome entrada', 'aceito', 'site validado', 'nome validado']	# os campos que terao o arquivo csv
         self.escritor = csvWriter = csv.DictWriter(self.file, fieldnames=nomeCampos)# abrindo como csv
         self.escritor.writeheader()                                                 # escreve os campos
+
+    def escreve(self, nomeEntrada, validado, siteValidado, nomeValidado):
+    	self.escritor.writerow({'nome entrada': nomeEntrada, 'aceito': validado, 'site validado': siteValidado, 'nome validado': nomeValidado})
 
     def fim(self):
         self.file.close()   # fecha o arquivo e salva o conteudo
