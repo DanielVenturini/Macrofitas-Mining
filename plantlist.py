@@ -2,15 +2,18 @@ import urllib
 import urllib.request
 from bs4 import BeautifulSoup
 
-def make_soup(url):
+def requisicaoPL(url):
 	thepage = urllib.request.urlopen(url)
 	soupdata = BeautifulSoup(thepage,"html.parser")
 	return soupdata
 
-def get_data(name):
+def urlPL(genero, especie):
+	return "http://www.theplantlist.org/tpl1.1/search?q="+genero+'+'+especie
+
+def dadosPL(name):
 	genero, especie = name.split(' ')
-	response = {'checked': False,'message':'','obj':[]}
-	soup = make_soup("http://www.theplantlist.org/tpl1.1/search?q="+genero+'+'+especie)
+	response = {'checked': False, 'message': '', 'obj': [], 'nameAccepted':''}
+	soup = requisicaoPL(urlPL(genero, especie))
 
 	if(soup.findAll('tbody')):
 		for record in soup.findAll('tr'):
@@ -31,8 +34,10 @@ def get_data(name):
 						source = data.text
 					elif(count == 3):
 						dataSupplied = data.text
-						response['checked'] = True
 						response['obj'].append({'nome': nome, 'status': status,'source': source, 'dataSupplied': dataSupplied})
+						response['checked'] = True
+						if(status == 'Accepted'):
+							response['nameAccepted'] = nome
 					count+=1
 		return response 
 	response['message'] = 'genero inválido'
