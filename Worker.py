@@ -6,14 +6,8 @@ Este arquivo chamara as funçoes reponsaveis por cada parte do projeto
 
 from floradobrasil import (requisicaoFB, urlFB, dadosFB)
 from OperacoesArquivo import (Reader, Writer)
-import requests
+from plantlist import dadosPL
 import sys
-
-def getUrl(nomePlanta, site):
-    if site.__eq__('FB'):
-        return "http://servicos.jbrj.gov.br/flora/taxon/" + nomePlanta.replace(' ','%20')
-    elif site.__eq__('PL'):
-        return "link"
 
 def start(nomeArquivo):
 
@@ -25,23 +19,21 @@ def start(nomeArquivo):
 
     try:
         while True:
-            nomePlanta = leitor.getNome()                               # recupera o nome da planta
-            jsonResp = requisicaoFB(requests, getUrl(nomePlanta, 'FB')) # baixando o arquivo JSON
+            nomePlanta = leitor.getNome()                       # recupera o nome da planta
+            jsonResp = requisicaoFB(urlFB(nomePlanta))          # baixando o arquivo JSON
 
             # Foi encontrado no Flora do Brasil
             try:
                 if jsonResp['result'] != None:
-                    validado, nomeValidado = dadosFB(nomePlanta, jsonResp)
-                    #print(validado)
-                    #print(nomeValidado)
-                    escritor.escreve(nomePlanta, validado, 'Flora do Brasil', nomeValidado)
-                    continue
+                    trocado, nomeAceito = dadosFB(nomePlanta, jsonResp)
+                    if trocado.__eq__('SIM'):
+                        print("Planta trocada: " + nomePlanta)
+                    escritor.escreve(nomePlanta, 'SIM', 'Flora do Brasil', trocado, nomeAceito)
+                    continue                                            # se acho no Flora do Brasil, vai para a próxima planta
             except Exception as ex:
                 print(nomePlanta + ' -> ' + str(ex))
 
-            #print(nomePlanta + ' -- ' + 'ERR!')
-            #plResp = requisicaoPL(getUrl(nomePlanta, 'PL'))     # recuperando dados do PlantList
-            
+            print(nomePlanta + ' -> NAO ENCONTARADA NO FLORA DO BRASIL')
     except AttributeError:
         escritor.fim()          # fecha o arquivo de saida
         print("Fim do arquivo")
