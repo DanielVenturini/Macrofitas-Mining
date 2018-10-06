@@ -7,6 +7,7 @@ Este arquivo chamara as funçoes reponsaveis por cada parte do projeto
 from floradobrasil import (requisicaoFB, urlFB, dadosFB)
 from OperacoesArquivo import (Reader, Writer)
 from plantlist import dadosPL
+import requests
 import sys
 
 def start(nomeArquivo):
@@ -28,7 +29,7 @@ def start(nomeArquivo):
                     trocado, nomeAceito = dadosFB(nomePlanta, jsonResp)
                     escritor.escreve(nomePlanta, 'SIM', 'Flora do Brasil', trocado, nomeAceito)
                     continue                                            # se acho no Flora do Brasil, vai para a próxima planta
-            except Exception as ex:
+            except (Exception, requests.exceptions.ConnectionError) as ex:
                 print(nomePlanta + ' -> ' + str(ex))
 
             # se não foi encontrada no Flora do Brasil
@@ -39,10 +40,10 @@ def start(nomeArquivo):
                                      resp['trocado'], resp['nameAccepted'], resp['message'])
                 elif not resp['message'].__len__():
                     escritor.escreve(nomePlanta, resp['checked'], 'Plant List',
-                                     resp['trocado'], '', 'Nao possui nome ACEITO')
+                                     resp['trocado'], ' ', 'Nao possui nome ACEITO')
                 else:
                     escritor.escreve(
-                        nomePlanta, resp['checked'], 'Plant List', resp['trocado'], '', resp['message'])
+                        nomePlanta, resp['checked'], 'Plant List', resp['trocado'], ' ', resp['message'])
             else:
                 escritor.escreve(
                     nomePlanta, resp['checked'], ' ', ' ', ' ', 'Dados Incorretos')

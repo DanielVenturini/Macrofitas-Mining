@@ -52,14 +52,17 @@ Na primeira etapa, não será usado o campo coordenada.
 class Writer:
 
     def __init__(self, nomeArquivo):
-        self.file = open(nomeArquivo+'_validado.csv', 'w')                                                  # abrindo o arquivo para escrita
-        nomeCampos = ['nome entrada', 'validado', 'site validado', 'trocado', 'nome aceito', 'observacao']  # os campos que terao o arquivo csv
-        self.escritor = csv.DictWriter(self.file, fieldnames=nomeCampos)# abrindo como csv
-        self.escritor.writeheader()                                                 # escreve os campos
+        self.file = open(nomeArquivo+'_validado.csv', 'w')  # abrindo o arquivo para escrita
+        self.file.write('Nome entrada, Validado, Site validado, Trocado, Nome aceito, Observacao')
 
     def escreve(self, nomeEntrada, validado, siteValidado, trocado, nomeAceito, observacao=''):
+        if validado:
+            validado = 'SIM'
+        else:
+            validado = 'NAO'
+
         print(nomeEntrada, validado, siteValidado, trocado, nomeAceito, observacao)
-        self.escritor.writerow({'nome entrada': nomeEntrada, 'validado': validado, 'site validado': siteValidado, 'trocado': trocado, 'nome aceito': nomeAceito, 'observacao': observacao})
+        self.file.write(nomeEntrada+','+validado+','+siteValidado+','+trocado+','+nomeAceito+','+observacao+'\n')
 
     def fim(self):
         self.file.close()   # fecha o arquivo e salva o conteudo

@@ -16,9 +16,9 @@ def urlPL(genero, especie):
 def dadosPL(name):
 	try:
 		genero, especie = name.split(' ')
-		response = {'checked': 'NAO', 'message': '', 'nameAccepted':'', 'trocado': False, 'obj': []}
+		response = {'checked': 'NAO', 'message': '', 'nameAccepted':'', 'trocado': 'NAO', 'obj': []}
 		soup = requisicaoPL(urlPL(genero, especie))
-	except urllib.error.URLError:
+	except (urllib.error.URLError, http.client.RemoteDisconnected):
 		return response
 
 	if(soup.findAll('tbody')):
