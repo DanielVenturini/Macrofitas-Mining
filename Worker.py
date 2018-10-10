@@ -31,7 +31,7 @@ def start(nomeArquivo):
             try:
                 if jsonResp['result'] != None:
                     trocado, nomeAceito = dadosFB(nomePlanta, jsonResp)
-                    #escritor.escreve(nomePlanta, 'SIM', 'Flora do Brasil', trocado, nomeAceito)                    
+                    escritor.escreve(nomePlanta, 'SIM', 'Flora do Brasil', trocado, nomeAceito)                    
                     continue                                            # se acho no Flora do Brasil, vai para a próxima planta
             except (Exception, requests.exceptions.ConnectionError) as ex:
                 print(nomePlanta + ' -> ' + str(ex))
@@ -42,7 +42,7 @@ def start(nomeArquivo):
                 if resp['nameAccepted'].__len__():
                     escritor.escreve(nomePlanta, resp['checked'], 'Plant List',
                                      resp['trocado'], resp['nameAccepted'], resp['message'])
-                elif not resp['message'].__len__():
+                elif not resp['nameAccepted'].__len__() and not resp['message'].__len__():
                     escritor.escreve(nomePlanta, resp['checked'], 'Plant List',
                                      resp['trocado'], nomePlanta , 'So possui sinonimos')
                 else:
