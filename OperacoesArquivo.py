@@ -1,4 +1,4 @@
-# coding:UTF-8
+# coding:utf-8
 
 '''
 Esta classe contém as implementações das funções responsáveis por ler o árquivo
@@ -53,16 +53,10 @@ class Writer:
 
     def __init__(self, nomeArquivo):
         self.file = open(nomeArquivo+'_validado.csv', 'w')  # abrindo o arquivo para escrita
-        self.file.write('Nome entrada, Validado, Site validado, Trocado, Nome aceito, Observacao\n')
+        self.file.write('Nome Especie, Status Flora, Nome Flora, AutorFlora, Status Plantlist, Nome Plantlist,AutorPlantlist, Observacao, Flora x Plantlist\n')
 
-    def escreve(self, nomeEntrada, validado, siteValidado, trocado, nomeAceito, observacao=''):
-        if validado:
-            validado = 'SIM'
-        else:
-            validado = 'NAO'
-
-        print(nomeEntrada, validado, siteValidado, trocado, nomeAceito, observacao)
-        self.file.write(nomeEntrada+','+validado+','+siteValidado+','+trocado+','+nomeAceito+','+observacao+'\n')
+    def escreve(self,dados):
+        self.file.write(dados)
 
     def fim(self):
         self.file.close()   # fecha o arquivo e salva o conteudo

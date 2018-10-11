@@ -8,14 +8,21 @@ def requisicaoFB(url):
 
 # deve retornar uma tupla: return validado, nomeValidado
 #                                 'SIM'|'NAO', 'NOME CIENTIFICO DO SITE'
-def dadosFB(nomePlanta, jsonResp):
+def dadosFB(nomePlanta, jsonResp, macrofita):
     # para cada um dos resultados
     for result in jsonResp['result']:
         if result['taxonomicstatus'].__eq__('NOME_ACEITO'):     # se for um nome aceito
-            return 'NAO', result['scientificname']              # retorna 'SIM' e o nome completo do site
+            macrofita.statusFlora = 'Aceito'
+            macrofita.nomeFlora = result['scientificname']
+            return
         else:
             for nome in result['NOME ACEITO']:
                 if nome['taxonomicstatus'].__eq__('NOME_ACEITO'):
-                    return 'SIM', nome['scientificname']
+                    macrofita.statusFlora = 'Aceito'
+                    macrofita.nomeFlora = nome['scientificname']
+                    return
+            macrofita.statusFlora = 'Sinonimo'
+            macrofita.nomeFlora = nomePlanta
+            return
 
     raise Exception("PlantaNãoEncontradaErro: '{0}'".format(nomePlanta))
