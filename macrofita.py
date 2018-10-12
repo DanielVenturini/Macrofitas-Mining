@@ -13,15 +13,15 @@ class Macrofita:
     def printMacrofita(self):
         print('\t',self.nomeEspecie, '|' + self.statusFlora + '|', self.nomeFlora, '|' + self.obsFlora ,'|' + self.statusPlantlist + '|', self.nomePlantlist, '|' + self.obsPlantlist ,'|' + self.floraXplantlist + '|')
     
-    def saidaStringExel(self):
-        return self.nomeEspecie + ',' + self.statusFlora + ',' + self.nomeFlora + ',' + self.obsFlora + ',' + self.statusPlantlist + ',' + self.nomePlantlist + ',' + self.obsPlantlist + ',' + self.floraXplantlist+'\n'
+    def saidaStringExcel(self):
+        return [self.nomeEspecie, self.statusFlora, self.nomeFlora, self.obsFlora, self.statusPlantlist, self.nomePlantlist, self.obsPlantlist, self.floraXplantlist]
 
     def comaparaNome(self,site):
         if(site == 'flora'):
-            if(self.nomeEspecie.replace(' ', '') != self.nomeFlora.replace(' ', '')):
+            if(self.nomeEspecie.replace(' ', '').lower() != self.nomeFlora.replace(' ', '').lower()):
                 self.obsFlora = 'Autor Incorreto'
         elif(site == 'plantlist'):
-            if(self.nomeEspecie.replace(' ', '') != self.nomePlantlist.replace(' ', '')):
+            if(self.nomeEspecie.replace(' ', '').lower() != self.nomePlantlist.replace(' ', '').lower()):
                 self.__obsPlantlist = 'Autor Incorreto'
         else:
             print('comparaNome--error' + site)

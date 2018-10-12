@@ -55,11 +55,19 @@ Na primeira etapa, não será usado o campo coordenada.
 class Writer:
 
     def __init__(self, nomeArquivo):
-        self.file = open(nomeArquivo+'_validado.csv', 'w')  # abrindo o arquivo para escrita
-        self.file.write( 'Nome Especie, Status Flora, Nome Flora, Observacao, Status Plantlist, Nome Plantlist, Observacao, Flora x Plantlist\n')
+        self.nomeArquivo = nomeArquivo
 
-    def escreve(self,dados):
-        self.file.write(dados)
+        self.workbook = openpyxl.Workbook()
+        self.worksheet = self.workbook.active
+        self.linha = 1
+
+        self.escreve(['Nome Especie', 'Status Flora', 'Nome Flora', 'Observacao', 'Status Plantlist', 'Nome Plantlist', 'Observacao', 'Flora x Plantlist'])
+
+    def escreve(self, linha):
+        for pos, celula in enumerate(self.worksheet['A{0}'.format(str(self.linha)):'H{0}'.format(str(self.linha))][0]):
+            celula.set_explicit_value(linha[pos])
+
+        self.linha += 1
 
     def fim(self):
-        self.file.close()   # fecha o arquivo e salva o conteudo
+        self.workbook.save(self.nomeArquivo + '_RESULTADO.xlsx')
