@@ -29,8 +29,9 @@ def dadosPL(name, macrofita):  # valida pelo subtitulo
 	if spanSubtitulo:
 		for data in spanSubtitulo:
 			if data.text.__contains__('is an accepted name'):
-				macrofita.nomePlantlist = name
+				macrofita.nomePlantlist = name + ' ' +soup.find("span", class_="authorship").text #pega o nome + autor
 				macrofita.statusPlantlist = 'Aceito'
+				macrofita.comaparaNome('plantlist')
 				return
 			
 			elif data.text.__contains__('is a synonym'):
@@ -44,7 +45,7 @@ def dadosPL(name, macrofita):  # valida pelo subtitulo
 				return
 
 			elif data.text.__contains__('is an unresolved name'):
-				macrofita.obs = 'Não Encontrado'
+				macrofita.obsPlantlist = 'Não Encontrado'
 				return
 			else:
 				print('----------\n\n' + data.text + '----------\n\n')
@@ -59,9 +60,10 @@ def dadosPL(name, macrofita):  # valida pelo subtitulo
 				if not verificaEspecieIncorreta(especie, data.text.split()[1]):
 					macrofita.nomePlantlist = data.text
 					macrofita.statusPlantlist = 'Aceito'
+					macrofita.comaparaNome('plantlist')
 					return
 				else:
-					macrofita.obs = 'Especie Invalida'
+					macrofita.obsPlantlist = 'Especie Invalida'
 					return
 		elif(tdSynonym):
 			for data in tdSynonym:
@@ -70,8 +72,11 @@ def dadosPL(name, macrofita):  # valida pelo subtitulo
 					macrofita.statusPlantlist = 'Sinonimo'
 					return
 				else:
-					macrofita.obs = 'Especie Invalida'
+					macrofita.obsPlantlist = 'Especie Invalida'
 					return 
 		else:
-			macrofita.obs = 'Genero Invalido'
+			macrofita.obsPlantlist = 'Genero Invalido'
 			return
+		
+
+# dadosPL()

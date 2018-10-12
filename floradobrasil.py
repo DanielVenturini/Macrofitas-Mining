@@ -14,6 +14,7 @@ def dadosFB(nomePlanta, jsonResp, macrofita):
         if result['taxonomicstatus'].__eq__('NOME_ACEITO'):     # se for um nome aceito
             macrofita.statusFlora = 'Aceito'
             macrofita.nomeFlora = result['scientificname']
+            macrofita.comaparaNome('flora')
             return
         else:
             for nome in result['NOME ACEITO']:

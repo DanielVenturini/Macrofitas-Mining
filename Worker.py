@@ -26,12 +26,12 @@ def start(nomeArquivo):
             jsonResp = requisicaoFB(urlFB(nomePlanta))          # baixando o arquivo JSON
             print(cont , ')- ', nomePlanta)
             cont += 1
-            macrofita = Macrofita(nomePlanta)
+            macrofita = Macrofita(nomePlanta + ' ' + nomeAutor)
 
             # Foi encontrado no Flora do Brasil
             try:
                 if jsonResp['result'] != None:
-                    dadosFB(nomePlanta, nomeAutor, jsonResp, macrofita)
+                    dadosFB(nomePlanta, jsonResp, macrofita)
             except (Exception, requests.exceptions.ConnectionError) as ex:
                 print(nomePlanta + ' -> ' + str(ex))
 
@@ -41,7 +41,8 @@ def start(nomeArquivo):
             except (Exception, requests.exceptions.ConnectionError) as ex:
                 print('\n\n' + nomePlanta + ' -> ' + str(ex) + '\n\n')
             
-            macrofita.printMacrofita()
+            # macrofita.printMacrofita()
+            macrofita.comparaFloraPlantlist()
             escritor.escreve(macrofita.saidaStringExel())
 
     except AttributeError:

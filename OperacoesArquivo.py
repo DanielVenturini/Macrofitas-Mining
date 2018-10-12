@@ -56,7 +56,7 @@ class Writer:
 
     def __init__(self, nomeArquivo):
         self.file = open(nomeArquivo+'_validado.csv', 'w')  # abrindo o arquivo para escrita
-        self.file.write('Nome Especie, Status Flora, Nome Flora, AutorFlora, Status Plantlist, Nome Plantlist,AutorPlantlist, Observacao, Flora x Plantlist\n')
+        self.file.write( 'Nome Especie, Status Flora, Nome Flora, Observacao, Status Plantlist, Nome Plantlist, Observacao, Flora x Plantlist\n')
 
     def escreve(self,dados):
         self.file.write(dados)

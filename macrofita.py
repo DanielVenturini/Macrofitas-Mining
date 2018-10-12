@@ -6,16 +6,29 @@ class Macrofita:
         self.__statusPlantlist = ''
         self.__nomePlantlist = ''
         self.__floraXplantlist = ''
-        self.__obs = ''
-        self.__autorFloraBrasil = ''
-        self.__autorPlantlist = ''
+        self.__obsFlora = ''
+        self.__obsPlantlist = ''
+        
 
     def printMacrofita(self):
-        print('\t',self.nomeEspecie, '|' + self.statusFlora + '|', self.nomeFlora,
-              '|' + self.statusPlantlist + '|', self.nomePlantlist, '|' + self.floraXplantlist + '|', self.obs)
-        
+        print('\t',self.nomeEspecie, '|' + self.statusFlora + '|', self.nomeFlora, '|' + self.obsFlora ,'|' + self.statusPlantlist + '|', self.nomePlantlist, '|' + self.obsPlantlist ,'|' + self.floraXplantlist + '|')
+    
     def saidaStringExel(self):
-        return self.nomeEspecie + ',' + self.statusFlora + ',' + self.nomeFlora + ',' + self.autorFloraBrasil + ',' + self.statusPlantlist + ',' + self.nomePlantlist + ',' + self.autorPlantlist + ',' + self.obs + ',' + self.floraXplantlist+'\n'
+        return self.nomeEspecie + ',' + self.statusFlora + ',' + self.nomeFlora + ',' + self.obsFlora + ',' + self.statusPlantlist + ',' + self.nomePlantlist + ',' + self.obsPlantlist + ',' + self.floraXplantlist+'\n'
+
+    def comaparaNome(self,site):
+        if(site == 'flora'):
+            if(self.nomeEspecie.replace(' ', '') != self.nomeFlora.replace(' ', '')):
+                self.obsFlora = 'Autor Incorreto'
+        elif(site == 'plantlist'):
+            if(self.nomeEspecie.replace(' ', '') != self.nomePlantlist.replace(' ', '')):
+                self.__obsPlantlist = 'Autor Incorreto'
+        else:
+            print('comparaNome--error' + site)
+            
+    def comparaFloraPlantlist(self):
+        if(self.nomeFlora and self.nomePlantlist and self.nomeFlora != self.nomePlantlist):
+            self.floraXplantlist = 'Diferente'
 
     @property
     def nomeEspecie(self):
@@ -40,18 +53,14 @@ class Macrofita:
     @property
     def floraXplantlist(self):
         return self.__floraXplantlist
-    
+        
     @property
-    def obs(self):
-        return self.__obs
-    
-    @property
-    def autorFloraBrasil(self):
-        return self.__autorFloraBrasil
+    def obsFlora(self):
+        return self.__obsFlora
 
     @property
-    def autorPlantlist(self):
-        return self.__autorPlantlist
+    def obsPlantlist(self):
+        return self.__obsPlantlist
 
     @statusFlora.setter
     def statusFlora(self, status):
@@ -69,16 +78,15 @@ class Macrofita:
     def nomePlantlist(self, nome):
         self.__nomePlantlist = nome
 
-    @obs.setter
-    def obs(self, obs):
-        if len(self.nomeFlora) == 0:
-            self.__obs = obs
+    @obsFlora.setter
+    def obsFlora(self, obs):
+        self.__obsFlora = obs
+
+    @obsPlantlist.setter
+    def obsPlantlist(self, obs):
+        if(self.nomeFlora.__len__() == 0):
+            self.__obsPlantlist = obs
     
-    @autorFloraBrasil.setter
-    def autorFloraBrasil(self, autor):
-        self.__autorFloraBrasil = autor
-
-    @autorPlantlist.setter
-    def autorPlantlist(self, autor):
-        self.__autorPlantlist = autor
-
+    @floraXplantlist.setter
+    def floraXplantlist(self, data):
+        self.__floraXplantlist = data
