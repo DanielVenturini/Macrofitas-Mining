@@ -68,7 +68,7 @@ def dadosPL(name, macrofita):  # valida pelo subtitulo
 		elif(tdSynonym):
 			for data in tdSynonym:
 				if not verificaEspecieIncorreta(especie, data.text.split()[1]):
-					macrofita.nomePlantlist = data.text
+					macrofita.nomePlantlist = data.text.replace(' [Illegitimate]', '')
 					macrofita.statusPlantlist = 'Sinonimo'
 					return
 				else:
