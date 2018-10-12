@@ -22,7 +22,7 @@ def start(nomeArquivo):
     try:
         while True:
             
-            nomePlanta = leitor.getNome()                       # recupera o nome da planta
+            nomePlanta, nomeAutor = leitor.getNome()            # recupera o nome da planta
             jsonResp = requisicaoFB(urlFB(nomePlanta))          # baixando o arquivo JSON
             print(cont , ')- ', nomePlanta)
             cont += 1
@@ -31,7 +31,7 @@ def start(nomeArquivo):
             # Foi encontrado no Flora do Brasil
             try:
                 if jsonResp['result'] != None:
-                    dadosFB(nomePlanta, jsonResp, macrofita)
+                    dadosFB(nomePlanta, nomeAutor, jsonResp, macrofita)
             except (Exception, requests.exceptions.ConnectionError) as ex:
                 print(nomePlanta + ' -> ' + str(ex))
 

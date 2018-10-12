@@ -9,7 +9,7 @@ class Macrofita:
         self.__obs = ''
         self.__autorFloraBrasil = ''
         self.__autorPlantlist = ''
-    
+
     def printMacrofita(self):
         print('\t',self.nomeEspecie, '|' + self.statusFlora + '|', self.nomeFlora,
               '|' + self.statusPlantlist + '|', self.nomePlantlist, '|' + self.floraXplantlist + '|', self.obs)
