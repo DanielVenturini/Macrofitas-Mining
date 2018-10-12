@@ -8,7 +8,7 @@ class Macrofita:
         self.__floraXplantlist = ''
         self.__obsFlora = ''
         self.__obsPlantlist = ''
-        
+
 
     def printMacrofita(self):
         print('\t',self.nomeEspecie, '|' + self.statusFlora + '|', self.nomeFlora, '|' + self.obsFlora ,'|' + self.statusPlantlist + '|', self.nomePlantlist, '|' + self.obsPlantlist ,'|' + self.floraXplantlist + '|')

@@ -43,7 +43,7 @@ def start(nomeArquivo):
             
             # macrofita.printMacrofita()
             macrofita.comparaFloraPlantlist()
-            escritor.escreve(macrofita.saidaStringExel())
+            escritor.escreve(macrofita.saidaStringExcel())
 
     except AttributeError:
         escritor.fim()          # fecha o arquivo de saida

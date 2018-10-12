@@ -19,7 +19,7 @@ def dadosFB(nomePlanta, jsonResp, macrofita):
         else:
             for nome in result['NOME ACEITO']:
                 if nome['taxonomicstatus'].__eq__('NOME_ACEITO'):
-                    macrofita.statusFlora = 'Aceito'
+                    macrofita.statusFlora = 'Sinonimo'
                     macrofita.nomeFlora = nome['scientificname']
                     return
             macrofita.statusFlora = 'Sinonimo'
