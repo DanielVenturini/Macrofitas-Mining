@@ -1,0 +1,15 @@
+README.md
+setup.py
+codicoMacrofitas/OperacoesArquivo.py
+codicoMacrofitas/Validador.py
+codicoMacrofitas/Worker.py
+codicoMacrofitas/floradobrasil.py
+codicoMacrofitas/macrofita.py
+codicoMacrofitas/plantlist.py
+codicoMacrofitas/specieslink.py
+codicoMacrofitas.egg-info/PKG-INFO
+codicoMacrofitas.egg-info/SOURCES.txt
+codicoMacrofitas.egg-info/dependency_links.txt
+codicoMacrofitas.egg-info/top_level.txt
+test/__init__.py
+test/testMacrofitas.py
