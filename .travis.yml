@@ -6,10 +6,4 @@ python:
 sudo: required
 
 script:
-  - coverage run --source=codigo_avulso_test_tutorial setup.py test
-
-after_success:
-  - coveralls
-
-
-
+  - python setup.py test
