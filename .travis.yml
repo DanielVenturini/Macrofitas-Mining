@@ -1,9 +1,9 @@
 language: python
 
 python:
-  - "3.7"
+  - "3.5.4"
 
-sudo: required
+os: windows
 
 install:
   - python3 -m pip install requests
