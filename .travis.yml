@@ -1,0 +1,15 @@
+language: python
+
+python:
+  - "3.7"
+
+sudo: required
+
+script:
+  - coverage run --source=codigo_avulso_test_tutorial setup.py test
+
+after_success:
+  - coveralls
+
+
+

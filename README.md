@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/DanielVenturini/Macrofitas-Mining/badge.svg?branch=master)](https://coveralls.io/github/DanielVenturini/Macrofitas-Mining?branch=master)
+
 # Macrofitas-Mining
 Projeto desenvolvido na disciplina de engenharia de software 2.
 
@@ -16,3 +18,8 @@ Instale a dependência ```openpyxl```:
 Instale a dependência ```bs4```:
 
 ```python -m pip install bs4```
+
+Instale a dependência ```coveralls```:
+
+```python -m pip install coveralls```
+

@@ -11,5 +11,7 @@ codicoMacrofitas.egg-info/PKG-INFO
 codicoMacrofitas.egg-info/SOURCES.txt
 codicoMacrofitas.egg-info/dependency_links.txt
 codicoMacrofitas.egg-info/top_level.txt
+test/TestPlantlist.py
 test/__init__.py
-test/testMacrofitas.py
+test/testFlora.py
+test/testPlantlist.py
