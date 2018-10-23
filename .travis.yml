@@ -5,5 +5,10 @@ python:
 
 sudo: required
 
+before_install:
+  - sudo apt-get python -m pip install
+  - sudo apt-get python -m pip install openpyxl
+  - sudo apt-get python -m pip install bs4
+
 script:
   - python setup.py test

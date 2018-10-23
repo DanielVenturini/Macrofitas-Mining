@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/DanielVenturini/Macrofitas-Mining/badge.svg?branch=master)](https://coveralls.io/github/DanielVenturini/Macrofitas-Mining?branch=Release3)
+[![Build Status](https://travis-ci.org/DanielVenturini/Macrofitas-Mining.svg?branch=Release3)](https://travis-ci.org/DanielVenturini/Macrofitas-Mining)
 
 # Macrofitas-Mining
 Projeto desenvolvido na disciplina de engenharia de software 2.
