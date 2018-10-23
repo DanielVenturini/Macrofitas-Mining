@@ -3,8 +3,6 @@ language: python
 python:
   - "3.5.4"
 
-os: windows
-
 install:
   - python3 -m pip install requests
   - python3 -m pip install bs4
