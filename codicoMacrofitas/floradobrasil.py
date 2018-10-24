@@ -16,15 +16,15 @@ def dadosFB(nomePlanta, jsonResp, macrofita):
                 macrofita.statusFlora = 'Aceito'
                 macrofita.nomeFlora = result['scientificname']
                 macrofita.comaparaNome('flora')
-                return
+                return macrofita
             else:
                 for nome in result['NOME ACEITO']:
                     if nome['taxonomicstatus'].__eq__('NOME_ACEITO'):
                         macrofita.statusFlora = 'Sinonimo'
                         macrofita.nomeFlora = nome['scientificname']
-                        return
+                        return macrofita
                 macrofita.statusFlora = 'Sinonimo'
                 macrofita.nomeFlora = nomePlanta
-                return
+                return macrofita
     except Exception as ex:
         print("PlantaNãoEncontradaErro: {0} -- {1}".format(nomePlanta, ex))

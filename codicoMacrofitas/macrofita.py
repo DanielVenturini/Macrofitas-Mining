@@ -22,7 +22,7 @@ class Macrofita:
                 self.obsFlora = 'Autor Incorreto'
         elif(site == 'plantlist'):
             if(self.nomeEspecie.replace(' ', '').lower() != self.nomePlantlist.replace(' ', '').lower()):
-                self.__obsPlantlist = 'Autor Incorreto'
+                self.__obsPlantlist = 'Autor Incorreto' #nao mecher aki
         else:
             print('comparaNome--error' + site)
             
