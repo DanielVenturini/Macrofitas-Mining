@@ -52,7 +52,7 @@ taxonomia/ecologia/biologia referentes aos nomes aceitos. </p>
 ------------|-----------------|
 Release 01                   | 21/09/2018 |
 Release 02                   | 05/10/2018 |
-Release 03                   | 19/11/2018 |
+Release 03                   | 02/11/2018 |
 Release 04                   | 07/12/2018 |
 
 # 7. Custo estimado do projeto
