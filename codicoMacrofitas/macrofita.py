@@ -8,7 +8,7 @@ class Macrofita:
         self.__floraXplantlist = ''
         self.__obsFlora = ''
         self.__obsPlantlist = ''
-
+        self.__sinonimosFlora = []
 
     def printMacrofita(self):
         print('\t',self.nomeEspecie, '|' + self.statusFlora + '|', self.nomeFlora, '|' + self.obsFlora ,'|' + self.statusPlantlist + '|', self.nomePlantlist, '|' + self.obsPlantlist ,'|' + self.floraXplantlist + '|')
@@ -90,3 +90,11 @@ class Macrofita:
     @floraXplantlist.setter
     def floraXplantlist(self, data):
         self.__floraXplantlist = data
+
+    @property
+    def sinonimosFlora(self):
+        return self.__sinonimosFlora
+
+    @sinonimosFlora.setter
+    def sinonimosFlora(self, sinonimo):
+        self.__sinonimosFlora = sinonimo
