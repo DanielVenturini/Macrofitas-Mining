@@ -8,36 +8,33 @@ class InfPlanta:
 	def __init__(self):
 		self.hashmap = {}
 
-	def getNome1(self):
-		nome1 = ''
-
+	# retorna o valor mapeado para a chave
+	# ou retorna a string '' se não houver valor mapeado
+	def getMapped(self, key):
 		try:
-			# montando o nome de trás para frente
-			nome1 = self.hashmap['tF'] + nome1
-			nome1 = self.hashmap['tO'] + ' ' + nome1
-			nome1 = self.hashmap['tC'] + ' ' + nome1
-			nome1 = self.hashmap['tP'] + ' ' + nome1
-			nome1 = self.hashmap['tK'] + ' ' + nome1
+			return self.hashmap[str(key)] + ' '
 		except KeyError:
-			return nome1
-		else:
-			return nome1
+			return ''
 
+	# retorna o reino completo da planta
+	# por exemplo: Plantae Pteridophyta Filicopsida Polypodiales Salviniaceae
+	def getReino(self):
+		reino = self.getMapped('tK')
+		reino += self.getMapped('tP')
+		reino += self.getMapped('tC')
+		reino += self.getMapped('tO')
+		reino += self.getMapped('tF')
 
+		return reino[:-1]				# remove o último espaço
 
-
-
-
-
-
-
+#############################################################################
 
 # retorna a requisição já no formado do BeaultifulSoup
 def requisicaoSL(url, planta):
 	try:
-		data = urllib.parse.urlencode({'ts_any': planta}).encode('ascii')
-		thepage = urllib.request.urlopen(url, data)
-		soupdata = BeautifulSoup(thepage,"html.parser")
+		data = urllib.parse.urlencode({'ts_any': planta}).encode('ascii')	# insere o nome da planta no body
+		thepage = urllib.request.urlopen(url, data)							# recupera a página
+		soupdata = BeautifulSoup(thepage,"html.parser")						# faz o parse
 		return soupdata
 	except (urllib.error.URLError, urllib.error.HTTPError):
 		raise
@@ -58,42 +55,28 @@ def nextPlanta(soup):
 		else:
 			yield div
 
-# recupera as seguintes informações:
-# nome1				tO + tF
-# espécie			tGa + tEa
-# autores			tA
-# coleta, data		cL, cY
-# local				lP + lM + lS + lC
-# coordenadas		lA + lO
-# sexo
+# recupera todos os spans e guarda a chave e
+# o valor deles já em um objeto InfPlanta
 def trataDiv(div):
 	spans = div.findAll('span')
 	planta = InfPlanta()
 
 	for span in spans:
-		# <span class='tO'>Anactinotrichida</span>
-		key = span['class']			# tO
-		mapped = span.get_text()	# Anactinotrichida
 
-		planta.hashmap[key] = mapped
+		if span.has_attr('class'):
+			key = 'class'
+		elif span.has_attr('index'):
+			key = 'index'
+		else:
+			continue
+
+		key = span[key][0]				# lista com apenas um elemento
+		mapped = span.get_text()
+		planta.hashmap[str(key)] = mapped
 
 	return planta
 	#lls = div.findAll('ll')			# os dados sobre o sexo estão em ll
 	#for ll in lls:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 def dadosSL(macrofita):  # valida pelo subtitulo
@@ -107,7 +90,8 @@ def dadosSL(macrofita):  # valida pelo subtitulo
 			while True:
 				div = next(divPlanta)		# recupera a próxima div
 
-				trataDiv(div)				# trata os elementos da div
+				planta = trataDiv(div)				# trata os elementos da div
+				print(planta.getReino())
 
 		except StopIteration:				# lança StopIteration quando não há mais div
 			print('Acabou')
@@ -115,3 +99,5 @@ def dadosSL(macrofita):  # valida pelo subtitulo
 	except urllib.error.URLError:
 		print(urllib.error.URLError)
 		raise
+
+#dadosSL('Victoria amazonica')
