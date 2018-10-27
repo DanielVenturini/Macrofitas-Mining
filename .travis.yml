@@ -4,13 +4,13 @@ python:
   - "3.5.4"
   
 install:
-  - pip install coveralls
   - python3 -m pip install requests
   - python3 -m pip install bs4
   - python3 -m pip install openpyxl
+  - pip install coveralls
 
 script:
-  - coverage run --source=Macrofitas setup.py test
+  - coverage run --source=codicoMacrofitas setup.py test
 
 after_success:
   - coveralls
