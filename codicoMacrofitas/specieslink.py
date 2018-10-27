@@ -16,7 +16,7 @@ class InfPlanta:
 		except KeyError:
 			return ''
 
-	# retorna o reino completo da planta
+	# retorna uma string com o reino completo da planta
 	# por exemplo: Plantae Pteridophyta Filicopsida Polypodiales Salviniaceae
 	def getReino(self):
 		reino = self.getMapped('tK')
@@ -26,6 +26,31 @@ class InfPlanta:
 		reino += self.getMapped('tF')
 
 		return reino[:-1]				# remove o último espaço
+
+	# retorna uma string com a localização da ocorrência da planta
+	# por exemplo: 'Jargim Botânico Rio, Rio de Janeiro, RJ, Brasil'
+	def getLocalizacao(self):
+		localizacao = self.getMapped('lP')
+		localizacao += self.getMapped('lM')
+		localizacao += self.getMapped('lS')
+		localizacao += self.getMapped('lC')
+
+		localizacao.replace(' ', ', ')		# substitui todos ' ' por ', ' para separar os nomes
+
+		return localizacao[:-2]				# remove o último ', '
+
+	# retorna uma string com a coordenada da ocorrência da planta
+	# por exemplo: 'lat: -19.0019... long: -57.51... err: ± 15163'
+	# vários casos não contém o 'err'
+	def getCoordenada(self):
+		latitude = self.getMapped('lA')
+		longitude = self.getMapped('lO')
+		err = self.getMapped('eR')
+
+		coordenada = latitude + longitude + err
+
+		return coordenada[1:-1]			# retorna a coordenada sem o '[' e o ']' da string
+
 
 #############################################################################
 
@@ -91,7 +116,7 @@ def dadosSL(macrofita):  # valida pelo subtitulo
 				div = next(divPlanta)		# recupera a próxima div
 
 				planta = trataDiv(div)				# trata os elementos da div
-				print(planta.getReino())
+				#print(planta.getCoordenada())
 
 		except StopIteration:				# lança StopIteration quando não há mais div
 			print('Acabou')
