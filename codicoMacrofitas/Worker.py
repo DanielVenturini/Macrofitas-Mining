@@ -6,7 +6,7 @@ Este arquivo chamara as funçoes reponsaveis por cada parte do projeto
 
 from floradobrasil import (requisicaoFB, urlFB, dadosFB)
 from OperacoesArquivo import (Reader, Writer)
-from plantlist import dadosPL
+from plantlist import dadosPL, requisicaoPL, urlPL
 from macrofita import Macrofita
 import requests
 import sys
@@ -22,22 +22,27 @@ def start(nomeArquivo):
     try:
         while True:
             
-            nomePlanta, nomeAutor = leitor.getNome()            # recupera o nome da planta
-            jsonResp = requisicaoFB(urlFB(nomePlanta))          # baixando o arquivo JSON
+            try:
+                nomePlanta, nomeAutor = leitor.getNome()            # recupera o nome da planta
+                jsonRespFloraBrasil = requisicaoFB(urlFB(nomePlanta))     
+                jasonRespPlantlist = requisicaoPL(urlPL(nomePlanta))
+            except (Exception, requests.exceptions.ConnectionError) as ex:
+                print(nomePlanta + ' -> ' + str(ex))
+
             print(cont , ')- ', nomePlanta)
             cont += 1
             macrofita = Macrofita(nomePlanta + ' ' + nomeAutor)
 
-            # Foi encontrado no Flora do Brasil
+            # Pesquisa Flora do Brasil
             try:
-                if jsonResp['result'] != None:
-                    dadosFB(nomePlanta, jsonResp, macrofita)
+                if jsonRespFloraBrasil['result'] != None:
+                    dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita)
             except (Exception, requests.exceptions.ConnectionError) as ex:
                 print(nomePlanta + ' -> ' + str(ex))
 
-            # se não foi encontrada no Flora do Brasil
+            # Pesquisa Plantlist
             try:
-                dadosPL(nomePlanta, macrofita)
+                dadosPL(nomePlanta, macrofita, jasonRespPlantlist)
             except (Exception, requests.exceptions.ConnectionError) as ex:
                 print('\n\n' + nomePlanta + ' -> ' + str(ex) + '\n\n')
             
