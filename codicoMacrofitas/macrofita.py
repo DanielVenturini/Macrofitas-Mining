@@ -10,9 +10,6 @@ class Macrofita:
         self.__obsPlantlist = ''
         self.__sinonimosFlora = []
 
-    def printMacrofita(self):
-        print('\t',self.nomeEspecie, '|' + self.statusFlora + '|', self.nomeFlora, '|' + self.obsFlora ,'|' + self.statusPlantlist + '|', self.nomePlantlist, '|' + self.obsPlantlist ,'|' + self.floraXplantlist + '|')
-    
     def saidaStringExcel(self):
         return [self.nomeEspecie, self.statusFlora, self.nomeFlora, self.obsFlora, self.statusPlantlist, self.nomePlantlist, self.obsPlantlist, self.floraXplantlist]
 
@@ -23,8 +20,6 @@ class Macrofita:
         elif(site == 'plantlist'):
             if(self.nomeEspecie.replace(' ', '').lower() != self.nomePlantlist.replace(' ', '').lower()):
                 self.__obsPlantlist = 'Autor Incorreto' #nao mecher aki
-        else:
-            print('comparaNome--error' + site)
             
     def comparaFloraPlantlist(self):
         if(self.nomeFlora and self.nomePlantlist and self.nomeFlora != self.nomePlantlist):

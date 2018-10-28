@@ -38,15 +38,14 @@ def start(nomeArquivo):
                 if jsonRespFloraBrasil['result'] != None:
                     dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita)
             except (Exception, requests.exceptions.ConnectionError) as ex:
-                print(nomePlanta + ' -> ' + str(ex))
+                print('Flora do Brasil',nomePlanta + ' -> ' + str(ex))
 
             # Pesquisa Plantlist
             try:
                 dadosPL(nomePlanta, macrofita, jasonRespPlantlist)
             except (Exception, requests.exceptions.ConnectionError) as ex:
-                print('\n\n' + nomePlanta + ' -> ' + str(ex) + '\n\n')
+                print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
             
-            # macrofita.printMacrofita()
             macrofita.comparaFloraPlantlist()
             escritor.escreve(macrofita.saidaStringExcel())
 
