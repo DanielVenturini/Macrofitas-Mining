@@ -10,9 +10,10 @@ class InfPlanta:
 
 	# retorna o valor mapeado para a chave
 	# ou retorna a string '' se não houver valor mapeado
-	def getMapped(self, key):
+	# last é a string que deve ser colocada no fim da chave. geralmente é ' ' ou ', '
+	def getMapped(self, key, last=' '):
 		try:
-			return self.hashmap[str(key)] + ' '
+			return self.hashmap[str(key)] + last
 		except KeyError:
 			return ''
 
@@ -23,19 +24,17 @@ class InfPlanta:
 		reino += self.getMapped('tP')
 		reino += self.getMapped('tC')
 		reino += self.getMapped('tO')
-		reino += self.getMapped('tF')
+		reino += self.getMapped('tF', last='')
 
-		return reino[:-1]				# remove o último espaço
+		return reino
 
 	# retorna uma string com a localização da ocorrência da planta
 	# por exemplo: 'Jargim Botânico Rio, Rio de Janeiro, RJ, Brasil'
 	def getLocalizacao(self):
-		localizacao = self.getMapped('lP')
-		localizacao += self.getMapped('lM')
-		localizacao += self.getMapped('lS')
-		localizacao += self.getMapped('lC')
-
-		localizacao.replace(' ', ', ')		# substitui todos ' ' por ', ' para separar os nomes
+		localizacao = self.getMapped('lP', last=', ')
+		localizacao += self.getMapped('lM', last=', ')
+		localizacao += self.getMapped('lS', last=', ')
+		localizacao += self.getMapped('lC', last=', ')
 
 		return localizacao[:-2]				# remove o último ', '
 
