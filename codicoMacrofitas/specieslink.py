@@ -50,6 +50,18 @@ class InfPlanta:
 
 		return coordenada[1:-1]			# retorna a coordenada sem o '[' e o ']' da string
 
+	def getColeta(self):
+		coleta = self.getMapped('cL')
+		coleta += self.getMapped('cN')
+		coleta += self.getMapped('cY')
+
+		return coleta[:-1]				# remove o último ' '
+
+	def getDet(self):
+		det = self.getMapped('tI')
+		det += self.getMapped('tY')
+
+		return det[:-1]					# remove o último ' '
 
 #############################################################################
 
