@@ -7,8 +7,8 @@ def urlGB(nomePlanta,offset):
 
 def requisicaoGB(url):
     try:
-        return requests.get(url).json()
-    except Exception as ex:
+        return requests.get(url,timeout=15).json()
+    except requests.exceptions.RequestException as ex:
         print("Err: " + str(ex))
         return requisicaoGB(url)
 
@@ -20,6 +20,7 @@ def dadosGB(jsonResp):
 
     except Exception as ex:
         print("Erro")
+
 url = urlGB("justicia pectoralis",10)
 
 dadosGB(requisicaoGB(url))
