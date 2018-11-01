@@ -33,10 +33,13 @@ def start(nomeArquivo):
     cont = 1
     try:
         leitor = Reader(nomeArquivo)
-        escritor = Writer(nomeArquivo)
+        escritor = Writer(nomeArquivo, ['Nome Especie', 'Status Flora', 'Nome Flora', 'Observacao', 'Status Plantlist', 'Nome Plantlist', 'Observacao', 'Flora x Plantlist'])
     except FileNotFoundError:
         return
 
+    '''
+    Release 2
+    '''
     try:
         while True:
             
@@ -56,8 +59,8 @@ def start(nomeArquivo):
             
 
     except AttributeError:
-        escritor.fim()          # fecha o arquivo de saida
-        print("Fim do arquivo")
+        escritor.fim(nomeArquivo + '_VALIDADOS')       # fecha o arquivo de saida
+        print("Fim dos trabalhos da Release 2")
 
 # python3 Worker arquivo.xlsx
 if sys.argv.__len__() == 2:

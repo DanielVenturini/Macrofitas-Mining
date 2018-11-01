@@ -54,14 +54,14 @@ Na primeira etapa, não será usado o campo coordenada.
 
 class Writer:
 
-    def __init__(self, nomeArquivo):
+    def __init__(self, nomeArquivo, cabecalho):
         self.nomeArquivo = nomeArquivo
 
         self.workbook = openpyxl.Workbook()
         self.worksheet = self.workbook.active
         self.linha = 1
 
-        self.escreve(['Nome Especie', 'Status Flora', 'Nome Flora', 'Observacao', 'Status Plantlist', 'Nome Plantlist', 'Observacao', 'Flora x Plantlist'])
+        self.escreve(cabecalho)
 
     def escreve(self, linha):
         for pos, celula in enumerate(self.worksheet['A{0}'.format(str(self.linha)):'H{0}'.format(str(self.linha))][0]):
@@ -69,5 +69,5 @@ class Writer:
 
         self.linha += 1
 
-    def fim(self):
+    def fim(self, nomeArquivo):
         self.workbook.save(self.nomeArquivo + '_RESULTADO.xlsx')
