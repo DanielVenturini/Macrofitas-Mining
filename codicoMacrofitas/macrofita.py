@@ -1,6 +1,7 @@
 class Macrofita:
     def __init__(self, nomeEspecie):
         self.__nomeEspecie = nomeEspecie
+        self.__floraID = ''
         self.__statusFlora = ''
         self.__nomeFlora = ''
         self.__statusPlantlist = ''
@@ -25,6 +26,14 @@ class Macrofita:
         if(self.nomeFlora and self.nomePlantlist and self.nomeFlora != self.nomePlantlist):
             self.floraXplantlist = 'Diferente'
 
+    @property
+    def floraID(self):
+        return self.__floraID
+    
+    @floraID.setter
+    def floraID(self, id):
+        self.__floraID = id
+    
     @property
     def nomeEspecie(self):
         return self.__nomeEspecie
@@ -56,6 +65,7 @@ class Macrofita:
     @property
     def obsPlantlist(self):
         return self.__obsPlantlist
+    
 
     @statusFlora.setter
     def statusFlora(self, status):

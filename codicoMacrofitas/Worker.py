@@ -11,6 +11,24 @@ from macrofita import Macrofita
 import requests
 import sys
 
+
+def validador(nomePlanta, macrofita, jsonRespFloraBrasil, jasonRespPlantlist,escritor):
+    # Pesquisa Flora do Brasil
+            try:
+                if jsonRespFloraBrasil['result'] != None:
+                    dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita)
+            except (Exception, requests.exceptions.ConnectionError) as ex:
+                print('Flora do Brasil', nomePlanta + ' -> ' + str(ex))
+
+            # Pesquisa Plantlist
+            try:
+                dadosPL(nomePlanta, macrofita, jasonRespPlantlist)
+            except (Exception, requests.exceptions.ConnectionError) as ex:
+                print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
+
+            macrofita.comparaFloraPlantlist()
+            escritor.escreve(macrofita.saidaStringExcel())
+
 def start(nomeArquivo):
     cont = 1
     try:
@@ -32,22 +50,10 @@ def start(nomeArquivo):
             print(cont , ')- ', nomePlanta)
             cont += 1
             macrofita = Macrofita(nomePlanta + ' ' + nomeAutor)
-
-            # Pesquisa Flora do Brasil
-            try:
-                if jsonRespFloraBrasil['result'] != None:
-                    dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita)
-            except (Exception, requests.exceptions.ConnectionError) as ex:
-                print('Flora do Brasil',nomePlanta + ' -> ' + str(ex))
-
-            # Pesquisa Plantlist
-            try:
-                dadosPL(nomePlanta, macrofita, jasonRespPlantlist)
-            except (Exception, requests.exceptions.ConnectionError) as ex:
-                print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
             
-            macrofita.comparaFloraPlantlist()
-            escritor.escreve(macrofita.saidaStringExcel())
+            validador(nomePlanta, macrofita, jsonRespFloraBrasil, jasonRespPlantlist, escritor) # Primeira tabela
+            
+            
 
     except AttributeError:
         escritor.fim()          # fecha o arquivo de saida
