@@ -1,4 +1,6 @@
-import urllib
+import urllib.parse
+import urllib.error
+import urllib.request
 from bs4 import BeautifulSoup
 
 # classe para guardar as informações das plantas
@@ -6,7 +8,15 @@ from bs4 import BeautifulSoup
 class InfPlanta:
 
 	def __init__(self):
-		self.hashmap = {}
+		self.__hashmap = {}
+
+	@property
+	def hashmap(self):
+		return self.__hashmap
+
+	@hashmap.setter
+	def hashmap(self, hashmap):
+		self.__hashmap = hashmap
 
 	# retorna o valor mapeado para a chave
 	# ou retorna a string '' se não houver valor mapeado
@@ -108,7 +118,10 @@ def trataDiv(div):
 
 		key = span[key][0]				# lista com apenas um elemento
 		mapped = span.get_text()
-		planta.hashmap[str(key)] = mapped
+
+		hashmap = planta.hashmap		# recupera a hash da planta get
+		hashmap[str(key)] = mapped
+		planta.hashmap = hashmap		# adiciona a hash com o novo atributo set
 
 	return planta
 	#lls = div.findAll('ll')			# os dados sobre o sexo estão em ll
