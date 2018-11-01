@@ -4,6 +4,7 @@ codicoMacrofitas/OperacoesArquivo.py
 codicoMacrofitas/Validador.py
 codicoMacrofitas/Worker.py
 codicoMacrofitas/floradobrasil.py
+codicoMacrofitas/gbif.py
 codicoMacrofitas/macrofita.py
 codicoMacrofitas/plantlist.py
 codicoMacrofitas/specieslink.py
@@ -17,3 +18,4 @@ test/testFlora.py
 test/testMacrofita.py
 test/testOperaoesArquivos.py
 test/testPlantlist.py
+test/testSpecieslink.py

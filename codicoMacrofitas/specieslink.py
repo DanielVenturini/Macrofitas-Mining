@@ -91,7 +91,6 @@ def urlSL():
 # recupera cada uma das divs que contém as plantas
 def nextPlanta(soup):
 	i = 0
-
 	while True:
 		div = soup.find(id='record_{0}'.format(i))
 		i += 1
@@ -128,25 +127,20 @@ def trataDiv(div):
 	#for ll in lls:
 
 
-def dadosSL(macrofita):  # valida pelo subtitulo
+def dadosSL(soup):  # valida pelo subtitulo	
 	try:
-		soup = requisicaoSL(urlSL(), macrofita)
+		divPlanta = nextPlanta(soup)	# recupera o iterador dos div das plantas
+		# para cada ocorrencia de uma determinada planta
+		while True:
+			div = next(divPlanta)		# recupera a próxima div
 
-		try:
-			divPlanta = nextPlanta(soup)	# recupera o iterador dos div das plantas
+			planta = trataDiv(div)				# trata os elementos da div
+			# print(planta.getLocalizacao())
 
-			# para cada ocorrencia de uma determinada planta
-			while True:
-				div = next(divPlanta)		# recupera a próxima div
+	except StopIteration:				# lança StopIteration quando não há mais div
+		print('Acabou')
+		return True
 
-				planta = trataDiv(div)				# trata os elementos da div
-				#print(planta.getCoordenada())
 
-		except StopIteration:				# lança StopIteration quando não há mais div
-			print('Acabou')
+# requisicaoSL(urlSL(), 'Salicornia ambigua')
 
-	except urllib.error.URLError:
-		print(urllib.error.URLError)
-		raise
-
-#dadosSL('Victoria amazonica')
