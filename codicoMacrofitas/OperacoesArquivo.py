@@ -59,15 +59,25 @@ class Writer:
 
         self.workbook = openpyxl.Workbook()
         self.worksheet = self.workbook.active
-        self.linha = 1
+        self.linhaNum = 1
+
+        # as linhas com 8 colunas são linhas de arquivos VALIDADOS
+        # as linhas com 2 colunas, são linhas de arquivos SINÔNIMOS
+        # ao contrário, será linha para arquivos de coordenadas
+        if len(cabecalho) == 8:
+            self.coluna = 'H'
+        elif len(cabecalho) == 2:
+            self.coluna = 'B'
+        else:
+            pass
 
         self.escreve(cabecalho)
 
     def escreve(self, linha):
-        for pos, celula in enumerate(self.worksheet['A{0}'.format(str(self.linha)):'H{0}'.format(str(self.linha))][0]):
+        for pos, celula in enumerate(self.worksheet['A{0}'.format(str(self.linhaNum)):'{0}{1}'.format(self.coluna, str(self.linhaNum))][0]):
             celula.set_explicit_value(linha[pos])
 
-        self.linha += 1
+        self.linhaNum += 1
 
     # tipoArquivo será VALIDADOS|SINONIMOS|OCORRENCIAS
     def fim(self, tipoArquivo):
