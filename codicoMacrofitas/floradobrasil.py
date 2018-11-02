@@ -1,5 +1,18 @@
 import requests
 
+def salvaSinonimos(nomePlanta, escritor, sinonimos):
+
+    linha = [0, 1]                  # lista com duas posicoes
+    primeiraColuna = nomePlanta     # apenas para escrever no arquivo no padrão requerido
+    for sinonimo in sinonimos:
+        linha[0] = primeiraColuna
+        linha[1] = sinonimo['scientificname']
+
+        escritor.escreve(linha)
+        primeiraColuna = ''         # assim, deixando no padrão
+
+    escritor.escreve(['', ''])      # apenas quebrando uma linha
+
 def urlFB(nomePlanta):
         return "http://servicos.jbrj.gov.br/flora/taxon/" + nomePlanta.replace(' ','%20')
 
@@ -8,7 +21,7 @@ def requisicaoFB(url):
 
 # deve retornar uma tupla: return validado, nomeValidado
 #                                 'SIM'|'NAO', 'NOME CIENTIFICO DO SITE'
-def dadosFB(nomePlanta, jsonResp, macrofita):
+def dadosFB(nomePlanta, jsonResp, macrofita, escritor):
     # para cada um dos resultados
     try:
         if(jsonResp['result']):
@@ -18,7 +31,7 @@ def dadosFB(nomePlanta, jsonResp, macrofita):
                     macrofita.nomeFlora = result['scientificname']
                     macrofita.comaparaNome('flora')
                     macrofita.floraID = result['taxonid']
-                    
+                    salvaSinonimos(result['scientificname'], escritor, result['SINONIMO'])
                     return
                 elif(result['NOME ACEITO']):
                     for nome in result['NOME ACEITO']:
