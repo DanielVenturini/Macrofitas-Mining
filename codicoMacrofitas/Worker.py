@@ -12,7 +12,7 @@ import requests
 import sys
 
 def start(nomeArquivo):
-    cont = 1
+    count = 1
     try:
         leitor = Reader(nomeArquivo)
         escritor = Writer(nomeArquivo, ['Nome Especie', 'Status Flora', 'Nome Flora', 'Observacao', 'Status Plantlist', 'Nome Plantlist', 'Observacao', 'Flora x Plantlist'])
@@ -24,16 +24,16 @@ def start(nomeArquivo):
     '''
     try:
         while True:
-            
+
             try:
                 nomePlanta, nomeAutor = leitor.getNome()            # recupera o nome da planta
                 jsonRespFloraBrasil = requisicaoFB(urlFB(nomePlanta))     
-                jasonRespPlantlist = requisicaoPL(urlPL(nomePlanta))
+                jsonRespPlantlist = requisicaoPL(urlPL(nomePlanta))
             except (Exception, requests.exceptions.ConnectionError) as ex:
                 print(nomePlanta + ' -> ' + str(ex))
 
-            print(cont , ')- ', nomePlanta)
-            cont += 1
+            print(count , ')- ', nomePlanta)
+            count += 1
             macrofita = Macrofita(nomePlanta + ' ' + nomeAutor)
 
             # Pesquisa Flora do Brasil
@@ -45,15 +45,15 @@ def start(nomeArquivo):
 
             # Pesquisa Plantlist
             try:
-                dadosPL(nomePlanta, macrofita, jasonRespPlantlist)
+                dadosPL(nomePlanta, macrofita, jsonRespPlantlist)
             except (Exception, requests.exceptions.ConnectionError) as ex:
                 print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
-            
+
             macrofita.comparaFloraPlantlist()
             escritor.escreve(macrofita.saidaStringExcel())
 
     except AttributeError:
-        escritor.fim(nomeArquivo + '_VALIDADOS')       # fecha o arquivo de saida
+        escritor.fim('VALIDADOS')           # fecha o arquivo de saida
         print("Fim dos trabalhos da Release 2")
 
 # python3 Worker arquivo.xlsx
