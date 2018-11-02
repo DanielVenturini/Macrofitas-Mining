@@ -69,5 +69,6 @@ class Writer:
 
         self.linha += 1
 
-    def fim(self, nomeArquivo):
-        self.workbook.save(self.nomeArquivo + '_RESULTADO.xlsx')
+    # tipoArquivo será VALIDADOS|SINONIMOS|OCORRENCIAS
+    def fim(self, tipoArquivo):
+        self.workbook.save(self.nomeArquivo + '_' + tipoArquivo + '.xlsx')
