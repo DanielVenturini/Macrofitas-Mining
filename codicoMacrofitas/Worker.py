@@ -11,29 +11,29 @@ from macrofita import Macrofita
 import requests
 import sys
 
-
-def validador(nomePlanta, macrofita, jsonRespFloraBrasil, jasonRespPlantlist,escritor):
+def validador(nomePlanta, macrofita, jsonRespFloraBrasil, jsonRespPlantlist, escritorValidado, escritorSinonimos):
     # Pesquisa Flora do Brasil
             try:
                 if jsonRespFloraBrasil['result'] != None:
-                    dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita)
+                    dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita, escritorSinonimos)
             except (Exception, requests.exceptions.ConnectionError) as ex:
                 print('Flora do Brasil', nomePlanta + ' -> ' + str(ex))
 
             # Pesquisa Plantlist
             try:
-                dadosPL(nomePlanta, macrofita, jasonRespPlantlist)
+                dadosPL(nomePlanta, macrofita, jsonRespPlantlist)
             except (Exception, requests.exceptions.ConnectionError) as ex:
                 print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
 
             macrofita.comparaFloraPlantlist()
-            escritor.escreve(macrofita.saidaStringExcel())
+            escritorValidado.escreve(macrofita.saidaStringExcel())
 
 def start(nomeArquivo):
     count = 1
     try:
         leitor = Reader(nomeArquivo)
-        escritor = Writer(nomeArquivo, ['Nome Especie', 'Status Flora', 'Nome Flora', 'Observacao', 'Status Plantlist', 'Nome Plantlist', 'Observacao', 'Flora x Plantlist'])
+        escritorValidado = Writer(nomeArquivo, ['Nome Especie', 'Status Flora', 'Nome Flora', 'Observacao', 'Status Plantlist', 'Nome Plantlist', 'Observacao', 'Flora x Plantlist'])
+        escritorSinonimos = Writer(nomeArquivo, ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
     except FileNotFoundError:
         return
 
@@ -57,7 +57,7 @@ def start(nomeArquivo):
             # Pesquisa Flora do Brasil
             try:
                 if jsonRespFloraBrasil['result'] != None:
-                    dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita)
+                    dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita, escritorSinonimos)
             except (requests.exceptions.ConnectionError) as ex:
                 print('Flora do Brasil',nomePlanta + ' -> ' + str(ex))
 
@@ -68,12 +68,13 @@ def start(nomeArquivo):
                 print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
             #'''
             macrofita.comparaFloraPlantlist()
-            escritor.escreve(macrofita.saidaStringExcel())
+            escritorValidado.escreve(macrofita.saidaStringExcel())
 
-            validador(nomePlanta, macrofita, jsonRespFloraBrasil, jsonRespPlantlist, escritor) # Primeira tabela
+            validador(nomePlanta, macrofita, jsonRespFloraBrasil, jsonRespPlantlist, escritorValidado, escritorSinonimos) # Primeira tabela
 
     except AttributeError:
-        escritor.fim('VALIDADOS')           # fecha o arquivo de saida
+        escritorValidado.fim('VALIDADOS')           # fecha o arquivo de saida
+        escritorSinonimos.fim('SINONIMOS')          # fecha o arquivo de sinônimos
         print("Fim dos trabalhos da Release 2")
 
 # python3 Worker arquivo.xlsx
