@@ -11,6 +11,24 @@ from macrofita import Macrofita
 import requests
 import sys
 
+
+def validador(nomePlanta, macrofita, jsonRespFloraBrasil, jasonRespPlantlist,escritor):
+    # Pesquisa Flora do Brasil
+            try:
+                if jsonRespFloraBrasil['result'] != None:
+                    dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita)
+            except (Exception, requests.exceptions.ConnectionError) as ex:
+                print('Flora do Brasil', nomePlanta + ' -> ' + str(ex))
+
+            # Pesquisa Plantlist
+            try:
+                dadosPL(nomePlanta, macrofita, jasonRespPlantlist)
+            except (Exception, requests.exceptions.ConnectionError) as ex:
+                print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
+
+            macrofita.comparaFloraPlantlist()
+            escritor.escreve(macrofita.saidaStringExcel())
+
 def start(nomeArquivo):
     count = 1
     try:
@@ -29,28 +47,30 @@ def start(nomeArquivo):
                 nomePlanta, nomeAutor = leitor.getNome()            # recupera o nome da planta
                 jsonRespFloraBrasil = requisicaoFB(urlFB(nomePlanta))     
                 jsonRespPlantlist = requisicaoPL(urlPL(nomePlanta))
-            except (Exception, requests.exceptions.ConnectionError) as ex:
+            except (requests.exceptions.ConnectionError) as ex:
                 print(nomePlanta + ' -> ' + str(ex))
 
             print(count , ')- ', nomePlanta)
             count += 1
             macrofita = Macrofita(nomePlanta + ' ' + nomeAutor)
-
+            #'''
             # Pesquisa Flora do Brasil
             try:
                 if jsonRespFloraBrasil['result'] != None:
                     dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita)
-            except (Exception, requests.exceptions.ConnectionError) as ex:
+            except (requests.exceptions.ConnectionError) as ex:
                 print('Flora do Brasil',nomePlanta + ' -> ' + str(ex))
 
             # Pesquisa Plantlist
             try:
                 dadosPL(nomePlanta, macrofita, jsonRespPlantlist)
-            except (Exception, requests.exceptions.ConnectionError) as ex:
+            except (requests.exceptions.ConnectionError) as ex:
                 print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
-
+            #'''
             macrofita.comparaFloraPlantlist()
             escritor.escreve(macrofita.saidaStringExcel())
+
+            validador(nomePlanta, macrofita, jsonRespFloraBrasil, jsonRespPlantlist, escritor) # Primeira tabela
 
     except AttributeError:
         escritor.fim('VALIDADOS')           # fecha o arquivo de saida

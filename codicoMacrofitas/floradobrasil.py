@@ -17,12 +17,15 @@ def dadosFB(nomePlanta, jsonResp, macrofita):
                     macrofita.statusFlora = 'Aceito'
                     macrofita.nomeFlora = result['scientificname']
                     macrofita.comaparaNome('flora')
+                    macrofita.floraID = result['taxonid']
+                    
                     return
                 elif(result['NOME ACEITO']):
                     for nome in result['NOME ACEITO']:
                         if nome['taxonomicstatus'].__eq__('NOME_ACEITO'):
                             macrofita.statusFlora = 'Sinonimo'
                             macrofita.nomeFlora = nome['scientificname']
+                            macrofita.floraID = result['taxonid']
                             return
             macrofita.statusFlora = 'Sinonimo'
             macrofita.nomeFlora = macrofita.nomeEspecie
