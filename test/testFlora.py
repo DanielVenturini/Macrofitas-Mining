@@ -1,6 +1,7 @@
 import unittest
 from codicoMacrofitas.floradobrasil import urlFB, dadosFB
 from codicoMacrofitas.macrofita import Macrofita
+from codicoMacrofitas.OperacoesArquivo import Writer
 
 class TestPlantlist(unittest.TestCase):
 
@@ -13,7 +14,8 @@ class TestPlantlist(unittest.TestCase):
         nome = genero + ' ' + especie
         retornoReqFB = self.opcoesRetorno(nomePlanta)
         macrofita = Macrofita(nomePlanta)
-        dadosFB(nome, retornoReqFB, macrofita)
+        escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos relevantes'])
+        dadosFB(nome, retornoReqFB, macrofita, escritorSinonimos)
         if (tpRetorno):
             return macrofita, retornoReqFB
         else:
