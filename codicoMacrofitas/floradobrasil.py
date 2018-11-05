@@ -32,18 +32,19 @@ def dadosFB(nomePlanta, jsonResp, macrofita, escritor):
                     macrofita.comaparaNome('flora')
                     macrofita.floraID = result['taxonid']
                     salvaSinonimos(result['scientificname'], escritor, result['SINONIMO'])
-                    return
+                    return False        # como já foi escrito os sinonimos aqui, não escrever para o Plantlist
                 elif(result['NOME ACEITO']):
                     for nome in result['NOME ACEITO']:
                         if nome['taxonomicstatus'].__eq__('NOME_ACEITO'):
                             macrofita.statusFlora = 'Sinonimo'
                             macrofita.nomeFlora = nome['scientificname']
                             macrofita.floraID = result['taxonid']
-                            return
+                            return True #dadosFB(nome['scientificname'], requisicaoFB(urlFB(nome['scientificname'])), macrofita, escritor)      # provavelmente tem que fazer uma chamada recursiva para recuperar os dados da planta com o nome certo
             macrofita.statusFlora = 'Sinonimo'
             macrofita.nomeFlora = macrofita.nomeEspecie
-            return
+            return True                 # não escreveu os sinônimos, então escreve no Plantlist
         else:
-            return
+            return True
     except Exception as ex:
         print("Erro: {0} -- {1}".format(nomePlanta, ex))
+        return True

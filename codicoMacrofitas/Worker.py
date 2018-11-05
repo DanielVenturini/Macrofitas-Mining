@@ -21,7 +21,7 @@ def validador(nomePlanta, macrofita, jsonRespFloraBrasil, jsonRespPlantlist, esc
 
             # Pesquisa Plantlist
             try:
-                dadosPL(nomePlanta, macrofita, jsonRespPlantlist)
+                dadosPL(nomePlanta, macrofita, jsonRespPlantlist, escritorSinonimos, False)
             except (Exception, requests.exceptions.ConnectionError) as ex:
                 print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
 
@@ -57,13 +57,16 @@ def start(nomeArquivo):
             # Pesquisa Flora do Brasil
             try:
                 if jsonRespFloraBrasil['result'] != None:
-                    dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita, escritorSinonimos)
+                    escrever = dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita, escritorSinonimos)
+                else:
+                    escrever = True
             except (requests.exceptions.ConnectionError) as ex:
                 print('Flora do Brasil',nomePlanta + ' -> ' + str(ex))
+                escrever = True     # se os sinonimos ainda não foram escritos na função dadosFB
 
             # Pesquisa Plantlist
             try:
-                dadosPL(nomePlanta, macrofita, jsonRespPlantlist)
+                dadosPL(nomePlanta, macrofita, jsonRespPlantlist, escritorSinonimos, escrever)
             except (requests.exceptions.ConnectionError) as ex:
                 print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
             #'''
