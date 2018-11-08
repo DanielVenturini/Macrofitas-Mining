@@ -28,7 +28,7 @@ def validador(nomePlanta, macrofita, jsonRespFloraBrasil, jsonRespPlantlist, esc
             macrofita.comparaFloraPlantlist()
             escritorValidado.escreve(macrofita.saidaStringExcel())
 
-def start(nomeArquivo):
+def valida(nomeArquivo):
     count = 1
     try:
         leitor = Reader(nomeArquivo)
@@ -78,10 +78,14 @@ def start(nomeArquivo):
     except AttributeError:
         escritorValidado.fim('VALIDADOS')           # fecha o arquivo de saida
         escritorSinonimos.fim('SINONIMOS')          # fecha o arquivo de sinônimos
-        print("Fim dos trabalhos da Release 2")
+        print("Arquivos VALIDADOS e SINONIMOS prontos.")
+
+def ocorrencias(nomeArquivo):
+    nomeArquivo += '_VALIDADOS.xlsx'                # reabre o arquivo gerado na outra função
 
 # python3 Worker arquivo.xlsx
 if sys.argv.__len__() == 2:
-    start(sys.argv[1])
+    valida(sys.argv[1])         # dado o arquivo, gera um arquivo com os nomes validados outro com os sinônimos
+    ocorrencias(sys.argv[1])    # dado o arquivo, gera um arquivo com as coordenadas
 else:
     print("Erro. Use: python3 Worker.py arquivo.xlsx")
