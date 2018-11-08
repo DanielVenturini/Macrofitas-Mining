@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/DanielVenturini/Macrofitas-Mining.svg?branch=Release3)](https://travis-ci.org/DanielVenturini/Macrofitas-Mining)
+[![Build Status](https://travis-ci.org/DanielVenturini/Macrofitas-Mining.svg?branch=master)](https://travis-ci.org/DanielVenturini/Macrofitas-Mining)
 [![Coverage Status](https://coveralls.io/repos/github/DanielVenturini/Macrofitas-Mining/badge.svg?branch=master)](https://coveralls.io/github/DanielVenturini/Macrofitas-Mining?branch=master)
 
 # Macrofitas-Mining
