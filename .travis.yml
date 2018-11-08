@@ -1,0 +1,16 @@
+language: python
+
+python:
+  - "3.5.4"
+  
+install:
+  - python3 -m pip install requests
+  - python3 -m pip install bs4
+  - python3 -m pip install openpyxl
+  - pip install coveralls
+
+script:
+  - coverage run --source=codicoMacrofitas setup.py test
+
+after_success:
+  - coveralls
