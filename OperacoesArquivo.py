@@ -1,4 +1,4 @@
-# coding:utf-8
+# coding:UTF-8
 
 '''
 Esta classe contém as implementações das funções responsáveis por ler o árquivo
@@ -35,12 +35,9 @@ class Reader:
             raise Exception     # lança uma exceção
 
         try:
-            linha = self.leitor['A{0}'.format(str(self.linha))].internal_value.replace('\xa0', ' ')     # recupera o objeto da linha e desta, os valores da linha
-            self.linha += 1                                     # atualiza o valor da linha
-            nomePlanta = linha.split(' ')
-            nomePlanta = nomePlanta[0] + ' ' + nomePlanta[1]    # recupera o nome da planta
-            nomeAutor = linha.replace(nomePlanta, '')[1:]      # recupera o nome do autor
-            return nomePlanta, nomeAutor
+            linha = self.leitor['A{0}'.format(str(self.linha))].internal_value.replace('\xa0', ' ').split(' ')   # recupera o objeto da linha e desta, os valores da linha
+            self.linha += 1                     # atualiza o valor da linha
+            return linha[0] + ' ' + linha[1]  	# Primeira coluna é o genero, segunda é o nome da espécie.
         except AttributeError:                  # quando chegar no fim do arquivo
             self.leitor = None                  # atribui None ao leitor, para, se chamar novamente, gere a exceção no bloco if
             raise                               # Re-lança a exceção
@@ -54,6 +51,7 @@ Na primeira etapa, não será usado o campo coordenada.
 
 class Writer:
 
+<<<<<<< HEAD:codicoMacrofitas/OperacoesArquivo.py
     def __init__(self, nomeArquivo, cabecalho):
         self.nomeArquivo = nomeArquivo
 
@@ -82,3 +80,20 @@ class Writer:
     # tipoArquivo será VALIDADOS|SINONIMOS|OCORRENCIAS
     def fim(self, tipoArquivo):
         self.workbook.save(self.nomeArquivo + '_' + tipoArquivo + '.xlsx')
+=======
+    def __init__(self, nomeArquivo):
+        self.file = open(nomeArquivo+'_validado.csv', 'w')  # abrindo o arquivo para escrita
+        self.file.write('Nome entrada, Validado, Site validado, Trocado, Nome aceito, Observacao\n')
+
+    def escreve(self, nomeEntrada, validado, siteValidado, trocado, nomeAceito, observacao=''):
+        if validado:
+            validado = 'SIM'
+        else:
+            validado = 'NAO'
+
+        print(nomeEntrada, validado, siteValidado, trocado, nomeAceito, observacao)
+        self.file.write(nomeEntrada+','+validado+','+siteValidado+','+trocado+','+nomeAceito+','+observacao+'\n')
+
+    def fim(self):
+        self.file.close()   # fecha o arquivo e salva o conteudo
+>>>>>>> master:OperacoesArquivo.py
