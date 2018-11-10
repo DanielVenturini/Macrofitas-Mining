@@ -2,7 +2,6 @@ import requests
 
 def urlGB(nomePlanta,offset):
     return "http://api.gbif.org/v1/occurrence/search?limit=1&offset="+str(offset)+"&continent=SOUTH_AMERICA&scientificName=" +nomePlanta.replace(' ','%20')
-   
 
 def requisicaoGB(url):
     try:
@@ -11,18 +10,23 @@ def requisicaoGB(url):
         print("Err: " + str(ex))
         return requisicaoGB(url)
 
+def getCoordenadas(latitude, longitude):
+    try:
+        latitude = re.match(['[+|-]?[\d]+(.[\d]+)?', latitude)
+        longitude = re.match(['[+|-]?[\d]+(.[\d]+)?', longitude)
+
+        return latitude, longitude
+    except AttributeError:
+        return ' ', ' '
+
 def dadosGB(jsonResp):
     try:
-        if(jsonResp['results']):
-            for result in jsonResp['results']:
-                #print(result)
-                print(result['scientificName'],result['decimalLatitude'],result['decimalLongitude'] , result['country'] ,result['datasetName'] , result['stateProvince'])
-              
+        for result in jsonResp['results']:
+            print(result['decimalLatitude'], result['decimalLongitude'], result['country'] + ' ' + result['stateProvince'] + ' ' + result['locality'])
     except Exception as ex:
         print("Erro")
 
 
-
-url = urlGB("Victoria amazonica",10)
+url = urlGB("Victoria amazonica", 10)
 print(url)
 dadosGB(requisicaoGB(url))

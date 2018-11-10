@@ -13,20 +13,20 @@ import sys
 
 def validador(nomePlanta, macrofita, jsonRespFloraBrasil, jsonRespPlantlist, escritorValidado, escritorSinonimos):
     # Pesquisa Flora do Brasil
-            try:
-                if jsonRespFloraBrasil['result'] != None:
-                    dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita, escritorSinonimos)
-            except (Exception, requests.exceptions.ConnectionError) as ex:
-                print('Flora do Brasil', nomePlanta + ' -> ' + str(ex))
+    try:
+        if jsonRespFloraBrasil['result'] != None:
+            dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita, escritorSinonimos)
+    except (Exception, requests.exceptions.ConnectionError) as ex:
+        print('Flora do Brasil', nomePlanta + ' -> ' + str(ex))
 
-            # Pesquisa Plantlist
-            try:
-                dadosPL(nomePlanta, macrofita, jsonRespPlantlist, escritorSinonimos, False)
-            except (Exception, requests.exceptions.ConnectionError) as ex:
-                print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
+    # Pesquisa Plantlist
+    try:
+        dadosPL(nomePlanta, macrofita, jsonRespPlantlist, escritorSinonimos, False)
+    except (Exception, requests.exceptions.ConnectionError) as ex:
+        print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
 
-            macrofita.comparaFloraPlantlist()
-            escritorValidado.escreve(macrofita.saidaStringExcel())
+    macrofita.comparaFloraPlantlist()
+    escritorValidado.escreve(macrofita.saidaStringExcel())
 
 def valida(nomeArquivo):
     count = 1
@@ -34,6 +34,7 @@ def valida(nomeArquivo):
         leitor = Reader(nomeArquivo)
         escritorValidado = Writer(nomeArquivo, ['Nome Especie', 'Status Flora', 'Nome Flora', 'Observacao', 'Status Plantlist', 'Nome Plantlist', 'Observacao', 'Flora x Plantlist'])
         escritorSinonimos = Writer(nomeArquivo, ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
+        escritorCoordenadas = Writer(nomeArquivo, ['Nome das espécies', 'Latitude', 'Longitude', 'Localizacao'])
     except FileNotFoundError:
         return
 
@@ -78,7 +79,8 @@ def valida(nomeArquivo):
     except AttributeError:
         escritorValidado.fim('VALIDADOS')           # fecha o arquivo de saida
         escritorSinonimos.fim('SINONIMOS')          # fecha o arquivo de sinônimos
-        print("Arquivos VALIDADOS e SINONIMOS prontos.")
+        escritorCoordenadas.fim('COORDENADAS')      # fecha o arquivo das coordenadas
+        print("Arquivos VALIDADOS, SINONIMOS e COORDENADAS prontos.")
 
 def ocorrencias(nomeArquivo):
     nomeArquivo += '_VALIDADOS.xlsx'                # reabre o arquivo gerado na outra função
@@ -86,6 +88,5 @@ def ocorrencias(nomeArquivo):
 # python3 Worker arquivo.xlsx
 if sys.argv.__len__() == 2:
     valida(sys.argv[1])         # dado o arquivo, gera um arquivo com os nomes validados outro com os sinônimos
-    ocorrencias(sys.argv[1])    # dado o arquivo, gera um arquivo com as coordenadas
 else:
     print("Erro. Use: python3 Worker.py arquivo.xlsx")

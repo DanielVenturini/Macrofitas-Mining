@@ -2,6 +2,7 @@ import urllib.parse
 import urllib.error
 import urllib.request
 from bs4 import BeautifulSoup
+import re
 
 # classe para guardar as informações das plantas
 # e para ter melhor controle sobre as informações
@@ -48,17 +49,19 @@ class InfPlanta:
 
 		return localizacao[:-2]				# remove o último ', '
 
-	# retorna uma string com a coordenada da ocorrência da planta
-	# por exemplo: 'lat: -19.0019... long: -57.51... err: ± 15163'
-	# vários casos não contém o 'err'
+	# retorna uma tupla com a coordenada da ocorrência da planta
+	# por exemplo: (-19.0019, -57.51)
 	def getCoordenada(self):
-		latitude = self.getMapped('lA')
-		longitude = self.getMapped('lO')
-		err = self.getMapped('eR')
+		try:
+			latitude = self.getMapped('lA')
+			longitude = self.getMapped('lO')
 
-		coordenada = latitude + longitude + err
+			latitude = re.match(['[+|-]?[\d]+(.[\d]+)?', latitude)
+			longitude = re.match(['[+|-]?[\d]+(.[\d]+)?', longitude)
 
-		return coordenada[1:-1]			# retorna a coordenada sem o '[' e o ']' da string
+			return latitude, longitude
+		except AttributeError:
+			return ' ', ' '
 
 	def getColeta(self):
 		coleta = self.getMapped('cL')
@@ -142,5 +145,5 @@ def dadosSL(soup):  # valida pelo subtitulo
 		return True
 
 
-# requisicaoSL(urlSL(), 'Salicornia ambigua')
-
+#dados = requisicaoSL(urlSL(), 'victoria amazonica')
+#dadosSL(dados)
