@@ -56,8 +56,8 @@ class InfPlanta:
 			latitude = self.getMapped('lA')
 			longitude = self.getMapped('lO')
 
-			latitude = re.match(['[+|-]?[\d]+(.[\d]+)?', latitude)
-			longitude = re.match(['[+|-]?[\d]+(.[\d]+)?', longitude)
+			latitude = re.match('[+|-]?[\d]+(.[\d]+)?', latitude)
+			longitude = re.match('[+|-]?[\d]+(.[\d]+)?', longitude)
 
 			return latitude, longitude
 		except AttributeError:
