@@ -79,3 +79,23 @@ def dadosPL(name, macrofita, soup, escritorSinonimos, escrever):  # valida pelo 
 		else:
 			macrofita.obsPlantlist = 'Genero Invalido'
 			return
+
+
+#recupera todos os sinonimos
+def getSinonimos(nomePlanta, soup): 
+	
+	try:
+		tdSynonym = soup.findAll("td", class_="name Synonym")
+		sinonimo = []
+	except urllib.error.URLError as er:
+		print(er)
+		return []
+
+	for td in tdSynonym:	
+		sin = BeautifulSoup(str(td), "html.parser")
+		sinonimo.insert(0, str(sin.find("i", class_="genus").text +' '+ sin.find("i", class_="species").text +' '+sin.find("span", class_="authorship").text))
+	return sinonimo
+
+# nomePlanta = 'Sesuvium portulacastrum'
+# jsonRespPlantlist = requisicaoPL(urlPL(nomePlanta))
+# getSinonimos(nomePlanta, jsonRespPlantlist)
