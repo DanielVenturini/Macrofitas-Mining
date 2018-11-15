@@ -34,7 +34,7 @@ def valida(nomeArquivo):
         leitor = Reader(nomeArquivo)
         escritorValidado = Writer(nomeArquivo, ['Nome Especie', 'Status Flora', 'Nome Flora', 'Observacao', 'Status Plantlist', 'Nome Plantlist', 'Observacao', 'Flora x Plantlist'])
         escritorSinonimos = Writer(nomeArquivo, ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
-        escritorCoordenadas = Writer(nomeArquivo, ['Nome das espécies', 'Latitude', 'Longitude', 'Localizacao'])
+        #escritorCoordenadas = Writer(nomeArquivo, ['Nome das espécies', 'Latitude', 'Longitude', 'Localizacao'])
     except FileNotFoundError:
         return
 
