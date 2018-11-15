@@ -19,13 +19,9 @@ def verificaEspecieIncorreta(especieEntrada, especieSite):
 		return False
 	return True
 
-# dado o nomePlanta, salva em escritor.escreve([nomePlanta, sinonimo]) cada sinônimo
-def salvaSinonimos(nomePlanta, escritor, sinonimos):
-	pass
-
 # parâmetro escrever diz se os sinônimos já foram escritos no arquivo na função dadosFB
 # se ainda não foram, então escreve daqui
-def dadosPL(name, macrofita, soup, escritorSinonimos, escrever):  # valida pelo subtitulo
+def dadosPL(name, macrofita, soup):  # valida pelo subtitulo
 	especie = name.split(' ')[1]
 	spanSubtitulo = soup.findAll("span", class_="subtitle")
 	if spanSubtitulo:
@@ -34,7 +30,6 @@ def dadosPL(name, macrofita, soup, escritorSinonimos, escrever):  # valida pelo 
 				macrofita.nomePlantlist = name + ' ' + soup.find("span", class_="authorship").text #pega o nome + autor
 				macrofita.statusPlantlist = 'Aceito'
 				macrofita.comaparaNome('plantlist')
-				salvaSinonimos(name, escritorSinonimos, 'lista de sinônimos, ou algo parecido')
 				return
 
 			elif data.text.__contains__('is a synonym'):				

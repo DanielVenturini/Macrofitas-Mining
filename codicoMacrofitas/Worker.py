@@ -15,13 +15,13 @@ def validador(nomePlanta, macrofita, jsonRespFloraBrasil, jsonRespPlantlist, esc
     # Pesquisa Flora do Brasil
     try:
         if jsonRespFloraBrasil['result'] != None:
-            dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita, escritorSinonimos)
+            dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita)
     except (Exception, requests.exceptions.ConnectionError) as ex:
         print('Flora do Brasil', nomePlanta + ' -> ' + str(ex))
 
     # Pesquisa Plantlist
     try:
-        dadosPL(nomePlanta, macrofita, jsonRespPlantlist, escritorSinonimos, False)
+        dadosPL(nomePlanta, macrofita, jsonRespPlantlist)
     except (Exception, requests.exceptions.ConnectionError) as ex:
         print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
 
@@ -38,9 +38,6 @@ def valida(nomeArquivo):
     except FileNotFoundError:
         return
 
-    '''
-    Release 2
-    '''
     try:
         while True:
 
@@ -56,25 +53,27 @@ def valida(nomeArquivo):
             macrofita = Macrofita(nomePlanta + ' ' + nomeAutor)
             #'''
             # Pesquisa Flora do Brasil
-            try:
-                if jsonRespFloraBrasil['result'] != None:
-                    escrever = dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita, escritorSinonimos)
-                else:
-                    escrever = True
-            except (requests.exceptions.ConnectionError) as ex:
-                print('Flora do Brasil',nomePlanta + ' -> ' + str(ex))
-                escrever = True     # se os sinonimos ainda não foram escritos na função dadosFB
+            # try:
+            #     if jsonRespFloraBrasil['result'] != None:
+            #         escrever = dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita, escritorSinonimos)
+            #     else:
+            #         escrever = True
+            # except (requests.exceptions.ConnectionError) as ex:
+            #     print('Flora do Brasil',nomePlanta + ' -> ' + str(ex))
+            #     escrever = True     # se os sinonimos ainda não foram escritos na função dadosFB
 
-            # Pesquisa Plantlist
-            try:
-                dadosPL(nomePlanta, macrofita, jsonRespPlantlist, escritorSinonimos, escrever)
-            except (requests.exceptions.ConnectionError) as ex:
-                print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
-            #'''
-            macrofita.comparaFloraPlantlist()
-            escritorValidado.escreve(macrofita.saidaStringExcel())
+            # # Pesquisa Plantlist
+            # try:
+            #     dadosPL(nomePlanta, macrofita, jsonRespPlantlist, escritorSinonimos, escrever)
+            # except (requests.exceptions.ConnectionError) as ex:
+            #     print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
+            # #'''
 
             validador(nomePlanta, macrofita, jsonRespFloraBrasil, jsonRespPlantlist, escritorValidado, escritorSinonimos) # Primeira tabela
+
+            # macrofita.comparaFloraPlantlist()
+            # escritorValidado.escreve(macrofita.saidaStringExcel())
+
 
     except AttributeError:
         escritorValidado.fim('VALIDADOS')           # fecha o arquivo de saida

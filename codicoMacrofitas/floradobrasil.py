@@ -1,18 +1,5 @@
 import requests
 
-def salvaSinonimos(nomePlanta, escritor, sinonimos):
-
-    linha = [0, 1]                  # lista com duas posicoes
-    primeiraColuna = nomePlanta     # apenas para escrever no arquivo no padrão requerido
-    for sinonimo in sinonimos:
-        linha[0] = primeiraColuna
-        linha[1] = sinonimo['scientificname']
-
-        escritor.escreve(linha)
-        primeiraColuna = ''         # assim, deixando no padrão
-
-    escritor.escreve(['', ''])      # apenas quebrando uma linha
-
 def urlFB(nomePlanta):
         return "http://servicos.jbrj.gov.br/flora/taxon/" + nomePlanta.replace(' ','%20')
 
@@ -21,7 +8,7 @@ def requisicaoFB(url):
 
 # deve retornar uma tupla: return validado, nomeValidado
 #                                 'SIM'|'NAO', 'NOME CIENTIFICO DO SITE'
-def dadosFB(nomePlanta, jsonResp, macrofita, escritor):
+def dadosFB(nomePlanta, jsonResp, macrofita):
     # para cada um dos resultados
     try:
         if(jsonResp['result']):
@@ -31,7 +18,7 @@ def dadosFB(nomePlanta, jsonResp, macrofita, escritor):
                     macrofita.nomeFlora = result['scientificname']
                     macrofita.comaparaNome('flora')
                     macrofita.floraID = result['taxonid']
-                    salvaSinonimos(result['scientificname'], escritor, result['SINONIMO'])
+
                     return False        # como já foi escrito os sinonimos aqui, não escrever para o Plantlist
                 elif(result['NOME ACEITO']):
                     for nome in result['NOME ACEITO']:
@@ -48,3 +35,18 @@ def dadosFB(nomePlanta, jsonResp, macrofita, escritor):
     except Exception as ex:
         print("Erro: {0} -- {1}".format(nomePlanta, ex))
         return True
+
+def getSinonimosFlora(nomePlanta, jsonResp):
+    sinonimos = []
+    resp =  jsonResp['result']
+    try:
+        if(resp): 
+            sinonimos = resp[0]["SINONIMO"]
+        return sinonimos
+
+    except Exception as ex:
+        print("Erro: {0} -- {1}".format(nomePlanta, ex))
+        return []
+    
+# nomePlanta = 'Sesuvium portulacastrum'
+# getSinonimosFlora(nomePlanta, requisicaoFB(urlFB(nomePlanta)))
