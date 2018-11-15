@@ -63,7 +63,7 @@ if not nomeArquivo:
 if opc == 1:
     wk.release1(nomeArquivo)
 if opc == 2:
-    pass
+    wk.release2(nomeArquivo)
 if opc == 3:
     pass
 if opc == 4:
