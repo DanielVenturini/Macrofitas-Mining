@@ -15,8 +15,7 @@ class TestPlantlist(unittest.TestCase):
 
     def testDadosPLSubtitleAccepted(self, nomePlanta='Hygrophila costata Nees'):
         macrofita = Macrofita(nomePlanta)
-        escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
-        dadosPL(self.retornaNomeSemAutor(nomePlanta), macrofita, self.requisicaoData(nomePlanta), escritorSinonimos, False)
+        dadosPL(self.retornaNomeSemAutor(nomePlanta), macrofita, self.requisicaoData(nomePlanta))
 
         self.assertEqual(macrofita.statusPlantlist, 'Aceito')
         self.assertEqual(macrofita.nomePlantlist, nomePlanta)
@@ -25,7 +24,7 @@ class TestPlantlist(unittest.TestCase):
     def testDadosPLSubtitleSynonym(self, nomePlanta='Hygrophila guianensis Nees'):
         macrofita = Macrofita(nomePlanta)
         escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
-        dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta), escritorSinonimos, False)
+        dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta))
 
         self.assertEqual(macrofita.statusPlantlist, 'Sinonimo')
         self.assertEqual(macrofita.nomePlantlist, 'Hygrophila costata Nees')
@@ -34,7 +33,7 @@ class TestPlantlist(unittest.TestCase):
     def testDadosPLUnresolvedName(self, nomePlanta='Isoetes ekmanii'):
         macrofita = Macrofita(nomePlanta)
         escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
-        dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta), escritorSinonimos, False)
+        dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta))
 
         self.assertEqual(macrofita.statusPlantlist, '')
         self.assertEqual(macrofita.nomePlantlist, '')
@@ -43,7 +42,7 @@ class TestPlantlist(unittest.TestCase):
     def testDadosPLTabelaAccepted(self, nomePlanta='Juncus acutus L.'):
         macrofita = Macrofita(nomePlanta)
         escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
-        dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta), escritorSinonimos, False)
+        dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta))
 
         self.assertEqual(macrofita.statusPlantlist, 'Aceito')
         self.assertEqual(macrofita.nomePlantlist, 'Juncus acutus L.')
@@ -52,7 +51,7 @@ class TestPlantlist(unittest.TestCase):
     def testDadosPLTabelaAcceptedEspecieInvalida(self, nomePlanta='Juncus acutusdd L.'):
         macrofita = Macrofita(nomePlanta)
         escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
-        dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta), escritorSinonimos, False)
+        dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta))
 
         self.assertEqual(macrofita.statusPlantlist, '')
         self.assertEqual(macrofita.nomePlantlist, '')
@@ -61,7 +60,7 @@ class TestPlantlist(unittest.TestCase):
     def testDadosPLTabelaSinonimo(self, nomePlanta='Utricularia inflata L.'):
         macrofita = Macrofita(nomePlanta)
         escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
-        dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta), escritorSinonimos, False)
+        dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta))
 
         self.assertEqual(macrofita.statusPlantlist, 'Sinonimo')
         self.assertEqual(macrofita.nomePlantlist, nomePlanta)
@@ -70,7 +69,7 @@ class TestPlantlist(unittest.TestCase):
     def testDadosPLGeneroIncorreto(self, nomePlanta='Diclipptera ciliaris Juss.'):
         macrofita = Macrofita(nomePlanta)
         escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
-        dadosPL(self.retornaNomeSemAutor(nomePlanta), macrofita, self.requisicaoData(nomePlanta), escritorSinonimos, False)
+        dadosPL(self.retornaNomeSemAutor(nomePlanta), macrofita, self.requisicaoData(nomePlanta))
 
         self.assertFalse(macrofita.statusPlantlist)
         self.assertFalse(macrofita.nomePlantlist)

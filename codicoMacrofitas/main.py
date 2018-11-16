@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import subprocess as sp
+import Worker as wk
 
 '''
     Arquivo com um menu para selecionar qual as operações a serem usadas
@@ -10,12 +11,12 @@ def principal():
 
     print()
     print('Digite a opção escolhida:')
+    print('0 - SAIR.')
     print('1 - Validar nomes.')
     print('2 - Gerar lista de sinônimos.')
     print('3 - Gerar informações.')
     print('4 - Gerar coordenadas geográficas.')
     print('5 - Todas as operações, começando da 1 até a 4.')
-    print('6 - SAIR.')
     print()
 
     while True:
@@ -30,24 +31,23 @@ def principal():
 
 def getArquivo():
     print()
-    print('Digite 0 para sair')
+    print('Digite 0 para SAIR.')
     print('Digite o nome do arquivo de entrada.')
-    
+
     while True:
         arq = input('> ')
         try:
             if arq.__eq__('0'):
                 return None
 
-            file = open(arq)
+            open(arq)           # tenta abrir
         except FileNotFoundError:
             print('Arquivo não existe: ' + arq)
             print('Digite 0 para sair.')
             print('Digite um arquivo válido.')
             continue
         else:
-            return file
-
+            return arq
 
 ################################EXECUTÁVEL###########################################
 
@@ -56,8 +56,15 @@ opc = principal()
 if opc == 6:
     exit(0)
 
-file = getArquivo()
-if not file:
+nomeArquivo = getArquivo()
+if not nomeArquivo:
     exit(0)
 
-print("Arquivo aberto:", file.readlines())
+if opc == 1:
+    wk.release1(nomeArquivo)
+if opc == 2:
+    pass
+if opc == 3:
+    pass
+if opc == 4:
+    pass
