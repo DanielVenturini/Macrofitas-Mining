@@ -77,7 +77,7 @@ def dadosPL(name, macrofita, soup):  # valida pelo subtitulo
 
 
 #recupera todos os sinonimos
-def getSinonimos(nomePlanta, soup): 
+def getSinonimosPL(nomePlanta, soup): 
 	
 	try:
 		tdSynonym = soup.findAll("td", class_="name Synonym")
@@ -93,4 +93,4 @@ def getSinonimos(nomePlanta, soup):
 
 # nomePlanta = 'Sesuvium portulacastrum'
 # jsonRespPlantlist = requisicaoPL(urlPL(nomePlanta))
-# getSinonimos(nomePlanta, jsonRespPlantlist)
+# getSinonimosPL(nomePlanta, jsonRespPlantlist)

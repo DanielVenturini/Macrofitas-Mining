@@ -24,8 +24,7 @@ def dadosGB(jsonResp):
         for result in jsonResp['results']:
             print(result['decimalLatitude'], result['decimalLongitude'], result['country'] + ' ' + result['stateProvince'] + ' ' + result['locality'])
     except Exception as ex:
-        print("Erro")
-
+        print("Err dadosGB: " + ex)
 
 url = urlGB("Victoria amazonica", 10)
 print(url)

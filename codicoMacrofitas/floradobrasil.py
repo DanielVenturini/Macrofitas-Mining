@@ -37,7 +37,7 @@ def dadosFB(nomePlanta, jsonResp, macrofita):
         print("Erro: {0} -- {1}".format(nomePlanta, ex))
         return True
 
-def getSinonimosFlora(nomePlanta, jsonResp):
+def getSinonimosFB(nomePlanta, jsonResp):
     sinonimos = []
     resp =  jsonResp['result']
     try:
@@ -48,7 +48,6 @@ def getSinonimosFlora(nomePlanta, jsonResp):
     except Exception as ex:
         print("Erro: {0} -- {1}".format(nomePlanta, ex))
         return []
-
 
 from floraInfo import FloraInfo
 

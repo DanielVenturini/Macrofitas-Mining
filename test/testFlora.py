@@ -15,7 +15,7 @@ class TestPlantlist(unittest.TestCase):
         retornoReqFB = self.opcoesRetorno(nomePlanta)
         macrofita = Macrofita(nomePlanta)
         escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos relevantes'])
-        dadosFB(nome, retornoReqFB, macrofita, escritorSinonimos)
+        dadosFB(nome, retornoReqFB, macrofita)
         if (tpRetorno):
             return macrofita, retornoReqFB
         else:
