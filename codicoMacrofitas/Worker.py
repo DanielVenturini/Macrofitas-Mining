@@ -51,7 +51,7 @@ def release1(nomeArquivo):
             validador(nomePlanta, macrofita, jsonRespFloraBrasil, jsonRespPlantlist, escritorValidado)
 
     except AttributeError:
-        escritorValidado.fim('VALIDADOS')           # fecha o arquivo de saida
+        return escritorValidado.fim('VALIDADOS')           # fecha o arquivo de saida
 
 
 def validador(nomePlanta, macrofita, jsonRespFloraBrasil, jsonRespPlantlist, escritorValidado):
@@ -99,11 +99,10 @@ def release2(nomeArquivo):
 
             salvaSinonimos(nomePlanta, escritorSinonimos, sinonimos)
     except AttributeError:
-        escritorSinonimos.fim('SINONIMOS')          # fecha o arquivo de sinônimos
+        return escritorSinonimos.fim('SINONIMOS')          # fecha o arquivo de sinônimos
 
 
 def salvaSinonimos(nomePlanta, escritor, sinonimos):
-    print(sinonimos)
     linha = [0, 1]                  # lista com duas posicoes
     primeiraColuna = nomePlanta     # apenas para escrever no arquivo no padrão requerido
     for sinonimo in sinonimos:
