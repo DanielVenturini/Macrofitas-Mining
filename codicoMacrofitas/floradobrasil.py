@@ -4,13 +4,21 @@ from bs4 import BeautifulSoup
 def urlFB(nomePlanta):
     return "http://servicos.jbrj.gov.br/flora/taxon/" + nomePlanta.replace(' ','%20')
 
-def requisicaoFB(url):
-    return requests.get(url).json()
+def requisicaoFB(url, i=5):
+    try:
+        req = requests.get(url).json()
+        return req
+        if(i <= 0):
+            return False
+    except:
+        requisicaoFB(url, i-1)
 
 # deve retornar uma tupla: return validado, nomeValidado
 #                                 'SIM'|'NAO', 'NOME CIENTIFICO DO SITE'
 def dadosFB(nomePlanta, jsonResp, macrofita):
     # para cada um dos resultados
+    if(not jsonResp):
+        return
     try:
         if(jsonResp['result']):
             for result in jsonResp['result']:
@@ -38,6 +46,8 @@ def dadosFB(nomePlanta, jsonResp, macrofita):
         return True
 
 def getSinonimosFB(nomePlanta, jsonResp):
+    if(not jsonResp):
+        return []
     sinonimos = []
     resp =  jsonResp['result']
     try:
@@ -53,9 +63,14 @@ from floraInfo import FloraInfo
 
 def getURLID(nomePlanta):
     resp = requisicaoFB('http://servicos.jbrj.gov.br/flora/url/' + nomePlanta.replace(' ', '%20'))
-    return 'http://reflora.jbrj.gov.br/reflora/listaBrasil/ConsultaPublicaUC/ResultadoDaConsultaCarregaTaxonGrupo.do?&idDadosListaBrasil=' + resp["result"][0]["references"].split('=FB')[1]
+    if(not resp):
+        return False
 
+    return 'http://reflora.jbrj.gov.br/reflora/listaBrasil/ConsultaPublicaUC/ResultadoDaConsultaCarregaTaxonGrupo.do?&idDadosListaBrasil=' + resp["result"][0]["references"].split('=FB')[1]
+    
 def getInfoFlora(nomePlanta, info, jsonResp):
+    if(not jsonResp):
+        return []
     siteFlora = jsonResp
     
     soup = BeautifulSoup(siteFlora['hierarquia'], "html.parser")
@@ -85,7 +100,7 @@ def getInfoFlora(nomePlanta, info, jsonResp):
             info.possiveisOcorrencias = (siteFlora[duvida][pos1:pos2].split(', '))
     info.printInfo()
 
-
 # nomePlanta = 'Microlicia fasciculata'
+# nomePlanta = 'limnobium laevigatum'
 # fInfo = FloraInfo(nomePlanta)
 # getInfoFlora(nomePlanta, fInfo, requisicaoFB(getURLID(nomePlanta)))
