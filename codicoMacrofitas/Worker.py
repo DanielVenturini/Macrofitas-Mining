@@ -53,7 +53,6 @@ def release1(nomeArquivo):
     except AttributeError:
         return escritorValidado.fim('VALIDADOS')           # fecha o arquivo de saida
 
-
 def validador(nomePlanta, macrofita, jsonRespFloraBrasil, jsonRespPlantlist, escritorValidado):
     # Pesquisa Flora do Brasil
     try:
