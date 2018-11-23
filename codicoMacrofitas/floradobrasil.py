@@ -1,11 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
+import time
 
 def urlFB(nomePlanta):
     return "http://servicos.jbrj.gov.br/flora/taxon/" + nomePlanta.replace(' ','%20')
 
 def requisicaoFB(url):
-    return requests.get(url).json()
+    for i in range(3):
+        try:
+            req = requests.get(url, timeout = 3).json()
+            return req
+        except:  
+            print('Tentativa:',i + 1)
+    return False
 
 # deve retornar uma tupla: return validado, nomeValidado
 #                                 'SIM'|'NAO', 'NOME CIENTIFICO DO SITE'
@@ -19,22 +26,18 @@ def dadosFB(nomePlanta, jsonResp, macrofita):
                     macrofita.nomeFlora = result['scientificname']
                     macrofita.comaparaNome('flora')
                     macrofita.floraID = result['taxonid']
-
-                    return False        # como já foi escrito os sinonimos aqui, não escrever para o Plantlist
                 elif(result['NOME ACEITO']):
                     for nome in result['NOME ACEITO']:
                         if nome['taxonomicstatus'].__eq__('NOME_ACEITO'):
                             macrofita.statusFlora = 'Sinonimo'
                             macrofita.nomeFlora = nome['scientificname']
                             macrofita.floraID = result['taxonid']
-                            return True #dadosFB(nome['scientificname'], requisicaoFB(urlFB(nome['scientificname'])), macrofita, escritor)      # provavelmente tem que fazer uma chamada recursiva para recuperar os dados da planta com o nome certo
             macrofita.statusFlora = 'Sinonimo'
             macrofita.nomeFlora = macrofita.nomeEspecie
-            return True                 # não escreveu os sinônimos, então escreve no Plantlist
         else:
             return True
     except Exception as ex:
-        print("Erro: {0} -- {1}".format(nomePlanta, ex))
+        print("Erro Flora: {0} -- {1}".format(nomePlanta, ex))
         return True
 
 def getSinonimosFB(nomePlanta, jsonResp):
@@ -53,7 +56,9 @@ from floraInfo import FloraInfo
 
 def getURLID(nomePlanta):
     resp = requisicaoFB('http://servicos.jbrj.gov.br/flora/url/' + nomePlanta.replace(' ', '%20'))
-    return 'http://reflora.jbrj.gov.br/reflora/listaBrasil/ConsultaPublicaUC/ResultadoDaConsultaCarregaTaxonGrupo.do?&idDadosListaBrasil=' + resp["result"][0]["references"].split('=FB')[1]
+    if(not resp):
+        return 'http://reflora.jbrj.gov.br/reflora/listaBrasil/ConsultaPublicaUC/ResultadoDaConsultaCarregaTaxonGrupo.do?&idDadosListaBrasil=' + resp["result"][0]["references"].split('=FB')[1]
+    return False
 
 def getInfoFlora(nomePlanta, info, jsonResp):
     siteFlora = jsonResp
