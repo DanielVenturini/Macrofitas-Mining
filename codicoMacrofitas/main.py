@@ -2,7 +2,6 @@
 import Worker as wk
 from OperacoesArquivo import Reader
 from tkinter import (Tk, Button, Frame, filedialog, Label)
-import os.path
 import threading
 import openpyxl
 
@@ -76,6 +75,10 @@ class Menu:
 
     def getFile(self, event):
         self.nomeArquivo = filedialog.askopenfilename(initialdir = ".",title = "Selecione o arquivo",filetypes = (("Planilha","*.xlsx"),("Todos arquivos","*.*")))
+
+        if self.nomeArquivo.__eq__(''):
+            return
+
         try:
             wk.Reader(self.nomeArquivo)
         except openpyxl.utils.exceptions.InvalidFileException:
@@ -91,17 +94,21 @@ class Menu:
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
-            arquivoSaida = wk.release1(self.nomeArquivo)
-            arquivoSaida = os.path.relpath(arquivoSaida)    # caminho relativo
-            threading.Thread(target=self.mensagemErro, args=('Arquivo de saída:.\n{0}'.format(arquivoSaida),)).start()
+            parametros = {'arquivoEntrada': self.nomeArquivo,
+                          'funcaoRetorno': self.mensagemErro,
+                          'msgRetorno': 'Arquivo de saída:.\n{0}'}
+
+            threading.Thread(target=wk.release1, args=(parametros,)).start()
 
     def release2(self, event):
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
-            arquivoSaida = wk.release2(self.nomeArquivo)
-            arquivoSaida = os.path.relpath(arquivoSaida)
-            threading.Thread(target=self.mensagemErro, args=('Arquivo de saída:.\n{0}'.format(arquivoSaida),)).start()
+            parametros = {'arquivoEntrada': self.nomeArquivo,
+                'funcaoRetorno': self.mensagemErro,
+                'msgRetorno': 'Arquivo de saída:.\n{0}'}
+
+            threading.Thread(target=wk.release2, args=(parametros,)).start()
 
     def release3(self, event):
         if self.nomeArquivo.__eq__(''):

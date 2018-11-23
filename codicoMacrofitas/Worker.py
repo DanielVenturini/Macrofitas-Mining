@@ -8,13 +8,15 @@ from OperacoesArquivo import (Reader, Writer)
 from plantlist import (dadosPL, requisicaoPL, urlPL, getSinonimosPL)
 from macrofita import Macrofita
 import requests
+import os.path
 import sys
 
 #-----------------------------------#
 #   VALIDA A LISTA DE MACRÓFITAS    #
 #-----------------------------------#
-def release1(nomeArquivo):
+def release1(parametros):
     count = 1
+    nomeArquivo = parametros['arquivoEntrada']
     leitor = Reader(nomeArquivo)
     escritorValidado = Writer(nomeArquivo, ['Nome Especie', 'Status Flora', 'Nome Flora', 'Observacao', 'Status Plantlist', 'Nome Plantlist', 'Observacao', 'Flora x Plantlist'])
 
@@ -49,13 +51,17 @@ def release1(nomeArquivo):
             escritorValidado.escreve(macrofita.saidaStringExcel())
 
     except AttributeError:
-        return escritorValidado.fim('VALIDADOS')           # fecha o arquivo de saida
+        arquivoSaida = escritorValidado.fim('VALIDADOS')            # fecha o arquivo de saida
+        arquivoSaida = os.path.relpath(arquivoSaida)                # caminho relativo
+        mensagem = parametros['msgRetorno'].format(arquivoSaida)
+        parametros['funcaoRetorno'](mensagem)
 
 #-----------------------------------#
 #   RECUPERA A LISTA DE SINÔNIMOS   #
 #-----------------------------------#
-def release2(nomeArquivo):
+def release2(parametros):
     count = 1
+    nomeArquivo = parametros['arquivoEntrada']
     leitor = Reader(nomeArquivo)
     escritorSinonimos = Writer(nomeArquivo, ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
 
@@ -79,7 +85,10 @@ def release2(nomeArquivo):
 
             salvaSinonimos(nomePlanta, escritorSinonimos, sinonimos)
     except AttributeError:
-        return escritorSinonimos.fim('SINONIMOS')          # fecha o arquivo de sinônimos
+        arquivoSaida = escritorSinonimos.fim('SINONIMOS')           # fecha o arquivo de saida
+        arquivoSaida = os.path.relpath(arquivoSaida)                # caminho relativo
+        mensagem = parametros['msgRetorno'].format(arquivoSaida)
+        parametros['funcaoRetorno'](mensagem)
 
 def salvaSinonimos(nomePlanta, escritor, sinonimos):
     linha = [0, 1]                  # lista com duas posicoes
