@@ -89,10 +89,13 @@ def getSinonimosPL(nomePlanta, soup):
 		print(er)
 		return []
 
-	for td in tdSynonym:	
-		sin = BeautifulSoup(str(td), "html.parser")
-		sinonimo.insert(0, str(sin.find("i", class_="genus").text +' '+ sin.find("i", class_="species").text +' '+sin.find("span", class_="authorship").text))
-	return sinonimo
+	try:
+		for td in tdSynonym:	
+			sin = BeautifulSoup(str(td), "html.parser")
+			sinonimo.insert(0, str(sin.find("i", class_="genus").text +' '+ sin.find("i", class_="species").text +' '+sin.find("span", class_="authorship").text))
+		return sinonimo
+	except :
+		return ['']
 
 # nomePlanta = 'Sesuvium portulacastrum'
 # jsonRespPlantlist = requisicaoPL(urlPL(nomePlanta))

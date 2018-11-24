@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import Worker as wk
 from OperacoesArquivo import Reader
-from tkinter import (Tk, Button, Frame, filedialog, Label)
+from tkinter import (Tk, Button, Frame, filedialog, Label, Listbox)
 import threading
 import openpyxl
 
@@ -73,6 +73,11 @@ class Menu:
         self.botao5.pack()
         self.botao0.pack()
 
+        # cria a lista mas não deixa visivel
+        # 37 - quantidade de linhas
+        self.lista = Listbox(self.master, height=37, width=120, bd=10, font=("Times", 16))
+        #self.lista.pack()
+
     def criaBotao(self, conteiner, texto, funcao):
         botao = Button(conteiner, width=40, pady=10) # criando os botões
         botao['text'] = texto               # atribuindo nome
@@ -83,22 +88,26 @@ class Menu:
         return botao
 
     def escondeBotoes(self):
-        self.botaoFile.pack_forget()
-        self.botao1.pack_forget()
-        self.botao2.pack_forget()
-        self.botao3.pack_forget()
-        self.botao4.pack_forget()
-        self.botao5.pack_forget()
-        self.botao0.pack_forget()
+        self.conteinerFile.pack_forget()
+        self.conteiner1.pack_forget()
+        self.conteiner2.pack_forget()
+        self.conteiner3.pack_forget()
+        self.conteiner4.pack_forget()
+        self.conteiner5.pack_forget()
+        self.conteiner0.pack_forget()
+
+        self.lista.pack()
 
     def voltaBotoes(self):
-        self.botaoFile.pack()
-        self.botao1.pack()
-        self.botao2.pack()
-        self.botao3.pack()
-        self.botao4.pack()
-        self.botao5.pack()
-        self.botao0.pack()
+        self.conteinerFile.pack()
+        self.conteiner1.pack()
+        self.conteiner2.pack()
+        self.conteiner3.pack()
+        self.conteiner4.pack()
+        self.conteiner5.pack()
+        self.conteiner0.pack()
+
+        self.lista.pack_forget()
 
     def getFile(self, event):
         self.nomeArquivo = filedialog.askopenfilename(initialdir = ".",title = "Selecione o arquivo",filetypes = (("Planilha","*.xlsx"),("Todos arquivos","*.*")))
@@ -126,6 +135,7 @@ class Menu:
             parametros = {'arquivoEntrada': self.nomeArquivo,
                           'funcaoRetorno': self.mensagemErro,
                           'msgRetorno': 'Arquivo de saída:.\n{0}',
+                          'lista': self.lista,
                           'arquivoSaida': ''}
 
             threading.Thread(target=wk.release1, args=(parametros,)).start()
@@ -138,6 +148,7 @@ class Menu:
             parametros = {'arquivoEntrada': self.nomeArquivo,
                 'funcaoRetorno': self.mensagemErro,
                 'msgRetorno': 'Arquivo de saída:.\n{0}',
+                'lista': self.lista,
                 'arquivoSaida': ''}
 
             threading.Thread(target=wk.release2, args=(parametros,)).start()
@@ -150,6 +161,7 @@ class Menu:
             parametros = {'arquivoEntrada': self.nomeArquivo,
                 'funcaoRetorno': self.mensagemErro,
                 'msgRetorno': 'Arquivo de saída:.\n{0}',
+                'lista': self.lista,
                 'arquivoSaida': ''}
 
             threading.Thread(target=wk.release3, args=(parametros,)).start()
@@ -162,6 +174,7 @@ class Menu:
             parametros = {'arquivoEntrada': self.nomeArquivo,
                 'funcaoRetorno': self.mensagemErro,
                 'msgRetorno': 'Arquivo de saída:.\n{0}',
+                'lista': self.lista,
                 'arquivoSaida': ''}
 
             threading.Thread(target=wk.release4, args=(parametros,)).start()

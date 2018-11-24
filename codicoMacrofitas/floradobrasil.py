@@ -12,7 +12,9 @@ def requisicaoFB(url):
             return req
         except:  
             print('Tentativa:',i + 1)
-    return False
+
+    jsonResp = {'result': False}
+    return jsonResp
 
 # deve retornar uma tupla: return validado, nomeValidado
 #                                 'SIM'|'NAO', 'NOME CIENTIFICO DO SITE'

@@ -8,6 +8,7 @@ from OperacoesArquivo import (Reader, Writer)
 from plantlist import (dadosPL, requisicaoPL, urlPL, getSinonimosPL)
 from specieslink import (requisicaoSL, dadosSL)
 from macrofita import Macrofita
+from tkinter import END
 import requests
 import os.path
 import sys
@@ -17,20 +18,25 @@ import sys
 #-----------------------------------#
 def release1(parametros):
     count = 1
+    lista = parametros['lista']
     nomeArquivo = parametros['arquivoEntrada']
     leitor = Reader(nomeArquivo)
     escritorValidado = Writer(nomeArquivo, ['Nome Especie', 'Status Flora', 'Nome Flora', 'Observacao', 'Status Plantlist', 'Nome Plantlist', 'Observacao', 'Flora x Plantlist'])
 
+    lista.insert(END, 'VALIDANDO OS NOMES')
     try:
         while True:
             try:
                 nomePlanta, nomeAutor = leitor.getNome()            # recupera o nome da planta
+                if nomePlanta.lower().__contains__('nome especie'):
+                    continue
+
                 jsonRespFloraBrasil = requisicaoFB(urlFB(nomePlanta))     
                 jsonRespPlantlist = requisicaoPL(urlPL(nomePlanta))
             except (requests.exceptions.ConnectionError) as ex:
                 print(nomePlanta + ' -> ' + str(ex))
 
-            print(count , ')- ', nomePlanta)
+            lista.insert(END, '{0} -> {1}'.format(count, nomePlanta))
             count += 1
             macrofita = Macrofita(nomePlanta + ' ' + nomeAutor)
 
@@ -63,20 +69,25 @@ def release1(parametros):
 #-----------------------------------#
 def release2(parametros):
     count = 1
+    lista = parametros['lista']
     nomeArquivo = parametros['arquivoEntrada']
     leitor = Reader(nomeArquivo)
-    escritorSinonimos = Writer(nomeArquivo, ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
+    escritorSinonimos = Writer(nomeArquivo, ['Nome Especie', 'Sinônimos Relevantes'])
 
+    lista.insert(END, 'RECUPERANDO OS SINÔNIMOS')
     try:
         while True:
 
             nomePlanta, nomeAutor = leitor.getNome()            # recupera o nome da planta
+            if nomePlanta.lower().__contains__('nome especie'):
+                continue
+
+            lista.insert(END, '{0} -> {1}'.format(count, nomePlanta))
+            count += 1
+
             jsonRespFloraBrasil = requisicaoFB(urlFB(nomePlanta))
 
             sinonimos = getSinonimosFB(nomePlanta, jsonRespFloraBrasil)
-
-            print(count , ')- ', nomePlanta)
-            count += 1
 
             if sinonimos.__len__() > 0:
                 salvaSinonimos(nomePlanta, escritorSinonimos, sinonimos)
@@ -86,7 +97,7 @@ def release2(parametros):
             sinonimos = getSinonimosPL(nomePlanta, jsonRespPlantlist)
 
             salvaSinonimos(nomePlanta, escritorSinonimos, sinonimos)
-    except AttributeError:
+    except AttributeError as ex:
         arquivoSaida = escritorSinonimos.fim('SINONIMOS')           # fecha o arquivo de saida
         parametros['arquivoSaida'] = arquivoSaida
         arquivoSaida = os.path.relpath(arquivoSaida)                # caminho relativo
@@ -116,17 +127,24 @@ def salvaSinonimos(nomePlanta, escritor, sinonimos):
 def release4(parametros):
     count = 1
     nomeArquivo = parametros['arquivoEntrada']
+    lista = parametros['lista']
     leitor = Reader(nomeArquivo)
-    escritorCoordenadas = Writer(nomeArquivo, ['Nome das espécies', 'Latitude', 'Longitude', 'Localização'])
+    escritorCoordenadas = Writer(nomeArquivo, ['Nome Especie', 'Latitude', 'Longitude', 'Localização'])
 
+    lista.insert(END, 'RECUPERANDO AS COORDENADAS')
     try:
         while True:
             nomePlanta, nomeAutor = leitor.getNome()            # recupera o nome da planta
-            print(count , ')- ', nomePlanta)
+
+            if nomePlanta.lower().__contains__('nome especie'):
+                continue
+
+            lista.insert(END, '{0} -> {1}'.format(count, nomePlanta))
             count += 1
+
             ocorrencia = dadosSL(requisicaoSL(nomePlanta), nomePlanta, escritorCoordenadas)
 
-    except AttributeError:
+    except AttributeError as ex:
         arquivoSaida = escritorCoordenadas.fim('OCORRENCIAS')       # fecha o arquivo de saida
         parametros['arquivoSaida'] = arquivoSaida
         arquivoSaida = os.path.relpath(arquivoSaida)                # caminho relativo

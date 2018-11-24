@@ -164,9 +164,6 @@ def trataDiv(div):
 
 
 def dadosSL(soup, nomePlanta, escritor):  # valida pelo subtitulo
-	if nomePlanta.__contains__('Nome Especie'):
-		return
-
 	try:
 		divPlanta = nextPlanta(soup)	# recupera o iterador dos div das plantas
 		# para cada ocorrencia de uma determinada planta
@@ -189,7 +186,6 @@ def dadosSL(soup, nomePlanta, escritor):  # valida pelo subtitulo
 			escritor.escreve(linha)
 	except StopIteration:				# lança StopIteration quando não há mais div
 		escritor.escreve(['', '', '', ''])
-		print('Acabou')
 		return True
 
 
