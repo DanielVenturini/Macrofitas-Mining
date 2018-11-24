@@ -163,7 +163,10 @@ def trataDiv(div):
 	#for ll in lls:
 
 
-def dadosSL(soup, nomePlanta, escritor):  # valida pelo subtitulo	
+def dadosSL(soup, nomePlanta, escritor):  # valida pelo subtitulo
+	if nomePlanta.__contains__('Nome Especie'):
+		return
+
 	try:
 		divPlanta = nextPlanta(soup)	# recupera o iterador dos div das plantas
 		# para cada ocorrencia de uma determinada planta

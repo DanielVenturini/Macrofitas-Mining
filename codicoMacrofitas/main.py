@@ -64,6 +64,15 @@ class Menu:
         self.botao5.grid(row=5, column=0, pady=(3, 10))
         self.botao0.grid(row=6, column=0, pady=(3, 10))
 
+        # finalizando a configuração dos botões
+        self.botaoFile.pack()
+        self.botao1.pack()
+        self.botao2.pack()
+        self.botao3.pack()
+        self.botao4.pack()
+        self.botao5.pack()
+        self.botao0.pack()
+
     def criaBotao(self, conteiner, texto, funcao):
         botao = Button(conteiner, width=40, pady=10) # criando os botões
         botao['text'] = texto               # atribuindo nome
@@ -72,6 +81,24 @@ class Menu:
         botao.pack()                        # salvando o botão
 
         return botao
+
+    def escondeBotoes(self):
+        self.botaoFile.pack_forget()
+        self.botao1.pack_forget()
+        self.botao2.pack_forget()
+        self.botao3.pack_forget()
+        self.botao4.pack_forget()
+        self.botao5.pack_forget()
+        self.botao0.pack_forget()
+
+    def voltaBotoes(self):
+        self.botaoFile.pack()
+        self.botao1.pack()
+        self.botao2.pack()
+        self.botao3.pack()
+        self.botao4.pack()
+        self.botao5.pack()
+        self.botao0.pack()
 
     def getFile(self, event):
         self.nomeArquivo = filedialog.askopenfilename(initialdir = ".",title = "Selecione o arquivo",filetypes = (("Planilha","*.xlsx"),("Todos arquivos","*.*")))
@@ -89,11 +116,13 @@ class Menu:
         Mensagem(mensagem, msg)
         mensagem.title('Aviso')
         mensagem.mainloop()
+        self.voltaBotoes()
 
     def release1(self, event):
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
+            self.escondeBotoes()
             parametros = {'arquivoEntrada': self.nomeArquivo,
                           'funcaoRetorno': self.mensagemErro,
                           'msgRetorno': 'Arquivo de saída:.\n{0}',
@@ -105,6 +134,7 @@ class Menu:
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
+            self.escondeBotoes()
             parametros = {'arquivoEntrada': self.nomeArquivo,
                 'funcaoRetorno': self.mensagemErro,
                 'msgRetorno': 'Arquivo de saída:.\n{0}',
@@ -116,6 +146,7 @@ class Menu:
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
+            self.escondeBotoes()
             parametros = {'arquivoEntrada': self.nomeArquivo,
                 'funcaoRetorno': self.mensagemErro,
                 'msgRetorno': 'Arquivo de saída:.\n{0}',
@@ -127,7 +158,7 @@ class Menu:
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
-
+            self.escondeBotoes()
             parametros = {'arquivoEntrada': self.nomeArquivo,
                 'funcaoRetorno': self.mensagemErro,
                 'msgRetorno': 'Arquivo de saída:.\n{0}',
@@ -135,12 +166,11 @@ class Menu:
 
             threading.Thread(target=wk.release4, args=(parametros,)).start()
 
-
     def todasReleases(self, event):
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
-            pass
+            self.escondeBotoes()
             #wk.release1(self.nomeArquivo)
 
 
