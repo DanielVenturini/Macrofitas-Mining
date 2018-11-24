@@ -6,6 +6,7 @@ Este arquivo chamara as funçoes reponsaveis por cada parte do projeto
 from floradobrasil import (requisicaoFB, urlFB, dadosFB, getSinonimosFB)
 from OperacoesArquivo import (Reader, Writer)
 from plantlist import (dadosPL, requisicaoPL, urlPL, getSinonimosPL)
+from specieslink import (requisicaoSL, dadosSL)
 from macrofita import Macrofita
 import requests
 import os.path
@@ -35,14 +36,14 @@ def release1(parametros):
 
              # Pesquisa Flora do Brasil
             try:
-                if(not jsonRespFloraBrasil and jsonRespFloraBrasil['result'] != None):
+                if(jsonRespFloraBrasil and jsonRespFloraBrasil['result'] != None):
                     dadosFB(nomePlanta, jsonRespFloraBrasil, macrofita)
             except (Exception, requests.exceptions.ConnectionError) as ex:
                 print('Flora do Brasil', nomePlanta + ' -> ' + str(ex))
 
             # Pesquisa Plantlist
             try:
-                if(not jsonRespFloraBrasil):
+                if(jsonRespFloraBrasil):
                     dadosPL(nomePlanta, macrofita, jsonRespPlantlist)
             except (Exception, requests.exceptions.ConnectionError) as ex:
                 print('Plantlist: ' + nomePlanta + ' -> ' + str(ex))
@@ -52,6 +53,7 @@ def release1(parametros):
 
     except AttributeError:
         arquivoSaida = escritorValidado.fim('VALIDADOS')            # fecha o arquivo de saida
+        parametros['arquivoSaida'] = arquivoSaida
         arquivoSaida = os.path.relpath(arquivoSaida)                # caminho relativo
         mensagem = parametros['msgRetorno'].format(arquivoSaida)
         parametros['funcaoRetorno'](mensagem)
@@ -86,6 +88,7 @@ def release2(parametros):
             salvaSinonimos(nomePlanta, escritorSinonimos, sinonimos)
     except AttributeError:
         arquivoSaida = escritorSinonimos.fim('SINONIMOS')           # fecha o arquivo de saida
+        parametros['arquivoSaida'] = arquivoSaida
         arquivoSaida = os.path.relpath(arquivoSaida)                # caminho relativo
         mensagem = parametros['msgRetorno'].format(arquivoSaida)
         parametros['funcaoRetorno'](mensagem)
@@ -105,5 +108,26 @@ def salvaSinonimos(nomePlanta, escritor, sinonimos):
 
     escritor.escreve(['', ''])      # apenas quebrando uma linha
 
-def ocorrencias(nomeArquivo):
-    nomeArquivo += '_VALIDADOS.xlsx'                # reabre o arquivo gerado na outra função
+
+#-----------------------------------#
+#      RECUPERA AS COORDENADAS      #
+#-----------------------------------#
+def release4(parametros):
+    count = 1
+    nomeArquivo = parametros['arquivoEntrada']
+    leitor = Reader(nomeArquivo)
+    escritorCoordenadas = Writer(nomeArquivo, ['Nome das espécies', 'Latitude', 'Longitude', 'Localização'])
+
+    try:
+        while True:
+            nomePlanta, nomeAutor = leitor.getNome()            # recupera o nome da planta
+            print(count , ')- ', nomePlanta)
+            count += 1
+            ocorrencia = dadosSL(requisicaoSL(nomePlanta), nomePlanta, escritorCoordenadas)
+
+    except AttributeError:
+        arquivoSaida = escritorCoordenadas.fim('OCORRENCIAS')       # fecha o arquivo de saida
+        parametros['arquivoSaida'] = arquivoSaida
+        arquivoSaida = os.path.relpath(arquivoSaida)                # caminho relativo
+        mensagem = parametros['msgRetorno'].format(arquivoSaida)
+        parametros['funcaoRetorno'](mensagem)

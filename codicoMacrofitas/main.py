@@ -96,7 +96,8 @@ class Menu:
         else:
             parametros = {'arquivoEntrada': self.nomeArquivo,
                           'funcaoRetorno': self.mensagemErro,
-                          'msgRetorno': 'Arquivo de saída:.\n{0}'}
+                          'msgRetorno': 'Arquivo de saída:.\n{0}',
+                          'arquivoSaida': ''}
 
             threading.Thread(target=wk.release1, args=(parametros,)).start()
 
@@ -106,7 +107,8 @@ class Menu:
         else:
             parametros = {'arquivoEntrada': self.nomeArquivo,
                 'funcaoRetorno': self.mensagemErro,
-                'msgRetorno': 'Arquivo de saída:.\n{0}'}
+                'msgRetorno': 'Arquivo de saída:.\n{0}',
+                'arquivoSaida': ''}
 
             threading.Thread(target=wk.release2, args=(parametros,)).start()
 
@@ -114,17 +116,23 @@ class Menu:
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
-            arquivoSaida = wk.release3(self.nomeArquivo)
-            arquivoSaida = os.path.relpath(arquivoSaida)
-            threading.Thread(target=self.mensagemErro, args=('Arquivo de saída:.\n{0}'.format(arquivoSaida),)).start()
+            parametros = {'arquivoEntrada': self.nomeArquivo,
+                'funcaoRetorno': self.mensagemErro,
+                'msgRetorno': 'Arquivo de saída:.\n{0}',
+                'arquivoSaida': ''}
+
+            threading.Thread(target=wk.release3, args=(parametros,)).start()
 
     def release4(self, event):
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
-            arquivoSaida = wk.release4(self.nomeArquivo)
-            arquivoSaida = os.path.relpath(arquivoSaida)
-            threading.Thread(target=self.mensagemErro, args=('Arquivo de saída:.\n{0}'.format(arquivoSaida),)).start()
+            parametros = {'arquivoEntrada': self.nomeArquivo,
+                'funcaoRetorno': self.mensagemErro,
+                'msgRetorno': 'Arquivo de saída:.\n{0}',
+                'arquivoSaida': ''}
+
+            threading.Thread(target=wk.release4, args=(parametros,)).start()
 
     def todasReleases(self, event):
         if self.nomeArquivo.__eq__(''):

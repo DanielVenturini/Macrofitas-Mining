@@ -62,14 +62,14 @@ class Writer:
         self.linhaNum = 1
 
         # as linhas com 8 colunas são linhas de arquivos VALIDADOS
-        # as linhas com 2 colunas, são linhas de arquivos SINÔNIMOS
-        # ao contrário, será linha para arquivos de coordenadas
+        # as linhas com 2 colunas são linhas de arquivos SINÔNIMOS
+        # as linhas com 4 colunas são linhas de arquivos COORDENADAS
         if len(cabecalho) == 8:
             self.coluna = 'H'
         elif len(cabecalho) == 2:
             self.coluna = 'B'
-        else:
-            pass
+        elif len(cabecalho) == 4:
+            self.coluna = 'D'
 
         self.escreve(cabecalho)
 

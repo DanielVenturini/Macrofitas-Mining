@@ -56,10 +56,10 @@ class InfPlanta:
 			latitude = self.getMapped('lA')
 			longitude = self.getMapped('lO')
 
-			latitude = re.match('[+|-]?[\d]+(.[\d]+)?', latitude)
-			longitude = re.match('[+|-]?[\d]+(.[\d]+)?', longitude)
+			latitude = re.search('[+|-]?[\d]+(.[\d]+)?', latitude).group(0)
+			longitude = re.search('[+|-]?[\d]+(.[\d]+)?', longitude).group(0)
 
-			return latitude, longitude
+			return [latitude, longitude]
 		except AttributeError:
 			return ' ', ' '
 
@@ -78,8 +78,41 @@ class InfPlanta:
 
 #############################################################################
 
+# retorna se uma latitude e longitude está dentro da américa do súl
+def americaSul(lat, longi):
+
+	try:
+		lat = float(lat)
+		longi = float(longi)
+	except :
+		return True
+
+	# Extremo norte e leste
+	if lat > 12.458611:
+		print('saiu no norte')
+		return False
+
+	# Extremo sul
+	if lat < -59.488889:
+		print('saiu no sul')
+		return False
+
+	# Extremo leste
+	if longi < -71.668889:
+		print('saiu no leste')
+		return False
+
+	# Extremo oeste
+	if longi < -92.009167:
+		print('saiu no oeste')
+		return False
+
+	return True
+
+
 # retorna a requisição já no formado do BeaultifulSoup
-def requisicaoSL(url, planta):
+def requisicaoSL(planta):
+	url = urlSL()
 	try:
 		data = urllib.parse.urlencode({'ts_any': planta}).encode('ascii')	# insere o nome da planta no body
 		thepage = urllib.request.urlopen(url, data)							# recupera a página
@@ -130,7 +163,7 @@ def trataDiv(div):
 	#for ll in lls:
 
 
-def dadosSL(soup):  # valida pelo subtitulo	
+def dadosSL(soup, nomePlanta, escritor):  # valida pelo subtitulo	
 	try:
 		divPlanta = nextPlanta(soup)	# recupera o iterador dos div das plantas
 		# para cada ocorrencia de uma determinada planta
@@ -138,9 +171,21 @@ def dadosSL(soup):  # valida pelo subtitulo
 			div = next(divPlanta)		# recupera a próxima div
 
 			planta = trataDiv(div)				# trata os elementos da div
-			# print(planta.getLocalizacao())
+			linha = [0, 1, 2, 3]
+			linha[0] = nomePlanta
+			linha[1:2] = planta.getCoordenada()
+			linha[3] = planta.getLocalizacao()
 
+			lat = linha[1]
+			longi = linha[2]
+
+			if not americaSul(lat, longi):
+				print(linha)
+
+			nomePlanta = ''
+			escritor.escreve(linha)
 	except StopIteration:				# lança StopIteration quando não há mais div
+		escritor.escreve(['', '', '', ''])
 		print('Acabou')
 		return True
 
