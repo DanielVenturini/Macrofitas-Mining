@@ -127,12 +127,14 @@ class Menu:
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
+
             parametros = {'arquivoEntrada': self.nomeArquivo,
                 'funcaoRetorno': self.mensagemErro,
                 'msgRetorno': 'Arquivo de saída:.\n{0}',
                 'arquivoSaida': ''}
 
             threading.Thread(target=wk.release4, args=(parametros,)).start()
+
 
     def todasReleases(self, event):
         if self.nomeArquivo.__eq__(''):

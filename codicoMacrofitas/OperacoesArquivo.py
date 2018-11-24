@@ -27,6 +27,23 @@ class Reader:
 
         self.linha = 1              # começa em 1 porque na posição 0 é outra coisa
 
+
+    #Esta função retorna os nomes para serem procuradas as ocorrências das espécies
+    def getNomeOcorrencia(self):
+        if not self.leitor:
+            raise Exception
+        try:
+            statusFlora = self.leitor['B'+str(self.linha)].internal_value
+            nomeFlora = self.leitor['C'+str(self.linha)].internal_value
+            statusPlantlist = self.leitor['E'+str(self.linha)].internal_value
+            nomePlantlist = self.leitor['F'+str(self.linha)].internal_value
+            self.linha += 1 
+            return statusFlora , nomeFlora , statusPlantlist , nomePlantlist
+
+        except AttributeError:
+            self.leitor = None
+            raise  
+
     # Esta funçao retorna nome a nome.
     # O valor retornado é 'genero especie', pois está no padrão para enviar o GET
     # Gera a exceção AttributeError quando não houver mais linhas

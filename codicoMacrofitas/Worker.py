@@ -93,6 +93,7 @@ def release2(parametros):
         mensagem = parametros['msgRetorno'].format(arquivoSaida)
         parametros['funcaoRetorno'](mensagem)
 
+
 def salvaSinonimos(nomePlanta, escritor, sinonimos):
     linha = [0, 1]                  # lista com duas posicoes
     primeiraColuna = nomePlanta     # apenas para escrever no arquivo no padrão requerido
