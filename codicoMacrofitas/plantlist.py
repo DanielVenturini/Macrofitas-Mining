@@ -1,14 +1,17 @@
 import urllib
 import urllib.request
 from bs4 import BeautifulSoup
+import time
 
 def requisicaoPL(url):
-	try:
-		thepage = urllib.request.urlopen(url)
-		soupdata = BeautifulSoup(thepage,"html.parser")
-		return soupdata
-	except urllib.error.URLError:
-		raise
+	for i in range(3):
+		try:
+			thepage = urllib.request.urlopen(url, timeout=3)
+			soupdata = BeautifulSoup(thepage,"html.parser")
+			return soupdata
+		except:
+			print('Tentativa:',i)			
+	return False
 
 def urlPL(name):
 	genero, especie = name.split(' ')

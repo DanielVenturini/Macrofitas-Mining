@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import Worker as wk
+from OperacoesArquivo import Reader
 from tkinter import (Tk, Button, Frame, filedialog, Label)
 import threading
+import openpyxl
 
 class Mensagem:
 
@@ -9,7 +11,7 @@ class Mensagem:
         self.widget1 = Frame(master)
         self.widget1.pack()
         self.msg = Label(self.widget1, text=mensagem)
-        self.msg["font"] = ("Calibri", "13", "italic")
+        self.msg["font"] = ("Calibri", "13", "bold")
         self.msg.pack ()
 
         self.sair = Button(self.widget1)
@@ -74,9 +76,17 @@ class Menu:
     def getFile(self, event):
         self.nomeArquivo = filedialog.askopenfilename(initialdir = ".",title = "Selecione o arquivo",filetypes = (("Planilha","*.xlsx"),("Todos arquivos","*.*")))
 
-    def mensagemErro(self):
+        if self.nomeArquivo.__eq__(''):
+            return
+
+        try:
+            wk.Reader(self.nomeArquivo)
+        except openpyxl.utils.exceptions.InvalidFileException:
+            threading.Thread(target=self.mensagemErro, args=('Arquivo não suportado.\nSelecione um arquivo \'.xlsx\'',)).start()
+
+    def mensagemErro(self, msg='Selecione um arquivo usando o primeiro botão.'):
         mensagem = Tk()
-        Mensagem(mensagem, "Selecione um arquivo usando o primeiro botão.")
+        Mensagem(mensagem, msg)
         mensagem.title('Aviso')
         mensagem.mainloop()
 
@@ -84,31 +94,46 @@ class Menu:
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
-            wk.release1(self.nomeArquivo)
+            parametros = {'arquivoEntrada': self.nomeArquivo,
+                          'funcaoRetorno': self.mensagemErro,
+                          'msgRetorno': 'Arquivo de saída:.\n{0}'}
+
+            threading.Thread(target=wk.release1, args=(parametros,)).start()
 
     def release2(self, event):
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
-            wk.release1(self.nomeArquivo)
+            parametros = {'arquivoEntrada': self.nomeArquivo,
+                'funcaoRetorno': self.mensagemErro,
+                'msgRetorno': 'Arquivo de saída:.\n{0}'}
+
+            threading.Thread(target=wk.release2, args=(parametros,)).start()
 
     def release3(self, event):
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
-            wk.release1(self.nomeArquivo)
+            arquivoSaida = wk.release3(self.nomeArquivo)
+            arquivoSaida = os.path.relpath(arquivoSaida)
+            threading.Thread(target=self.mensagemErro, args=('Arquivo de saída:.\n{0}'.format(arquivoSaida),)).start()
 
     def release4(self, event):
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
-            wk.release4(self.nomeArquivo)
+
+            arquivoSaida = wk.release4(self.nomeArquivo)
+            arquivoSaida = os.path.relpath(arquivoSaida)
+            threading.Thread(target=self.mensagemErro, args=('Arquivo de saída:.\n{0}'.format(arquivoSaida),)).start()
+
 
     def todasReleases(self, event):
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
-            wk.release1(self.nomeArquivo)
+            pass
+            #wk.release1(self.nomeArquivo)
 
 
 root = Tk()
