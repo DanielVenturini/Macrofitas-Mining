@@ -102,6 +102,7 @@ def release2(nomeArquivo):
         escritorSinonimos.fim('SINONIMOS')          # fecha o arquivo de sinônimos
 
 
+
 def salvaSinonimos(nomePlanta, escritor, sinonimos):
     print(sinonimos)
     linha = [0, 1]                  # lista com duas posicoes
@@ -170,8 +171,15 @@ def valida(nomeArquivo):
     except AttributeError:
         escritorValidado.fim('VALIDADOS')           # fecha o arquivo de saida
         escritorSinonimos.fim('SINONIMOS')          # fecha o arquivo de sinônimos
-        escritorCoordenadas.fim('COORDENADAS')      # fecha o arquivo das coordenadas
+        #escritorCoordenadas.fim('COORDENADAS')      # fecha o arquivo das coordenadas
         print("Arquivos VALIDADOS, SINONIMOS e COORDENADAS prontos.")
 
 def ocorrencias(nomeArquivo):
     nomeArquivo += '_VALIDADOS.xlsx'                # reabre o arquivo gerado na outra função
+
+#-----------------------------------#
+#      RECUPERA AS COORDENADAS      #
+#-----------------------------------#
+
+#def release4(nomeArquivo):
+

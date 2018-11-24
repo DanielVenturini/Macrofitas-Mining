@@ -102,7 +102,7 @@ class Menu:
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
-            wk.release1(self.nomeArquivo)
+            wk.release4(self.nomeArquivo)
 
     def todasReleases(self, event):
         if self.nomeArquivo.__eq__(''):
