@@ -37,6 +37,7 @@ def release1(parametros):
                 print(nomePlanta + ' -> ' + str(ex))
 
             lista.insert(END, '{0} -> {1}'.format(count, nomePlanta))
+            lista.yview(END)
             count += 1
             macrofita = Macrofita(nomePlanta + ' ' + nomeAutor)
 
@@ -83,6 +84,7 @@ def release2(parametros):
                 continue
 
             lista.insert(END, '{0} -> {1}'.format(count, nomePlanta))
+            lista.yview(END)
             count += 1
 
             jsonRespFloraBrasil = requisicaoFB(urlFB(nomePlanta))
@@ -140,6 +142,7 @@ def release4(parametros):
                 continue
 
             lista.insert(END, '{0} -> {1}'.format(count, nomePlanta))
+            lista.yview(END)
             count += 1
 
             ocorrencia = dadosSL(requisicaoSL(nomePlanta), nomePlanta, escritorCoordenadas)

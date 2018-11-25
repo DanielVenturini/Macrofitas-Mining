@@ -78,6 +78,9 @@ class Menu:
         self.lista = Listbox(self.master, height=37, width=120, bd=10, font=("Times", 16))
         #self.lista.pack()
 
+        # quando for realizar todas as operações, não voltar os botões depois de cada uma
+        self.naoVoltar = False
+
     def criaBotao(self, conteiner, texto, funcao):
         botao = Button(conteiner, width=40, pady=10) # criando os botões
         botao['text'] = texto               # atribuindo nome
@@ -99,6 +102,9 @@ class Menu:
         self.lista.pack()
 
     def voltaBotoes(self):
+        if self.naoVoltar:
+            return
+
         self.conteinerFile.pack()
         self.conteiner1.pack()
         self.conteiner2.pack()
@@ -179,12 +185,34 @@ class Menu:
 
             threading.Thread(target=wk.release4, args=(parametros,)).start()
 
+    def todas(self, parametros):
+        wk.release1(parametros)
+        parametros['arquivoEntrada'] = parametros['arquivoSaida']   # pega o nome do novo arquivo
+
+        wk.release2(parametros)
+        # não precisa alterar o arquivo de entrada, pois vai ser o arquivo VALIDADO mesmo
+
+        self.naoVoltar = False
+
+        wk.release4(parametros)
+        parametros['arquivoEntrada'] = parametros['arquivoSaida']   # pega o nome do novo arquivo
+
     def todasReleases(self, event):
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
             self.escondeBotoes()
-            #wk.release1(self.nomeArquivo)
+            self.naoVoltar = True   # não volta os botões depois de cada operação
+
+            parametros = {'arquivoEntrada': self.nomeArquivo,
+                'funcaoRetorno': self.mensagemErro,
+                'msgRetorno': 'Arquivo de saída:.\n{0}',
+                'lista': self.lista,
+                'arquivoSaida': ''}
+
+            threading.Thread(target=self.todas, args=(parametros,)).start()
+            # tem que criar uma thread senão a interface trava do mesmo modo
+
 
 
 root = Tk()
