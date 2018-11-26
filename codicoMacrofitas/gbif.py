@@ -19,10 +19,26 @@ def requisicaoGB(url):
 #         return ' ', ' '
 
 def dadosGB(jsonResp):
-        lista = []
+        linha = []
         try:
                 for result in jsonResp['results']:
-                                print(result['key'])
+                        localidade = ''
+                        latitude = 0
+                        longitude = 0
+                        try:
+                                localidade = result['locality']
+                        except Exception as ex:
+                                localidade = ''
+                        try: 
+                                latitude = result['decimalLatitude']
+                                longitude = result['decimalLongitude']
+                        except Exception as notLatitude:
+                                latitude = 0
+                                longitude = 0
+                        if(latitude != 0):
+                                linha.append([localidade,latitude,longitude])
+                for registros in linha:
+                        print(registros)
         except Exception as ex:
                 print("Err dadosGB: " + ex)
 
@@ -30,3 +46,8 @@ def buscar(nomePlanta,offset):
         url = urlGB(nomePlanta, offset)
         print(url)
         dadosGB(requisicaoGB(url))
+
+def numeroRegistro(nomePlanta):
+        url = urlGB(nomePlanta, 1)
+        jsonResp = requisicaoGB(url)
+        return(jsonResp['count'])
