@@ -85,26 +85,22 @@ def americaSul(lat, longi):
 		lat = float(lat)
 		longi = float(longi)
 	except :
-		return True
+		return False
 
 	# Extremo norte e leste
 	if lat > 12.458611:
-		print('saiu no norte')
 		return False
 
 	# Extremo sul
 	if lat < -59.488889:
-		print('saiu no sul')
 		return False
 
 	# Extremo leste
 	if longi < -71.668889:
-		print('saiu no leste')
 		return False
 
 	# Extremo oeste
 	if longi < -92.009167:
-		print('saiu no oeste')
 		return False
 
 	return True
@@ -179,11 +175,10 @@ def dadosSL(soup, nomePlanta, escritor):  # valida pelo subtitulo
 			lat = linha[1]
 			longi = linha[2]
 
-			if not americaSul(lat, longi):
-				print(linha)
+			if americaSul(lat, longi):
+				escritor.escreve(linha)
 
 			nomePlanta = ''
-			escritor.escreve(linha)
 	except StopIteration:				# lança StopIteration quando não há mais div
 		escritor.escreve(['', '', '', ''])
 		return True
