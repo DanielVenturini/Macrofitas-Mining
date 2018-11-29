@@ -4,9 +4,10 @@
 Este arquivo chamara as funçoes reponsaveis por cada parte do projeto
 '''
 from floradobrasil import (requisicaoFB, urlFB, dadosFB, getSinonimosFB)
-from OperacoesArquivo import (Reader, Writer)
 from plantlist import (dadosPL, requisicaoPL, urlPL, getSinonimosPL)
 from specieslink import (requisicaoSL, dadosSL)
+from OperacoesArquivo import (Reader, Writer)
+from gbif import (requisicaoGB, dadosGB)
 from macrofita import Macrofita
 from tkinter import END
 import requests
@@ -145,7 +146,8 @@ def release4(parametros):
             lista.yview(END)
             count += 1
 
-            ocorrencia = dadosSL(requisicaoSL(nomePlanta), nomePlanta, escritorCoordenadas)
+            #dadosSL(requisicaoSL(nomePlanta), nomePlanta, escritorCoordenadas)
+            dadosGB(nomePlanta, escritorCoordenadas)
 
     except AttributeError as ex:
         arquivoSaida = escritorCoordenadas.fim('OCORRENCIAS')       # fecha o arquivo de saida

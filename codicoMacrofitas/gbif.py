@@ -1,4 +1,5 @@
 import requests
+import math
 
 def urlGB(nomePlanta,offset):
     return "http://api.gbif.org/v1/occurrence/search?limit=300&offset="+str(offset)+"&continent=SOUTH_AMERICA&scientificName=" +nomePlanta.replace(' ','%20')
@@ -18,7 +19,8 @@ def requisicaoGB(url):
 #     except AttributeError:
 #         return ' ', ' '
 
-def dadosGB(jsonResp,nomedaPlanta):
+def dadosGB1(jsonResp, nomedaPlanta, escritor):
+        print(jsonResp)
         linha = []
         try:
                 for result in jsonResp['results']:
@@ -35,18 +37,23 @@ def dadosGB(jsonResp,nomedaPlanta):
                         except Exception as notLatitude:
                                 latitude = 0
                                 longitude = 0
-                        if(latitude != 0):
-                                linha.append([nomedaPlanta,latitude,longitude,localidade])
+                        if(latitude != 0 and longitude != 0):
+                                print(localidade)
+                                #escritor.escreve([nomedaPlanta, latitude, longitude, localidade])
                                 nomedaPlanta = ''
-                for registros in linha:
-                        print(registros)
         except Exception as ex:
                 print("Err dadosGB: " + ex)
 
-def buscar(nomePlanta,offset):
-        url = urlGB(nomePlanta, offset)
-        print(url)
-        dadosGB(requisicaoGB(url),nomePlanta)
+def dadosGB(nomePlanta, escritor):
+        numReg = numeroRegistro(nomePlanta)
+        numReg = math.ceil(numReg/300)
+
+        for offset in range(0, numReg):
+                url = urlGB(nomePlanta, offset*300)
+                print(url)
+                dadosGB1(requisicaoGB(url), nomePlanta, escritor)
+
+        print('FIMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM')
 
 def numeroRegistro(nomePlanta):
         url = urlGB(nomePlanta, 1)
