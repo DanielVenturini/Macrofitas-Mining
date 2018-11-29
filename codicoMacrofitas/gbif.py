@@ -18,7 +18,7 @@ def requisicaoGB(url):
 #     except AttributeError:
 #         return ' ', ' '
 
-def dadosGB(jsonResp):
+def dadosGB(jsonResp,nomedaPlanta):
         linha = []
         try:
                 for result in jsonResp['results']:
@@ -36,7 +36,8 @@ def dadosGB(jsonResp):
                                 latitude = 0
                                 longitude = 0
                         if(latitude != 0):
-                                linha.append([localidade,latitude,longitude])
+                                linha.append([nomedaPlanta,latitude,longitude,localidade])
+                                nomedaPlanta = ''
                 for registros in linha:
                         print(registros)
         except Exception as ex:
@@ -45,7 +46,7 @@ def dadosGB(jsonResp):
 def buscar(nomePlanta,offset):
         url = urlGB(nomePlanta, offset)
         print(url)
-        dadosGB(requisicaoGB(url))
+        dadosGB(requisicaoGB(url),nomePlanta)
 
 def numeroRegistro(nomePlanta):
         url = urlGB(nomePlanta, 1)
