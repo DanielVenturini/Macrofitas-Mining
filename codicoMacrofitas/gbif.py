@@ -1,19 +1,23 @@
 import requests
 import math
+import time
 
 def urlGB(nomePlanta,offset,limit = 300):
     return "http://api.gbif.org/v1/occurrence/search?limit="+str(limit)+"&offset="+str(offset)+"&continent=SOUTH_AMERICA&scientificName=" +nomePlanta.replace(' ','%20')
 
 def requisicaoGB(url):
-        cont = 0; 
         while True:
-                if cont < 5 :
-                        try:
-                                return requests.get(url,timeout=2).json()
-                        except requests.exceptions.RequestException as ex:
-                                print("Erro : " + str(ex))
-                                cont+=1
-        
+                resultado = None
+                time.sleep(.3)
+                try:
+                        resultado = requests.get(url,timeout=1).json()
+                except requests.exceptions.RequestException as ex:
+                        print("Erro : " + str(ex))
+                        time.sleep(2)    
+                except:
+                        time.sleep(2)
+                if(resultado):
+                        return resultado
 
 # def getCoordenadas(latitude, longitude):
 #     try:
@@ -24,8 +28,6 @@ def requisicaoGB(url):
 #         return ' ', ' '
 
 def dadosGB1(jsonResp, nomedaPlanta, escritor):
-        print(jsonResp)
-        linha = []
         try:
                 for result in jsonResp['results']:
                         localidade = ''
@@ -42,8 +44,7 @@ def dadosGB1(jsonResp, nomedaPlanta, escritor):
                                 latitude = 0
                                 longitude = 0
                         if(latitude != 0 and longitude != 0):
-                                print(localidade)
-                                #escritor.escreve([nomedaPlanta, latitude, longitude, localidade])
+                                escritor.escreve([nomedaPlanta, latitude, longitude, localidade])
                                 nomedaPlanta = ''
         except Exception as ex:
                 print("Erro Ao capturar os dados GBIF : " + ex)
@@ -54,13 +55,12 @@ def dadosGB(nomePlanta, escritor):
 
         for offset in range(0, numReg):
                 url = urlGB(nomePlanta, offset*300)
-                print(url)
                 dadosGB1(requisicaoGB(url), nomePlanta, escritor)
-
-        print('FIMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM')
 
 def numeroRegistro(nomePlanta):
         url = urlGB(nomePlanta, 0,1)
-        print('url numero'+ url)
         jsonResp = requisicaoGB(url)
-        return(jsonResp['count'])
+        if jsonResp['results']:
+                return(jsonResp['count'])
+        else:
+                return 0
