@@ -14,7 +14,7 @@ def requisicaoPL(url):
 	return False
 
 def urlPL(name):
-	genero, especie = name.split(' ')
+	genero, especie = name.split(' ')[0:2]
 	return "http://www.theplantlist.org/tpl1.1/search?q=" + genero +'+'+ especie
 
 def verificaEspecieIncorreta(especieEntrada, especieSite):

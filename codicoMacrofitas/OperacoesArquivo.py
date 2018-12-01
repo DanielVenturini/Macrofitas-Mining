@@ -42,7 +42,7 @@ class Reader:
 
         except AttributeError:
             self.leitor = None
-            raise  
+            raise
 
     # Esta funçao retorna nome a nome.
     # O valor retornado é 'genero especie', pois está no padrão para enviar o GET
@@ -61,6 +61,32 @@ class Reader:
         except AttributeError:                  # quando chegar no fim do arquivo
             self.leitor = None                  # atribui None ao leitor, para, se chamar novamente, gere a exceção no bloco if
             raise                               # Re-lança a exceção
+
+    # Esta função retorna se a planta foi validada ou não na planilha de VALIDADOS
+    # se for validado, então retorna True
+    # se não for validado, então retorna False e avança a linha
+    def getLinha(self):
+        if not self.leitor:
+            raise Exception
+
+        try:
+            nomePlanta = self.leitor['A'+str(self.linha)].internal_value
+            statusFlora = self.leitor['B'+str(self.linha)].internal_value
+            nomeFlora = self.leitor['C'+str(self.linha)].internal_value
+            statusPlantlist = self.leitor['E'+str(self.linha)].internal_value
+            nomePlantlist = self.leitor['F'+str(self.linha)].internal_value
+            comparacao = self.leitor['H'+str(self.linha)].internal_value
+            self.linha += 1
+
+            # se acabou o arquivo
+            if nomePlanta == None:
+                raise AttributeError
+
+            return nomePlanta, statusFlora, nomeFlora, statusPlantlist, nomePlantlist, comparacao
+
+        except AttributeError as EX:
+            self.leitor = None
+            raise
 
 
 '''

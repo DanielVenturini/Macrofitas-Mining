@@ -32,7 +32,7 @@ def release1(parametros):
                 if nomePlanta.lower().__contains__('nome especie'):
                     continue
 
-                jsonRespFloraBrasil = requisicaoFB(urlFB(nomePlanta))     
+                jsonRespFloraBrasil = requisicaoFB(urlFB(nomePlanta))
                 jsonRespPlantlist = requisicaoPL(urlPL(nomePlanta))
             except (requests.exceptions.ConnectionError) as ex:
                 print(nomePlanta + ' -> ' + str(ex))
@@ -74,38 +74,70 @@ def release2(parametros):
     lista = parametros['lista']
     nomeArquivo = parametros['arquivoEntrada']
     leitor = Reader(nomeArquivo)
-    escritorSinonimos = Writer(nomeArquivo, ['Nome Especie', 'Sinônimos Relevantes'])
+    escritorFlora = Writer(nomeArquivo, ['Nome Especie', 'Sinônimos Relevantes'])
+    escritorPlantList = Writer(nomeArquivo, ['Nome Especie', 'Sinônimos Relevantes'])
 
     lista.insert(END, 'RECUPERANDO OS SINÔNIMOS')
     try:
         while True:
 
-            nomePlanta, nomeAutor = leitor.getNome()            # recupera o nome da planta
-            if nomePlanta.lower().__contains__('nome especie'):
+            nomePlanta, statusFlora, nomeFlora, statusPlantlist, nomePlantlist, comparacao = leitor.getLinha()
+            if statusFlora == None or statusPlantlist == None or statusFlora.lower().__contains__('status flora'):
                 continue
 
+            # printa o nome da planta
             lista.insert(END, '{0} -> {1}'.format(count, nomePlanta))
             lista.yview(END)
             count += 1
 
-            jsonRespFloraBrasil = requisicaoFB(urlFB(nomePlanta))
+            apagar = False
+            try:
+                verificaStatus(nomePlanta, statusFlora, nomeFlora)  # verifica se possúi um nome aceito
 
-            sinonimos = getSinonimosFB(nomePlanta, jsonRespFloraBrasil)
+                jsonRespFloraBrasil = requisicaoFB(urlFB(nomeFlora))
+                sinonimos = getSinonimosFB(nomeFlora, jsonRespFloraBrasil)
 
-            if sinonimos.__len__() > 0:
-                salvaSinonimos(nomePlanta, escritorSinonimos, sinonimos)
-                continue
+                salvaSinonimos(nomeFlora, escritorFlora, sinonimos)
 
-            jsonRespPlantlist = requisicaoPL(urlPL(nomePlanta))
-            sinonimos = getSinonimosPL(nomePlanta, jsonRespPlantlist)
+            except Exception:
+                apagar = True   # diz para apagar a linha se no plant list também não tiver
 
-            salvaSinonimos(nomePlanta, escritorSinonimos, sinonimos)
+
+            try:
+                verificaStatus(nomePlanta, statusPlantlist, nomePlantlist)      # se não tiver nome aceito, então gera exceção
+
+                jsonRespPlantlist = requisicaoPL(urlPL(nomePlantlist))
+                sinonimos = getSinonimosPL(nomePlantlist, jsonRespPlantlist)
+
+                salvaSinonimos(nomePlantlist, escritorPlantList, sinonimos)
+            except Exception as ex:
+                if apagar:
+                    count -= 1
+                    lista.delete(0, END) # clear
+
     except AttributeError as ex:
-        arquivoSaida = escritorSinonimos.fim('SINONIMOS')           # fecha o arquivo de saida
-        parametros['arquivoSaida'] = arquivoSaida
-        arquivoSaida = os.path.relpath(arquivoSaida)                # caminho relativo
-        mensagem = parametros['msgRetorno'].format(arquivoSaida)
+        # salva os arquivos
+        arquivoSaidaFB = escritorFlora.fim('SINONIMOS_FLORA')
+        arquivoSaidaPL = escritorPlantList.fim('SINONIMOS_PLANTLIST')
+        # recupera o caminho relativo
+        arquivoSaidaFB = os.path.relpath(arquivoSaidaFB)
+        arquivoSaidaPL = os.path.relpath(arquivoSaidaPL)
+        # printa a mensagem de erro
+        mensagem = parametros['msgRetorno'].format(arquivoSaidaFB)
         parametros['funcaoRetorno'](mensagem)
+
+        mensagem = parametros['msgRetorno'].format(arquivoSaidaPL)
+        parametros['funcaoRetorno'](mensagem)
+
+def verificaStatus(nomePlanta, status, nomePlataforma):
+
+    if status.__eq__('Aceito'):
+        return
+
+    # se for um sinônimos e estes nomes forem iguais
+    # então é porque não foi encontrado um nome aceito
+    if nomePlanta.__eq__(nomePlataforma):
+        raise Exception
 
 
 def salvaSinonimos(nomePlanta, escritor, sinonimos):
@@ -146,7 +178,7 @@ def release4(parametros):
             lista.yview(END)
             count += 1
 
-            #dadosSL(requisicaoSL(nomePlanta), nomePlanta, escritorCoordenadas)
+            dadosSL(requisicaoSL(nomePlanta), nomePlanta, escritorCoordenadas)
             dadosGB(nomePlanta, escritorCoordenadas)
 
     except AttributeError as ex:
