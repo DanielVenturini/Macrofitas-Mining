@@ -44,7 +44,7 @@ def dadosGB1(jsonResp, nomedaPlanta, escritor):
                                 latitude = 0
                                 longitude = 0
                         if(latitude != 0 and longitude != 0):
-                                escritor.escreve([nomedaPlanta, latitude, longitude, localidade])
+                                escritor.escreve([nomedaPlanta, str(latitude), str(longitude), localidade])
                                 nomedaPlanta = ''
         except Exception as ex:
                 print("Erro Ao capturar os dados GBIF : " + ex)
