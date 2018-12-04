@@ -99,4 +99,5 @@ def getSinonimosPL(nomePlanta, soup):
 
 # nomePlanta = 'Sesuvium portulacastrum'
 # jsonRespPlantlist = requisicaoPL(urlPL(nomePlanta))
-# getSinonimosPL(nomePlanta, jsonRespPlantlist)
+# # print(jsonRespPlantlist)
+# print(getSinonimosPL(nomePlanta, jsonRespPlantlist))

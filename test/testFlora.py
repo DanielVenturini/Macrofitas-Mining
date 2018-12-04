@@ -62,7 +62,7 @@ class TestPlantlist(unittest.TestCase):
         info = FloraInfo(nomePlanta)
         jsonResp = self.opcoesRetorno('floraInfo')
         getInfoFlora(nomePlanta, info, jsonResp)
-        info.printInfo()
+        
         self.assertEqual(info.taxonomica, 'Angiospermas')
         self.assertEqual(info.familia, 'Poaceae Barnhart')
         self.assertTrue(info.formaVida)

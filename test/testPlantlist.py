@@ -1,5 +1,5 @@
 import unittest
-from codicoMacrofitas.plantlist import urlPL, verificaEspecieIncorreta, dadosPL
+from codicoMacrofitas.plantlist import urlPL, verificaEspecieIncorreta, dadosPL, requisicaoPL, getSinonimosPL
 from codicoMacrofitas.macrofita import Macrofita
 from codicoMacrofitas.OperacoesArquivo import Writer
 from bs4 import BeautifulSoup
@@ -23,7 +23,6 @@ class TestPlantlist(unittest.TestCase):
 
     def testDadosPLSubtitleSynonym(self, nomePlanta='Hygrophila guianensis Nees'):
         macrofita = Macrofita(nomePlanta)
-        escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
         dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta))
 
         self.assertEqual(macrofita.statusPlantlist, 'Sinonimo')
@@ -32,7 +31,6 @@ class TestPlantlist(unittest.TestCase):
     
     def testDadosPLUnresolvedName(self, nomePlanta='Isoetes ekmanii'):
         macrofita = Macrofita(nomePlanta)
-        escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
         dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta))
 
         self.assertEqual(macrofita.statusPlantlist, '')
@@ -41,7 +39,6 @@ class TestPlantlist(unittest.TestCase):
 
     def testDadosPLTabelaAccepted(self, nomePlanta='Juncus acutus L.'):
         macrofita = Macrofita(nomePlanta)
-        escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
         dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta))
 
         self.assertEqual(macrofita.statusPlantlist, 'Aceito')
@@ -50,7 +47,6 @@ class TestPlantlist(unittest.TestCase):
 
     def testDadosPLTabelaAcceptedEspecieInvalida(self, nomePlanta='Juncus acutusdd L.'):
         macrofita = Macrofita(nomePlanta)
-        escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
         dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta))
 
         self.assertEqual(macrofita.statusPlantlist, '')
@@ -59,7 +55,6 @@ class TestPlantlist(unittest.TestCase):
 
     def testDadosPLTabelaSinonimo(self, nomePlanta='Utricularia inflata L.'):
         macrofita = Macrofita(nomePlanta)
-        escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
         dadosPL(self.retornaNomeSemAutor(nomePlanta),macrofita, self.requisicaoData(nomePlanta))
 
         self.assertEqual(macrofita.statusPlantlist, 'Sinonimo')
@@ -68,15 +63,17 @@ class TestPlantlist(unittest.TestCase):
 
     def testDadosPLGeneroIncorreto(self, nomePlanta='Diclipptera ciliaris Juss.'):
         macrofita = Macrofita(nomePlanta)
-        escritorSinonimos = Writer('arquivo.xlsx', ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Relevantes'])
         dadosPL(self.retornaNomeSemAutor(nomePlanta), macrofita, self.requisicaoData(nomePlanta))
 
         self.assertFalse(macrofita.statusPlantlist)
         self.assertFalse(macrofita.nomePlantlist)
         self.assertEqual(macrofita.obsPlantlist, 'Genero Invalido')
-
-
-
+    
+    def testGetSinonimosPL(self,nomePlanta='Sesuvium portulacastrum'):
+        jsonRespPlantlist = self.requisicaoData('GetSinonimosPL')
+        getSinonimosPL(nomePlanta, jsonRespPlantlist)
+        self.assertTrue(nomePlanta)
+    
     def retornaNomeSemAutor(self, nomePlanta):
         return  nomePlanta.split(' ')[0] + ' ' + nomePlanta.split(' ')[1]
         
@@ -107,7 +104,6 @@ class TestPlantlist(unittest.TestCase):
                         <td class="dateExported"><time>2012-03-23</time></td>
                     </tr>
                 ''', "html.parser")
-
         elif(opt == 'Utricularia inflata L.'):
             return BeautifulSoup(
                 '''
@@ -126,7 +122,6 @@ class TestPlantlist(unittest.TestCase):
                         <td class="dateExported"><time>2012-04-18</time></td>
                     </tr>
                 ''', "html.parser")
-
         elif(opt == 'Diclipptera ciliaris Juss.'):
             return BeautifulSoup(
                 '''
@@ -161,7 +156,172 @@ class TestPlantlist(unittest.TestCase):
                             <li>Using <kbd><kbd>Vicia sativa var. sativa</kbd></kbd> will return all names that would be found using <kbd><kbd>Vicia sativa</kbd></kbd> rather than just those infraspecific names matching the full string.</li>
                         </ul>
                 ''', "html.parser")
-        
+        elif(opt == 'GetSinonimosPL'):
+            return '''
+            <tbody>
+                <tr id="Aizoon-C">
+                <td class="name Synonym"><a href="/tpl1.1/record/kew-2627017"><span class="name"><i class="genus">Aizoon</i> <i class="species">canariense</i> <span class="authorship">Andrews</span></span></a> [Illegitimate]</td>
+                <td>Synonym</td>
+                <td class="C-M"><img alt="M" src="/1.1/img/M.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Aizoon-M">
+                <td class="name Synonym"><a href="/tpl1.1/record/kew-2627040"><span class="name"><i class="genus">Aizoon</i> <i class="species">montevidense</i> <span class="authorship">Spreng. ex Rohr</span></span></a></td>
+                <td>Synonym</td>
+                <td class="C-M"><img alt="M" src="/1.1/img/M.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Halimus-M">
+                <td class="name Synonym"><a href="/tpl1.1/record/kew-2838412"><span class="name"><i class="genus">Halimus</i> <i class="species">maritima</i> <span class="authorship">Kuntze</span></span></a></td>
+                <td>Synonym</td>
+                <td class="C-M"><img alt="M" src="/1.1/img/M.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Halimus-P">
+                <td class="name Synonym"><a href="/tpl1.1/record/kew-2838415"><span class="name"><i class="genus">Halimus</i> <i class="species">portulacastrum</i> <span class="authorship">(L.) Kuntze</span></span></a></td>
+                <td>Synonym</td>
+                <td class="C-M"><img alt="M" src="/1.1/img/M.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Mollugo-M">
+                <td class="name Unresolved"><a href="/tpl1.1/record/kew-2505354"><span class="name"><i class="genus">Mollugo</i> <i class="species">maritima</i> <span class="authorship">Ser.</span></span></a></td>
+                <td>Unresolved</td>
+                <td class="C-L"><img alt="L" src="/1.1/img/L.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Portulaca-P">
+                <td class="name Synonym"><a href="/tpl1.1/record/kew-2574117"><span class="name"><i class="genus">Portulaca</i> <i class="species">portulacastrum</i> <span class="authorship">L.</span></span></a></td>
+                <td>Synonym</td>
+                <td class="C-M"><img alt="M" src="/1.1/img/M.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Psammanthe-M">
+                <td class="name Unresolved"><a href="/tpl1.1/record/kew-2405923"><span class="name"><i class="genus">Psammanthe</i> <i class="species">marina</i> <span class="authorship">Hance</span></span></a></td>
+                <td>Unresolved</td>
+                <td class="C-L"><img alt="L" src="/1.1/img/L.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Pyxipoma-P">
+                <td class="name Unresolved"><a href="/tpl1.1/record/kew-2407965"><span class="name"><i class="genus">Pyxipoma</i> <i class="species">polyandrum</i> <span class="authorship">Fenzl</span></span></a></td>
+                <td>Unresolved</td>
+                <td class="C-L"><img alt="L" src="/1.1/img/L.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Sesuvium-A">
+                <td class="name Synonym"><a href="/tpl1.1/record/tro-50294454"><span class="name"><i class="genus">Sesuvium</i> <i class="species">acutifolium</i> <span class="authorship">Miq.</span></span></a></td>
+                <td>Synonym</td>
+                <td class="C-M"><img alt="M" src="/1.1/img/M.png"/></td>
+                <td class="source"><a href="/1.1/about/#tropicos">TRO</a></td>
+                <td class="dateExported"><time>2012-04-18</time></td>
+                </tr>
+                <tr id="Sesuvium-B">
+                <td class="name Unresolved"><a href="/tpl1.1/record/kew-2476989"><span class="name"><i class="genus">Sesuvium</i> <i class="species">brevifolium</i> <span class="authorship">Schumach. &amp; Thonn.</span></span></a></td>
+                <td>Unresolved</td>
+                <td class="C-L"><img alt="L" src="/1.1/img/L.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Sesuvium-E">
+                <td class="name Unresolved"><a href="/tpl1.1/record/kew-2476898"><span class="name"><i class="genus">Sesuvium</i> <i class="species">edule</i> <span class="authorship">Wight ex Wall.</span></span></a></td>
+                <td>Unresolved</td>
+                <td class="C-L"><img alt="L" src="/1.1/img/L.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Sesuvium-L">
+                <td class="name Synonym"><a href="/tpl1.1/record/kew-2477171"><span class="name"><i class="genus">Sesuvium</i> <i class="species">longifolium</i> <span class="authorship">Humb. &amp; Bonpl. ex Willd.</span></span></a></td>
+                <td>Synonym</td>
+                <td class="C-M"><img alt="M" src="/1.1/img/M.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Sesuvium-O">
+                <td class="name Synonym"><a href="/tpl1.1/record/tro-703707"><span class="name"><i class="genus">Sesuvium</i> <i class="species">ortegae</i> <span class="authorship">Spreng.</span></span></a></td>
+                <td>Synonym</td>
+                <td class="C-M"><img alt="M" src="/1.1/img/M.png"/></td>
+                <td class="source"><a href="/1.1/about/#tropicos">TRO</a></td>
+                <td class="dateExported"><time>2012-04-18</time></td>
+                </tr>
+                <tr id="Sesuvium-P">
+                <td class="name Unresolved"><a href="/tpl1.1/record/kew-2477169"><span class="name"><i class="genus">Sesuvium</i> <i class="species">parviflorum</i> <span class="authorship">DC.</span></span></a></td>
+                <td>Unresolved</td>
+                <td class="C-L"><img alt="L" src="/1.1/img/L.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr>
+                <td class="name Unresolved"><a href="/tpl1.1/record/kew-2477254"><span class="name"><i class="genus">Sesuvium</i> <i class="species">pedunculatum</i> <span class="authorship">Pers.</span></span></a></td>
+                <td>Unresolved</td>
+                <td class="C-L"><img alt="L" src="/1.1/img/L.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr>
+                <td class="name Unresolved"><a href="/tpl1.1/record/kew-2477149"><span class="name"><i class="genus">Sesuvium</i> <i class="species">pentandrum</i> <span class="authorship">Elliott</span></span></a></td>
+                <td>Unresolved</td>
+                <td class="C-L"><img alt="L" src="/1.1/img/L.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Sesuvium-R">
+                <td class="name Unresolved"><a href="/tpl1.1/record/kew-2476905"><span class="name"><i class="genus">Sesuvium</i> <i class="species">repens</i> <span class="authorship">Willd.</span></span></a></td>
+                <td>Unresolved</td>
+                <td class="C-L"><img alt="L" src="/1.1/img/L.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr>
+                <td class="name Synonym"><a href="/tpl1.1/record/tro-703709"><span class="name"><i class="genus">Sesuvium</i> <i class="species">revolutifolium</i> <span class="authorship">Ortega</span></span></a></td>
+                <td>Synonym</td>
+                <td class="C-M"><img alt="M" src="/1.1/img/M.png"/></td>
+                <td class="source"><a href="/1.1/about/#tropicos">TRO</a></td>
+                <td class="dateExported"><time>2012-04-18</time></td>
+                </tr>
+                <tr>
+                <td class="name Unresolved"><a href="/tpl1.1/record/kew-2476908"><span class="name"><i class="genus">Sesuvium</i> <i class="species">revolutum</i> <span class="authorship">Pers.</span></span></a></td>
+                <td>Unresolved</td>
+                <td class="C-L"><img alt="L" src="/1.1/img/L.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Sesuvium-S">
+                <td class="name Synonym"><a href="/tpl1.1/record/tro-700024"><span class="name"><i class="genus">Sesuvium</i> <i class="species">sessile</i> <span class="authorship">Pers.</span></span></a></td>
+                <td>Synonym</td>
+                <td class="C-M"><img alt="M" src="/1.1/img/M.png"/></td>
+                <td class="source"><a href="/1.1/about/#tropicos">TRO</a></td>
+                <td class="dateExported"><time>2012-04-18</time></td>
+                </tr>
+                <tr>
+                <td class="name Unresolved"><a href="/tpl1.1/record/kew-2476904"><span class="name"><i class="genus">Sesuvium</i> <i class="species">sessiliflorum</i> <span class="authorship">Dombey ex Rohrb.</span></span></a></td>
+                <td>Unresolved</td>
+                <td class="C-L"><img alt="L" src="/1.1/img/L.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                <tr id="Trianthema-A">
+                <td class="name Synonym"><a href="/tpl1.1/record/tro-703811"><span class="name"><i class="genus">Trianthema</i> <i class="species">americana</i> <span class="authorship">Gillies ex Arn.</span></span></a></td>
+                <td>Synonym</td>
+                <td class="C-M"><img alt="M" src="/1.1/img/M.png"/></td>
+                <td class="source"><a href="/1.1/about/#tropicos">TRO</a></td>
+                <td class="dateExported"><time>2012-04-18</time></td>
+                </tr>
+                <tr id="Trianthema-P">
+                <td class="name Unresolved"><a href="/tpl1.1/record/kew-2436598"><span class="name"><i class="genus">Trianthema</i> <i class="species">polyandra</i> <span class="authorship">Blume</span></span></a></td>
+                <td>Unresolved</td>
+                <td class="C-L"><img alt="L" src="/1.1/img/L.png"/></td>
+                <td class="source"><a href="/1.1/about/#wcsir">WCSP (in review)</a></td>
+                <td class="dateExported"><time>2012-03-23</time></td>
+                </tr>
+                </tbody>
+            '''   
         return ''
 
 
