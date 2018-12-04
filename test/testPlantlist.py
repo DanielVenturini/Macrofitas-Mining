@@ -157,7 +157,7 @@ class TestPlantlist(unittest.TestCase):
                         </ul>
                 ''', "html.parser")
         elif(opt == 'GetSinonimosPL'):
-            return '''
+            return BeautifulSoup('''
             <tbody>
                 <tr id="Aizoon-C">
                 <td class="name Synonym"><a href="/tpl1.1/record/kew-2627017"><span class="name"><i class="genus">Aizoon</i> <i class="species">canariense</i> <span class="authorship">Andrews</span></span></a> [Illegitimate]</td>
@@ -321,7 +321,7 @@ class TestPlantlist(unittest.TestCase):
                 <td class="dateExported"><time>2012-03-23</time></td>
                 </tr>
                 </tbody>
-            '''   
+            ''', "html.parser")
         return ''
 
 
