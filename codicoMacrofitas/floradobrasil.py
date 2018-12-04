@@ -100,8 +100,15 @@ def getInfoFlora(nomePlanta, info, jsonResp):
 
 
 # from floraInfo import FloraInfo
-# nomePlanta = 'Steinchisma decipiens'
+nomePlanta = 'Steinchisma decipiens'
 # # print('luiz: = ',type(nomePlanta) )
 # fInfo = FloraInfo(nomePlanta)
-# getInfoFlora(nomePlanta, fInfo, requisicaoFB(getURLID(nomePlanta)))
+# req = requisicaoFB(getURLID(nomePlanta))
+# getInfoFlora(nomePlanta, fInfo, req)
 # fInfo.printInfo()
+
+req = requisicaoFB(urlFB(nomePlanta))
+# print(req,'\n\n\n\n')
+
+print(getSinonimosFB(nomePlanta, req))
+
