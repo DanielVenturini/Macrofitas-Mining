@@ -6,14 +6,18 @@ def urlFB(nomePlanta):
     return "http://servicos.jbrj.gov.br/flora/taxon/" + nomePlanta.replace(' ','%20')
 
 def requisicaoFB(url):
-    for i in range(3):
+    for i in range(10):
         try:
             req = requests.get(url, timeout = 3).json()
             return req
         except:  
             print('Tentativa:',i + 1)
+            if(i > 5):
+                time.sleep(5)
+            else:
+                time.sleep(1)
 
-    jsonResp = {'result': False}
+    jsonResp =  False
     return jsonResp
 
 # deve retornar uma tupla: return validado, nomeValidado
@@ -58,11 +62,9 @@ def getSinonimosFB(nomePlanta, jsonResp):
         print("Erro: {0} -- {1}".format(nomePlanta, ex))
         return []
 
-from floraInfo import FloraInfo
-
 def getURLID(nomePlanta):
     resp = requisicaoFB('http://servicos.jbrj.gov.br/flora/url/' + nomePlanta.replace(' ', '%20'))
-    if(not resp):
+    if(resp["success"]):
         return 'http://reflora.jbrj.gov.br/reflora/listaBrasil/ConsultaPublicaUC/ResultadoDaConsultaCarregaTaxonGrupo.do?&idDadosListaBrasil=' + resp["result"][0]["references"].split('=FB')[1]
     return False
 
@@ -94,9 +96,12 @@ def getInfoFlora(nomePlanta, info, jsonResp):
             pos1 = siteFlora[duvida].index('(') + 1
             pos2 = siteFlora[duvida].index(')')
             info.possiveisOcorrencias = (siteFlora[duvida][pos1:pos2].split(', '))
-    info.printInfo()
+    
 
 
-# nomePlanta = 'Microlicia fasciculata'
+# from floraInfo import FloraInfo
+# nomePlanta = 'Steinchisma decipiens'
+# # print('luiz: = ',type(nomePlanta) )
 # fInfo = FloraInfo(nomePlanta)
 # getInfoFlora(nomePlanta, fInfo, requisicaoFB(getURLID(nomePlanta)))
+# fInfo.printInfo()

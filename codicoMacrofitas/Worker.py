@@ -3,12 +3,13 @@
 '''
 Este arquivo chamara as funçoes reponsaveis por cada parte do projeto
 '''
-from floradobrasil import (requisicaoFB, urlFB, dadosFB, getSinonimosFB)
+from floradobrasil import (requisicaoFB, urlFB, dadosFB,getSinonimosFB, getInfoFlora, getURLID)
 from plantlist import (dadosPL, requisicaoPL, urlPL, getSinonimosPL)
 from specieslink import (requisicaoSL, dadosSL)
 from OperacoesArquivo import (Reader, Writer)
 from gbif import (requisicaoGB, dadosGB)
 from macrofita import Macrofita
+from floraInfo import FloraInfo
 from tkinter import END
 import requests
 import os.path
@@ -102,7 +103,6 @@ def release2(parametros):
             except Exception:
                 apagar = True   # diz para apagar a linha se no plant list também não tiver
 
-
             try:
                 verificaStatus(nomePlanta, statusPlantlist, nomePlantlist)      # se não tiver nome aceito, então gera exceção
 
@@ -139,7 +139,6 @@ def verificaStatus(nomePlanta, status, nomePlataforma):
     if nomePlanta.__eq__(nomePlataforma):
         raise Exception
 
-
 def salvaSinonimos(nomePlanta, escritor, sinonimos):
     linha = [0, 1]                  # lista com duas posicoes
     primeiraColuna = nomePlanta     # apenas para escrever no arquivo no padrão requerido
@@ -155,6 +154,38 @@ def salvaSinonimos(nomePlanta, escritor, sinonimos):
 
     escritor.escreve(['', ''])      # apenas quebrando uma linha
 
+#-----------------------------------#
+#      RECUPERA INFORMAÇÔES FLORA   #
+#-----------------------------------#
+def release3(parametros):
+    i = 0
+    
+    lista = parametros['lista']
+    nomeArquivo = parametros['arquivoEntrada']
+    leitor = Reader(nomeArquivo)
+    escritorFloraInfo = Writer(nomeArquivo, ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Hierarquia Taxonômica', '', 'Forma de Vida e Substrato', '', 'Origem', 'Endemismo', 'Distribuição','','',''])
+    escritorFloraInfo.escreve(['', 'Grupo taxonômico', 'Família', 'Forma de Vida', 'Substrato', '', '', 'Ocorrências confirmadas', 'Possíveis ocorrências', 'Domínios Fitogeográficos', 'Tipo de Vegetação'])
+    
+    try:
+        leitor.getLinha()
+        while(True):
+            nomePlanta, statusFlora, nomeFlora, statusPlantlist, nomePlantlist, comparacao = leitor.getLinha()   
+            if(nomeFlora and (statusFlora == 'Aceito' or nomePlanta != nomeFlora)):
+                nomeP = nomeFlora.split(' ')
+                nomeP = str(nomeP[0] + ' ' + nomeP[1])
+                fInfo = FloraInfo(nomeP)
+                resp = requisicaoFB(getURLID(nomeP))
+                print(i, nomeP, "\n\n")
+                i += 1
+
+                if(resp):
+                    getInfoFlora(nomeP, fInfo, resp)
+                    fInfo.printInfo()
+                    escritorFloraInfo.escreve([nomePlanta, fInfo.taxonomica, fInfo.familia, fInfo.formaVida, fInfo.substrato, fInfo.origem, fInfo.endemismo, fInfo.ocorenciaConfirmada,fInfo.possiveisOcorrencias,fInfo.fitogeografico,fInfo.vegetacao])                
+    
+    except AttributeError as ex:
+        print("FIM", ex)
+        escritorFloraInfo.fim('INFORMACOES')       # fecha o arquivo de saida
 
 #-----------------------------------#
 #      RECUPERA AS COORDENADAS      #

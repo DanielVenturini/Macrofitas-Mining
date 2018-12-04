@@ -113,6 +113,8 @@ class Writer:
             self.coluna = 'B'
         elif len(cabecalho) == 4:
             self.coluna = 'D'
+        elif len(cabecalho) == 11:
+            self.coluna = 'k'
 
         self.escreve(cabecalho)
 

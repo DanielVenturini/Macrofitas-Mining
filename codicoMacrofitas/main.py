@@ -143,7 +143,6 @@ class Menu:
                           'msgRetorno': 'Arquivo de saída:.\n{0}',
                           'lista': self.lista,
                           'arquivoSaida': ''}
-
             threading.Thread(target=wk.release1, args=(parametros,)).start()
 
     def release2(self, event):
@@ -164,20 +163,22 @@ class Menu:
             threading.Thread(target=self.mensagemErro).start()
         else:
             self.escondeBotoes()
-            parametros = {'arquivoEntrada': self.nomeArquivo,
+            parametros = {
+                'arquivoEntrada': self.nomeArquivo,
                 'funcaoRetorno': self.mensagemErro,
                 'msgRetorno': 'Arquivo de saída:.\n{0}',
                 'lista': self.lista,
-                'arquivoSaida': ''}
-
-            threading.Thread(target=wk.release3, args=(parametros,)).start()
-
+                'arquivoSaida': ''
+                }
+            wk.release3(parametros)
+ 
     def release4(self, event):
         if self.nomeArquivo.__eq__(''):
             threading.Thread(target=self.mensagemErro).start()
         else:
             self.escondeBotoes()
-            parametros = {'arquivoEntrada': self.nomeArquivo,
+            parametros = {
+                'arquivoEntrada': self.nomeArquivo,
                 'funcaoRetorno': self.mensagemErro,
                 'msgRetorno': 'Arquivo de saída:.\n{0}',
                 'lista': self.lista,
@@ -212,7 +213,6 @@ class Menu:
 
             threading.Thread(target=self.todas, args=(parametros,)).start()
             # tem que criar uma thread senão a interface trava do mesmo modo
-
 
 
 root = Tk()
