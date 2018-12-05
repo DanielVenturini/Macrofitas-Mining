@@ -76,7 +76,6 @@ def release2(parametros):
     nomeArquivo = parametros['arquivoEntrada']
     leitor = Reader(nomeArquivo)
     escritorFlora = Writer(nomeArquivo, ['Nome Especie', 'Sinônimos Relevantes'])
-    escritorPlantList = Writer(nomeArquivo, ['Nome Especie', 'Sinônimos Relevantes'])
 
     lista.insert(END, 'RECUPERANDO OS SINÔNIMOS')
     try:
@@ -99,6 +98,7 @@ def release2(parametros):
                 sinonimos = getSinonimosFB(nomeFlora, jsonRespFloraBrasil)
 
                 salvaSinonimos(nomeFlora, escritorFlora, sinonimos)
+                continue
 
             except Exception:
                 apagar = True   # diz para apagar a linha se no plant list também não tiver
@@ -109,7 +109,7 @@ def release2(parametros):
                 jsonRespPlantlist = requisicaoPL(urlPL(nomePlantlist))
                 sinonimos = getSinonimosPL(nomePlantlist, jsonRespPlantlist)
 
-                salvaSinonimos(nomePlantlist, escritorPlantList, sinonimos)
+                salvaSinonimos(nomePlantlist, escritorFlora, sinonimos)
             except Exception as ex:
                 if apagar:
                     count -= 1
@@ -117,17 +117,13 @@ def release2(parametros):
 
     except AttributeError as ex:
         # salva os arquivos
-        arquivoSaidaFB = escritorFlora.fim('SINONIMOS_FLORA')
-        arquivoSaidaPL = escritorPlantList.fim('SINONIMOS_PLANTLIST')
+        arquivoSaidaFB = escritorFlora.fim('SINONIMOS')
         # recupera o caminho relativo
         arquivoSaidaFB = os.path.relpath(arquivoSaidaFB)
-        arquivoSaidaPL = os.path.relpath(arquivoSaidaPL)
         # printa a mensagem de erro
         mensagem = parametros['msgRetorno'].format(arquivoSaidaFB)
         parametros['funcaoRetorno'](mensagem)
 
-        mensagem = parametros['msgRetorno'].format(arquivoSaidaPL)
-        parametros['funcaoRetorno'](mensagem)
 
 def verificaStatus(nomePlanta, status, nomePlataforma):
 
@@ -163,9 +159,10 @@ def release3(parametros):
     lista = parametros['lista']
     nomeArquivo = parametros['arquivoEntrada']
     leitor = Reader(nomeArquivo)
+    count = 0
     escritorFloraInfo = Writer(nomeArquivo, ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Hierarquia Taxonômica', '', 'Forma de Vida e Substrato', '', 'Origem', 'Endemismo', 'Distribuição','','',''])
     escritorFloraInfo.escreve(['', 'Grupo taxonômico', 'Família', 'Forma de Vida', 'Substrato', '', '', 'Ocorrências confirmadas', 'Possíveis ocorrências', 'Domínios Fitogeográficos', 'Tipo de Vegetação'])
-    
+
     try:
         leitor.getLinha()
         while(True):
@@ -175,17 +172,27 @@ def release3(parametros):
                 nomeP = str(nomeP[0] + ' ' + nomeP[1])
                 fInfo = FloraInfo(nomeP)
                 resp = requisicaoFB(getURLID(nomeP))
-                print(i, nomeP, "\n\n")
-                i += 1
+
+                lista.insert(END, '{0} -> {1}'.format(count, nomePlanta))
+                lista.yview(END)
+                count += 1
 
                 if(resp):
                     getInfoFlora(nomeP, fInfo, resp)
-                    fInfo.printInfo()
-                    escritorFloraInfo.escreve([nomePlanta, fInfo.taxonomica, fInfo.familia, fInfo.formaVida, fInfo.substrato, fInfo.origem, fInfo.endemismo, fInfo.ocorenciaConfirmada,fInfo.possiveisOcorrencias,fInfo.fitogeografico,fInfo.vegetacao])                
+                    #fInfo.printInfo()
+                    linha = [nomePlanta, fInfo.taxonomica, fInfo.familia, fInfo.formaVida, fInfo.substrato, fInfo.origem, fInfo.endemismo, fInfo.ocorenciaConfirmada,fInfo.possiveisOcorrencias,fInfo.fitogeografico,fInfo.vegetacao]
+                    for pos, value in enumerate(linha):
+                        linha[pos] = str(value).replace("[", '').replace("]", '').replace("'", '')
+
+                    escritorFloraInfo.escreve(linha)
     
     except AttributeError as ex:
         print("FIM", ex)
-        escritorFloraInfo.fim('INFORMACOES')       # fecha o arquivo de saida
+        arquivoSaida = escritorFloraInfo.fim('INFORMACOES')       # fecha o arquivo de saida
+        parametros['arquivoSaida'] = arquivoSaida
+        arquivoSaida = os.path.relpath(arquivoSaida)                # caminho relativo
+        mensagem = parametros['msgRetorno'].format(arquivoSaida)
+        parametros['funcaoRetorno'](mensagem)
 
 #-----------------------------------#
 #      RECUPERA AS COORDENADAS      #

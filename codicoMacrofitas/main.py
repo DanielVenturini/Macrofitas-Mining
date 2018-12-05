@@ -170,7 +170,8 @@ class Menu:
                 'lista': self.lista,
                 'arquivoSaida': ''
                 }
-            wk.release3(parametros)
+
+            threading.Thread(target=wk.release3, args=(parametros,)).start()
  
     def release4(self, event):
         if self.nomeArquivo.__eq__(''):
