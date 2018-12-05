@@ -163,6 +163,7 @@ def release3(parametros):
     escritorFloraInfo = Writer(nomeArquivo, ['Nome das espécies - Status Flora = ACEITO', 'Sinônimos Hierarquia Taxonômica', '', 'Forma de Vida e Substrato', '', 'Origem', 'Endemismo', 'Distribuição','','',''])
     escritorFloraInfo.escreve(['', 'Grupo taxonômico', 'Família', 'Forma de Vida', 'Substrato', '', '', 'Ocorrências confirmadas', 'Possíveis ocorrências', 'Domínios Fitogeográficos', 'Tipo de Vegetação'])
 
+    lista.insert(END, 'RECUPERANDO INFORMAÇÕES DO FLORA')
     try:
         leitor.getLinha()
         while(True):
@@ -185,7 +186,7 @@ def release3(parametros):
                         linha[pos] = str(value).replace("[", '').replace("]", '').replace("'", '')
 
                     escritorFloraInfo.escreve(linha)
-    
+
     except AttributeError as ex:
         print("FIM", ex)
         arquivoSaida = escritorFloraInfo.fim('INFORMACOES')       # fecha o arquivo de saida

@@ -9,15 +9,16 @@ def requisicaoGB(url):
         for i in range(0, 20):
                 resultado = None
                 try:
-                        resultado = requests.get(url,timeout=1).json()
+                        resultado = requests.get(url,timeout=10).json()
                         return resultado
                 except requests.exceptions.RequestException as ex:
                         print("ErroGBIF : " + str(ex))
+                        print(url)
                         time.sleep(0.1)    
                 except:
                         time.sleep(0.1)
 
-                print("Tentativa {0}".format(i))
+                print("TentativaGBIF {0}".format(i))
 
         print("Terminado as tentativas")
         return False
@@ -52,6 +53,8 @@ def dadosGB1(jsonResp, nomedaPlanta, escritor):
                         if(latitude != 0 and longitude != 0):
                                 escritor.escreve([nomedaPlanta, str(latitude), str(longitude), localidade])
                                 nomedaPlanta = ''
+
+                escritor.escreve(['', '', '', ''])
         except Exception as ex:
                 print("Erro Ao capturar os dados GBIF : " + ex)
 

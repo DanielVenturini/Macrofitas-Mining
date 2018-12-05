@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import Worker as wk
 from OperacoesArquivo import Reader
-from tkinter import (Tk, Button, Frame, filedialog, Label, Listbox)
+from tkinter import (Tk, Button, Frame, filedialog, Label, Listbox, Checkbutton, IntVar)
 import threading
 import openpyxl
 
@@ -37,6 +37,7 @@ class Menu:
         self.conteiner4 = Frame(master)
         self.conteiner5 = Frame(master)
         self.conteiner0 = Frame(master)
+        self.conteinerCB = Frame(master)    # container checkbox
 
         self.conteinerFile.pack()
         self.conteiner1.pack()
@@ -45,6 +46,7 @@ class Menu:
         self.conteiner4.pack()
         self.conteiner5.pack()
         self.conteiner0.pack()
+        self.conteinerCB.pack()
 
         self.botaoFile = self.criaBotao(self.conteinerFile, 'Escolha um arquivo', self.getFile)
         self.botao1 = self.criaBotao(self.conteiner1, 'Validar nomes', self.release1)
@@ -81,6 +83,15 @@ class Menu:
         # quando for realizar todas as operações, não voltar os botões depois de cada uma
         self.naoVoltar = False
 
+        # checkbox para escolher o auto-confirma
+        autoconfirm = IntVar()
+        c = Checkbutton(self.conteinerCB, text="AUTO-CONFIRMA após executar", variable=autoconfirm)
+        c.grid(row=7, column=0, pady=(3, 10))
+        c.bind('<Button-1>', self.cb)
+        c.pack()
+
+        self.AutoConfirma = False
+
     def criaBotao(self, conteiner, texto, funcao):
         botao = Button(conteiner, width=40, pady=10) # criando os botões
         botao['text'] = texto               # atribuindo nome
@@ -90,6 +101,9 @@ class Menu:
 
         return botao
 
+    def cb(self, event):
+        self.AutoConfirma = not self.AutoConfirma
+
     def escondeBotoes(self):
         self.conteinerFile.pack_forget()
         self.conteiner1.pack_forget()
@@ -98,6 +112,7 @@ class Menu:
         self.conteiner4.pack_forget()
         self.conteiner5.pack_forget()
         self.conteiner0.pack_forget()
+        self.conteinerCB.pack_forget()
 
         self.lista.pack()
 
@@ -112,6 +127,7 @@ class Menu:
         self.conteiner4.pack()
         self.conteiner5.pack()
         self.conteiner0.pack()
+        self.conteinerCB.pack()
 
         self.lista.pack_forget()
 
@@ -127,10 +143,14 @@ class Menu:
             threading.Thread(target=self.mensagemErro, args=('Arquivo não suportado.\nSelecione um arquivo \'.xlsx\'',)).start()
 
     def mensagemErro(self, msg='Selecione um arquivo usando o primeiro botão.'):
-        mensagem = Tk()
-        Mensagem(mensagem, msg)
-        mensagem.title('Aviso')
-        mensagem.mainloop()
+        # se não for marcado para auto confirmar, executa normal
+        # em ambas as situações, vai pra função voltaBotoes
+        if not self.AutoConfirma:
+            mensagem = Tk()
+            Mensagem(mensagem, msg)
+            mensagem.title('Aviso')
+            mensagem.mainloop()
+
         self.voltaBotoes()
 
     def release1(self, event):
@@ -194,10 +214,11 @@ class Menu:
         wk.release2(parametros)
         # não precisa alterar o arquivo de entrada, pois vai ser o arquivo VALIDADO mesmo
 
+        wk.release3(parametros)
+
         self.naoVoltar = False
 
         wk.release4(parametros)
-        parametros['arquivoEntrada'] = parametros['arquivoSaida']   # pega o nome do novo arquivo
 
     def todasReleases(self, event):
         if self.nomeArquivo.__eq__(''):

@@ -1,6 +1,7 @@
 import urllib.parse
 import urllib.error
 import urllib.request
+import socket
 from bs4 import BeautifulSoup
 import time
 import re
@@ -113,13 +114,14 @@ def requisicaoSL(planta):
 	for i in range(0, 20):
 		try:
 			data = urllib.parse.urlencode({'ts_any': planta}).encode('ascii')	# insere o nome da planta no body
-			thepage = urllib.request.urlopen(url, data)							# recupera a página
+			thepage = urllib.request.urlopen(url, data, timeout=20)				# recupera a página
 			soupdata = BeautifulSoup(thepage,"html.parser")						# faz o parse
 			return soupdata
-		except (urllib.error.URLError, urllib.error.HTTPError):
+		except (urllib.error.URLError, urllib.error.HTTPError, socket.timeout) as ex:
+			print("ErroSPLINK : " + str(ex))
 			time.sleep(1)
 
-		print("Tentativa {0}".format(i))
+		print("TentativaSPLINK {0}".format(i))
 
 	return False
 
