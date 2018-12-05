@@ -6,18 +6,21 @@ def urlGB(nomePlanta,offset,limit = 300):
     return "http://api.gbif.org/v1/occurrence/search?limit="+str(limit)+"&offset="+str(offset)+"&continent=SOUTH_AMERICA&scientificName=" +nomePlanta.replace(' ','%20')
 
 def requisicaoGB(url):
-        while True:
+        for i in range(0, 20):
                 resultado = None
-                time.sleep(.3)
                 try:
                         resultado = requests.get(url,timeout=1).json()
-                except requests.exceptions.RequestException as ex:
-                        print("Erro : " + str(ex))
-                        time.sleep(2)    
-                except:
-                        time.sleep(2)
-                if(resultado):
                         return resultado
+                except requests.exceptions.RequestException as ex:
+                        print("ErroGBIF : " + str(ex))
+                        time.sleep(0.1)    
+                except:
+                        time.sleep(0.1)
+
+                print("Tentativa {0}".format(i))
+
+        print("Terminado as tentativas")
+        return False
 
 # def getCoordenadas(latitude, longitude):
 #     try:
@@ -28,6 +31,9 @@ def requisicaoGB(url):
 #         return ' ', ' '
 
 def dadosGB1(jsonResp, nomedaPlanta, escritor):
+        if not jsonResp:
+                raise Exception
+
         try:
                 for result in jsonResp['results']:
                         localidade = ''
@@ -53,9 +59,13 @@ def dadosGB(nomePlanta, escritor):
         numReg = numeroRegistro(nomePlanta)
         numReg = math.ceil(numReg/300)
 
-        for offset in range(0, numReg):
-                url = urlGB(nomePlanta, offset*300)
-                dadosGB1(requisicaoGB(url), nomePlanta, escritor)
+        try:
+                for offset in range(0, numReg):
+                        url = urlGB(nomePlanta, offset*300)
+                        dadosGB1(requisicaoGB(url), nomePlanta, escritor)
+
+        except Exception:
+                return
 
 def numeroRegistro(nomePlanta):
         url = urlGB(nomePlanta, 0,1)

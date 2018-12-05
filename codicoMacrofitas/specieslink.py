@@ -2,6 +2,7 @@ import urllib.parse
 import urllib.error
 import urllib.request
 from bs4 import BeautifulSoup
+import time
 import re
 
 # classe para guardar as informações das plantas
@@ -109,13 +110,18 @@ def americaSul(lat, longi):
 # retorna a requisição já no formado do BeaultifulSoup
 def requisicaoSL(planta):
 	url = urlSL()
-	try:
-		data = urllib.parse.urlencode({'ts_any': planta}).encode('ascii')	# insere o nome da planta no body
-		thepage = urllib.request.urlopen(url, data)							# recupera a página
-		soupdata = BeautifulSoup(thepage,"html.parser")						# faz o parse
-		return soupdata
-	except (urllib.error.URLError, urllib.error.HTTPError):
-		raise
+	for i in range(0, 20):
+		try:
+			data = urllib.parse.urlencode({'ts_any': planta}).encode('ascii')	# insere o nome da planta no body
+			thepage = urllib.request.urlopen(url, data)							# recupera a página
+			soupdata = BeautifulSoup(thepage,"html.parser")						# faz o parse
+			return soupdata
+		except (urllib.error.URLError, urllib.error.HTTPError):
+			time.sleep(1)
+
+		print("Tentativa {0}".format(i))
+
+	return False
 
 def urlSL():
 	return "http://www.splink.org.br/mod_perl/searchHint"
@@ -160,6 +166,9 @@ def trataDiv(div):
 
 
 def dadosSL(soup, nomePlanta, escritor):  # valida pelo subtitulo
+	if not soup:
+		return
+
 	try:
 		divPlanta = nextPlanta(soup)	# recupera o iterador dos div das plantas
 		# para cada ocorrencia de uma determinada planta

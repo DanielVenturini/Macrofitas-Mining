@@ -202,7 +202,8 @@ def release4(parametros):
     nomeArquivo = parametros['arquivoEntrada']
     lista = parametros['lista']
     leitor = Reader(nomeArquivo)
-    escritorCoordenadas = Writer(nomeArquivo, ['Nome Especie', 'Latitude', 'Longitude', 'Localização'])
+    escritorCoordenadasGB = Writer(nomeArquivo, ['Nome Especie', 'Latitude', 'Longitude', 'Localização'])
+    escritorCoordenadasSL = Writer(nomeArquivo, ['Nome Especie', 'Latitude', 'Longitude', 'Localização'])
 
     lista.insert(END, 'RECUPERANDO AS COORDENADAS')
     try:
@@ -216,12 +217,18 @@ def release4(parametros):
             lista.yview(END)
             count += 1
 
-            dadosSL(requisicaoSL(nomePlanta), nomePlanta, escritorCoordenadas)
-            dadosGB(nomePlanta, escritorCoordenadas)
+            dadosSL(requisicaoSL(nomePlanta), nomePlanta, escritorCoordenadasSL)
+            dadosGB(nomePlanta, escritorCoordenadasGB)
 
     except AttributeError as ex:
-        arquivoSaida = escritorCoordenadas.fim('OCORRENCIAS')       # fecha o arquivo de saida
-        parametros['arquivoSaida'] = arquivoSaida
-        arquivoSaida = os.path.relpath(arquivoSaida)                # caminho relativo
-        mensagem = parametros['msgRetorno'].format(arquivoSaida)
+        arquivoSaidaSL = escritorCoordenadasSL.fim('OCORRENCIAS_SPLINK')# fecha o arquivo de saida
+        arquivoSaidaGB = escritorCoordenadasGB.fim('OCORRENCIAS_GBIF')    # fecha o arquivo de saida
+
+        arquivoSaidaSL = os.path.relpath(arquivoSaidaSL)                # caminho relativo
+        arquivoSaidaGB = os.path.relpath(arquivoSaidaGB)                # caminho relativo
+
+        mensagem = parametros['msgRetorno'].format(arquivoSaidaSL)
+        parametros['funcaoRetorno'](mensagem)
+
+        mensagem = parametros['msgRetorno'].format(arquivoSaidaGB)
         parametros['funcaoRetorno'](mensagem)
