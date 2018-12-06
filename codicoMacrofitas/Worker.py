@@ -112,7 +112,6 @@ def release2(parametros):
                 salvaSinonimos(nomePlantlist, escritorFlora, sinonimos)
             except Exception as ex:
                 if apagar:
-                    count -= 1
                     lista.delete(0, END) # clear
 
     except AttributeError as ex:
@@ -167,6 +166,7 @@ def release3(parametros):
     try:
         leitor.getLinha()
         while(True):
+            count += 1
             nomePlanta, statusFlora, nomeFlora, statusPlantlist, nomePlantlist, comparacao = leitor.getLinha()   
             if(nomeFlora and (statusFlora == 'Aceito' or nomePlanta != nomeFlora)):
                 nomeP = nomeFlora.split(' ')
@@ -174,11 +174,9 @@ def release3(parametros):
                 fInfo = FloraInfo(nomeP)
                 resp = requisicaoFB(getURLID(nomeP))
 
-                lista.insert(END, '{0} -> {1}'.format(count, nomePlanta))
-                lista.yview(END)
-                count += 1
-
                 if(resp):
+                    lista.insert(END, '{0} -> {1}'.format(count, nomePlanta))
+                    lista.yview(END)    
                     getInfoFlora(nomeP, fInfo, resp)
                     #fInfo.printInfo()
                     linha = [nomePlanta, fInfo.taxonomica, fInfo.familia, fInfo.formaVida, fInfo.substrato, fInfo.origem, fInfo.endemismo, fInfo.ocorenciaConfirmada,fInfo.possiveisOcorrencias,fInfo.fitogeografico,fInfo.vegetacao]
@@ -186,6 +184,7 @@ def release3(parametros):
                         linha[pos] = str(value).replace("[", '').replace("]", '').replace("'", '')
 
                     escritorFloraInfo.escreve(linha)
+            
 
     except AttributeError as ex:
         print("FIM", ex)
@@ -199,37 +198,38 @@ def release3(parametros):
 #      RECUPERA AS COORDENADAS      #
 #-----------------------------------#
 def release4(parametros):
-    count = 1
+    count = 0
     nomeArquivo = parametros['arquivoEntrada']
     lista = parametros['lista']
     leitor = Reader(nomeArquivo)
-    escritorCoordenadasGB = Writer(nomeArquivo, ['Nome Especie', 'Latitude', 'Longitude', 'Localização'])
-    escritorCoordenadasSL = Writer(nomeArquivo, ['Nome Especie', 'Latitude', 'Longitude', 'Localização'])
+    escritorCoordenadas = Writer(nomeArquivo, ['Nome Especie', 'Latitude', 'Longitude', 'Localização'])
+    #escritorCoordenadasGB = Writer(nomeArquivo, ['Nome Especie', 'Latitude', 'Longitude', 'Localização'])
+    #escritorCoordenadasSL = Writer(nomeArquivo, ['Nome Especie', 'Latitude', 'Longitude', 'Localização'])
 
     lista.insert(END, 'RECUPERANDO AS COORDENADAS')
     try:
+        leitor.getLinha()
         while True:
-            nomePlanta, nomeAutor = leitor.getNome()            # recupera o nome da planta
 
-            if nomePlanta.lower().__contains__('nome especie'):
+            count += 1
+            nomePlanta, statusFlora, nomeFlora, statusPlantlist, nomePlantlist, comparacao = leitor.getLinha()   
+
+            if not nomeFlora or (statusFlora != 'Aceito' and nomePlanta == nomeFlora):
                 continue
 
             lista.insert(END, '{0} -> {1}'.format(count, nomePlanta))
             lista.yview(END)
-            count += 1
 
-            dadosSL(requisicaoSL(nomePlanta), nomePlanta, escritorCoordenadasSL)
-            dadosGB(nomePlanta, escritorCoordenadasGB)
+            coordenadasSL = set(dadosSL(requisicaoSL(nomePlanta), nomePlanta))
+            coordenadasGB = set(dadosGB(nomePlanta))
+
+            coordenadas = list(coordenadasSL.union(coordenadasGB))
+
+            for linha in coordenadas:
+                lat, longi, local = linha.split('!#')
+                escritorCoordenadas.escreve([nomePlanta, lat, longi, local])
 
     except AttributeError as ex:
-        arquivoSaidaSL = escritorCoordenadasSL.fim('OCORRENCIAS_SPLINK')# fecha o arquivo de saida
-        arquivoSaidaGB = escritorCoordenadasGB.fim('OCORRENCIAS_GBIF')    # fecha o arquivo de saida
-
-        arquivoSaidaSL = os.path.relpath(arquivoSaidaSL)                # caminho relativo
-        arquivoSaidaGB = os.path.relpath(arquivoSaidaGB)                # caminho relativo
-
-        mensagem = parametros['msgRetorno'].format(arquivoSaidaSL)
-        parametros['funcaoRetorno'](mensagem)
-
-        mensagem = parametros['msgRetorno'].format(arquivoSaidaGB)
+        arquivoSaida = escritorCoordenadas.fim('OCORRENCIAS')
+        mensagem = parametros['msgRetorno'].format(arquivoSaida)
         parametros['funcaoRetorno'](mensagem)

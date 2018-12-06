@@ -23,15 +23,7 @@ def requisicaoGB(url):
         print("Terminado as tentativas")
         return False
 
-# def getCoordenadas(latitude, longitude):
-#     try:
-#         latitude = re.match(['[+|-]?[\d]+(.[\d]+)?', latitude)
-#         longitude = re.match(['[+|-]?[\d]+(.[\d]+)?', longitude)
-#         return latitude, longitude
-#     except AttributeError:
-#         return ' ', ' '
-
-def dadosGB1(jsonResp, nomedaPlanta, escritor):
+def dadosGB1(jsonResp, nomedaPlanta, coordenadas):
         if not jsonResp:
                 raise Exception
 
@@ -51,24 +43,24 @@ def dadosGB1(jsonResp, nomedaPlanta, escritor):
                                 latitude = 0
                                 longitude = 0
                         if(latitude != 0 and longitude != 0):
-                                escritor.escreve([nomedaPlanta, str(latitude), str(longitude), localidade])
-                                nomedaPlanta = ''
+                                coordenadas.append(str(latitude) + '!#' + str(longitude) + '!#' + localidade)
 
-                escritor.escreve(['', '', '', ''])
         except Exception as ex:
                 print("Erro Ao capturar os dados GBIF : " + ex)
 
-def dadosGB(nomePlanta, escritor):
+def dadosGB(nomePlanta):
         numReg = numeroRegistro(nomePlanta)
         numReg = math.ceil(numReg/300)
 
+        coordenadas = []
         try:
                 for offset in range(0, numReg):
                         url = urlGB(nomePlanta, offset*300)
-                        dadosGB1(requisicaoGB(url), nomePlanta, escritor)
+                        dadosGB1(requisicaoGB(url), nomePlanta, coordenadas)
 
+                return coordenadas
         except Exception:
-                return
+                return coordenadas
 
 def numeroRegistro(nomePlanta):
         url = urlGB(nomePlanta, 0,1)

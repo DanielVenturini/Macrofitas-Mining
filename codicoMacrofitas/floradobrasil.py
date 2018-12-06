@@ -64,7 +64,7 @@ def getSinonimosFB(nomePlanta, jsonResp):
 
 def getURLID(nomePlanta):
     resp = requisicaoFB('http://servicos.jbrj.gov.br/flora/url/' + nomePlanta.replace(' ', '%20'))
-    if(resp["success"]):
+    if(resp["success"] and resp['result'] != None):
         return 'http://reflora.jbrj.gov.br/reflora/listaBrasil/ConsultaPublicaUC/ResultadoDaConsultaCarregaTaxonGrupo.do?&idDadosListaBrasil=' + resp["result"][0]["references"].split('=FB')[1]
     return False
 

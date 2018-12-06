@@ -61,7 +61,7 @@ class InfPlanta:
 			latitude = re.search('[+|-]?[\d]+(.[\d]+)?', latitude).group(0)
 			longitude = re.search('[+|-]?[\d]+(.[\d]+)?', longitude).group(0)
 
-			return [latitude, longitude]
+			return (latitude, longitude)
 		except AttributeError:
 			return ' ', ' '
 
@@ -114,7 +114,7 @@ def requisicaoSL(planta):
 	for i in range(0, 20):
 		try:
 			data = urllib.parse.urlencode({'ts_any': planta}).encode('ascii')	# insere o nome da planta no body
-			thepage = urllib.request.urlopen(url, data, timeout=20)				# recupera a página
+			thepage = urllib.request.urlopen(url, data, timeout=5)				# recupera a página
 			soupdata = BeautifulSoup(thepage,"html.parser")						# faz o parse
 			return soupdata
 		except (urllib.error.URLError, urllib.error.HTTPError, socket.timeout) as ex:
@@ -167,32 +167,29 @@ def trataDiv(div):
 	#for ll in lls:
 
 
-def dadosSL(soup, nomePlanta, escritor):  # valida pelo subtitulo
+def dadosSL(soup, nomePlanta):  		# valida pelo subtitulo
+	
+	coordenadas = []
+
 	if not soup:
-		return
+		return coordenadas
 
 	try:
 		divPlanta = nextPlanta(soup)	# recupera o iterador dos div das plantas
 		# para cada ocorrencia de uma determinada planta
 		while True:
-			div = next(divPlanta)		# recupera a próxima div
+			div = next(divPlanta)				# recupera a próxima div
 
 			planta = trataDiv(div)				# trata os elementos da div
-			linha = [0, 1, 2, 3]
-			linha[0] = nomePlanta
-			linha[1:2] = planta.getCoordenada()
-			linha[3] = planta.getLocalizacao()
-
-			lat = linha[1]
-			longi = linha[2]
+			lat, longi = planta.getCoordenada()
+			local = planta.getLocalizacao()
 
 			if americaSul(lat, longi):
-				escritor.escreve(linha)
+				coordenadas.append(str(lat) + '!#' + str(longi) + '!#' + local)
 
-			nomePlanta = ''
-	except StopIteration:				# lança StopIteration quando não há mais div
-		escritor.escreve(['', '', '', ''])
-		return True
+	except StopIteration:						# lança StopIteration quando não há mais div
+		#escritor.escreve(['', '', '', ''])
+		return coordenadas
 
 
 #dados = requisicaoSL(urlSL(), 'victoria amazonica')
