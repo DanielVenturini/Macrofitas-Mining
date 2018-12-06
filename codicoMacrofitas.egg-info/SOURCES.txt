@@ -2,7 +2,6 @@ README.md
 setup.py
 codicoMacrofitas/OperacoesArquivo.py
 codicoMacrofitas/Worker.py
-codicoMacrofitas/coordenadas.py
 codicoMacrofitas/floraInfo.py
 codicoMacrofitas/floradobrasil.py
 codicoMacrofitas/gbif.py
@@ -16,6 +15,7 @@ codicoMacrofitas.egg-info/dependency_links.txt
 codicoMacrofitas.egg-info/top_level.txt
 test/TestPlantlist.py
 test/__init__.py
+test/coordenadas.py
 test/testFlora.py
 test/testMacrofita.py
 test/testOperaoesArquivos.py

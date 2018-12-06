@@ -72,3 +72,7 @@ def numeroRegistro(nomePlanta):
                 return(jsonResp['count'])
         else:
                 return 0
+
+
+# nomePlanta = 'victoria amazonica'
+# print(dadosGB(nomePlanta))
