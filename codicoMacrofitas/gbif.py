@@ -12,11 +12,14 @@ def requisicaoGB(url):
                         resultado = requests.get(url,timeout=10).json()
                         return resultado
                 except requests.exceptions.RequestException as ex:
-                        print("ErroGBIF : " + str(ex))
-                        print(url)
-                        time.sleep(0.1)    
+                        print("ErroGBIF : " + str(ex), url)
+                        if(i>10):
+                                time.sleep(5)    
+                        else:
+                                time.sleep(2)    
+
                 except:
-                        time.sleep(0.1)
+                        time.sleep(5)
 
                 print("TentativaGBIF {0}".format(i))
 

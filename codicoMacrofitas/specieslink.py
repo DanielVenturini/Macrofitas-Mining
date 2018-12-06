@@ -114,12 +114,15 @@ def requisicaoSL(planta):
 	for i in range(0, 20):
 		try:
 			data = urllib.parse.urlencode({'ts_any': planta}).encode('ascii')	# insere o nome da planta no body
-			thepage = urllib.request.urlopen(url, data, timeout=5)				# recupera a página
+			thepage = urllib.request.urlopen(url, data, timeout=8)				# recupera a página
 			soupdata = BeautifulSoup(thepage,"html.parser")						# faz o parse
 			return soupdata
 		except (urllib.error.URLError, urllib.error.HTTPError, socket.timeout) as ex:
 			print("ErroSPLINK : " + str(ex))
-			time.sleep(1)
+			if(i > 10):
+				time.sleep(5)
+			else:
+				time.sleep(2)
 
 		print("TentativaSPLINK {0}".format(i))
 

@@ -4,13 +4,14 @@ from bs4 import BeautifulSoup
 import time
 
 def requisicaoPL(url):
-	for i in range(3):
+	for i in range(10):
 		try:
-			thepage = urllib.request.urlopen(url, timeout=3)
+			thepage = urllib.request.urlopen(url, timeout=5)
 			soupdata = BeautifulSoup(thepage,"html.parser")
 			return soupdata
 		except:
 			print('Tentativa:',i)			
+			time.sleep(2)
 	return False
 
 def urlPL(name):
