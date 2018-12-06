@@ -1,7 +1,10 @@
 import urllib.parse
 import urllib.error
 import urllib.request
+import socket
 from bs4 import BeautifulSoup
+import time
+import re
 
 # classe para guardar as informações das plantas
 # e para ter melhor controle sobre as informações
@@ -48,17 +51,19 @@ class InfPlanta:
 
 		return localizacao[:-2]				# remove o último ', '
 
-	# retorna uma string com a coordenada da ocorrência da planta
-	# por exemplo: 'lat: -19.0019... long: -57.51... err: ± 15163'
-	# vários casos não contém o 'err'
+	# retorna uma tupla com a coordenada da ocorrência da planta
+	# por exemplo: (-19.0019, -57.51)
 	def getCoordenada(self):
-		latitude = self.getMapped('lA')
-		longitude = self.getMapped('lO')
-		err = self.getMapped('eR')
+		try:
+			latitude = self.getMapped('lA')
+			longitude = self.getMapped('lO')
 
-		coordenada = latitude + longitude + err
+			latitude = re.search('[+|-]?[\d]+(.[\d]+)?', latitude).group(0)
+			longitude = re.search('[+|-]?[\d]+(.[\d]+)?', longitude).group(0)
 
-		return coordenada[1:-1]			# retorna a coordenada sem o '[' e o ']' da string
+			return (latitude, longitude)
+		except AttributeError:
+			return ' ', ' '
 
 	def getColeta(self):
 		coleta = self.getMapped('cL')
@@ -75,15 +80,53 @@ class InfPlanta:
 
 #############################################################################
 
-# retorna a requisição já no formado do BeaultifulSoup
-def requisicaoSL(url, planta):
+# retorna se uma latitude e longitude está dentro da américa do súl
+def americaSul(lat, longi):
+
 	try:
-		data = urllib.parse.urlencode({'ts_any': planta}).encode('ascii')	# insere o nome da planta no body
-		thepage = urllib.request.urlopen(url, data)							# recupera a página
-		soupdata = BeautifulSoup(thepage,"html.parser")						# faz o parse
-		return soupdata
-	except (urllib.error.URLError, urllib.error.HTTPError):
-		raise
+		lat = float(lat)
+		longi = float(longi)
+	except :
+		return False
+
+	# Extremo norte e leste
+	if lat > 12.458611:
+		return False
+
+	# Extremo sul
+	if lat < -59.488889:
+		return False
+
+	# Extremo leste
+	if longi < -71.668889:
+		return False
+
+	# Extremo oeste
+	if longi < -92.009167:
+		return False
+
+	return True
+
+
+# retorna a requisição já no formado do BeaultifulSoup
+def requisicaoSL(planta):
+	url = urlSL()
+	for i in range(0, 20):
+		try:
+			data = urllib.parse.urlencode({'ts_any': planta}).encode('ascii')	# insere o nome da planta no body
+			thepage = urllib.request.urlopen(url, data, timeout=8)				# recupera a página
+			soupdata = BeautifulSoup(thepage,"html.parser")						# faz o parse
+			return soupdata
+		except (urllib.error.URLError, urllib.error.HTTPError, socket.timeout) as ex:
+			print("ErroSPLINK : " + str(ex))
+			if(i > 10):
+				time.sleep(5)
+			else:
+				time.sleep(2)
+
+		print("TentativaSPLINK {0}".format(i))
+
+	return False
 
 def urlSL():
 	return "http://www.splink.org.br/mod_perl/searchHint"
@@ -127,20 +170,30 @@ def trataDiv(div):
 	#for ll in lls:
 
 
-def dadosSL(soup):  # valida pelo subtitulo	
+def dadosSL(soup, nomePlanta):  		# valida pelo subtitulo
+	
+	coordenadas = []
+
+	if not soup:
+		return coordenadas
+
 	try:
 		divPlanta = nextPlanta(soup)	# recupera o iterador dos div das plantas
 		# para cada ocorrencia de uma determinada planta
 		while True:
-			div = next(divPlanta)		# recupera a próxima div
+			div = next(divPlanta)				# recupera a próxima div
 
 			planta = trataDiv(div)				# trata os elementos da div
-			# print(planta.getLocalizacao())
+			lat, longi = planta.getCoordenada()
+			local = planta.getLocalizacao()
 
-	except StopIteration:				# lança StopIteration quando não há mais div
-		print('Acabou')
-		return True
+			if americaSul(lat, longi):
+				coordenadas.append(str(lat) + '!#' + str(longi) + '!#' + local)
+
+	except StopIteration:						# lança StopIteration quando não há mais div
+		#escritor.escreve(['', '', '', ''])
+		return coordenadas
 
 
-# requisicaoSL(urlSL(), 'Salicornia ambigua')
-
+#dados = requisicaoSL(urlSL(), 'victoria amazonica')
+#dadosSL(dados)

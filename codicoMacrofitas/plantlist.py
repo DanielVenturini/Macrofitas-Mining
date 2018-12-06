@@ -1,17 +1,21 @@
 import urllib
 import urllib.request
 from bs4 import BeautifulSoup
+import time
 
 def requisicaoPL(url):
-	try:
-		thepage = urllib.request.urlopen(url)
-		soupdata = BeautifulSoup(thepage,"html.parser")
-		return soupdata
-	except urllib.error.URLError:
-		raise
+	for i in range(10):
+		try:
+			thepage = urllib.request.urlopen(url, timeout=5)
+			soupdata = BeautifulSoup(thepage,"html.parser")
+			return soupdata
+		except:
+			print('Tentativa:',i)			
+			time.sleep(2)
+	return False
 
 def urlPL(name):
-	genero, especie = name.split(' ')
+	genero, especie = name.split(' ')[0:2]
 	return "http://www.theplantlist.org/tpl1.1/search?q=" + genero +'+'+ especie
 
 def verificaEspecieIncorreta(especieEntrada, especieSite):
@@ -19,13 +23,9 @@ def verificaEspecieIncorreta(especieEntrada, especieSite):
 		return False
 	return True
 
-# dado o nomePlanta, salva em escritor.escreve([nomePlanta, sinonimo]) cada sinônimo
-def salvaSinonimos(nomePlanta, escritor, sinonimos):
-	pass
-
 # parâmetro escrever diz se os sinônimos já foram escritos no arquivo na função dadosFB
 # se ainda não foram, então escreve daqui
-def dadosPL(name, macrofita, soup, escritorSinonimos, escrever):  # valida pelo subtitulo
+def dadosPL(name, macrofita, soup):  # valida pelo subtitulo
 	especie = name.split(' ')[1]
 	spanSubtitulo = soup.findAll("span", class_="subtitle")
 	if spanSubtitulo:
@@ -34,7 +34,6 @@ def dadosPL(name, macrofita, soup, escritorSinonimos, escrever):  # valida pelo 
 				macrofita.nomePlantlist = name + ' ' + soup.find("span", class_="authorship").text #pega o nome + autor
 				macrofita.statusPlantlist = 'Aceito'
 				macrofita.comaparaNome('plantlist')
-				salvaSinonimos(name, escritorSinonimos, 'lista de sinônimos, ou algo parecido')
 				return
 
 			elif data.text.__contains__('is a synonym'):				
@@ -79,3 +78,27 @@ def dadosPL(name, macrofita, soup, escritorSinonimos, escrever):  # valida pelo 
 		else:
 			macrofita.obsPlantlist = 'Genero Invalido'
 			return
+
+
+#recupera todos os sinonimos
+def getSinonimosPL(nomePlanta, soup): 
+	
+	try:
+		tdSynonym = soup.findAll("td", class_="name Synonym")
+		sinonimo = []
+	except urllib.error.URLError as er:
+		print(er)
+		return []
+
+	try:
+		for td in tdSynonym:	
+			sin = BeautifulSoup(str(td), "html.parser")
+			sinonimo.insert(0, str(sin.find("i", class_="genus").text +' '+ sin.find("i", class_="species").text +' '+sin.find("span", class_="authorship").text))
+		return sinonimo
+	except :
+		return ['']
+
+# nomePlanta = 'Sesuvium portulacastrum'
+# jsonRespPlantlist = requisicaoPL(urlPL(nomePlanta))
+# # print(jsonRespPlantlist)
+# print(getSinonimosPL(nomePlanta, jsonRespPlantlist))

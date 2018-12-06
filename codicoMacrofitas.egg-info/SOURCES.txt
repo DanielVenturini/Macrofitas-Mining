@@ -1,11 +1,13 @@
 README.md
 setup.py
 codicoMacrofitas/OperacoesArquivo.py
-codicoMacrofitas/Validador.py
 codicoMacrofitas/Worker.py
+codicoMacrofitas/coordenadas.py
+codicoMacrofitas/floraInfo.py
 codicoMacrofitas/floradobrasil.py
 codicoMacrofitas/gbif.py
 codicoMacrofitas/macrofita.py
+codicoMacrofitas/main.py
 codicoMacrofitas/plantlist.py
 codicoMacrofitas/specieslink.py
 codicoMacrofitas.egg-info/PKG-INFO
