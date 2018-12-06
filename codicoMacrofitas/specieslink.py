@@ -195,5 +195,5 @@ def dadosSL(soup, nomePlanta):  		# valida pelo subtitulo
 		return coordenadas
 
 
-nomePlanta = 'victoria amazonica'
-print(requisicaoSL(nomePlanta))
+#dados = requisicaoSL(urlSL(), 'victoria amazonica')
+#dadosSL(dados)
