@@ -53,6 +53,7 @@ Quando é terminada uma operação, é mostrado uma janela informando o nome do 
 
 ## Desenvolver
 Para desenvolver no ```Macrofitas Mining```, é necessário instalar o ```Python 3``` e as dependências:
+```git clone https://github.com/DanielVenturini/Macrofitas-Mining.git ```
 
 Instale o Python 3.7:
 
@@ -76,15 +77,15 @@ Instale a dependência ```coveralls``` para executar os testes:
 
 Instale a dependência ```pyinstaller``` para gerar o executável:
 
-```python -m pip install coveralls```
+```python -m pip install pyinstaller```
 
-Para executar os testes, use:
+Para executar os testes, na pasta raiz use:
 
 ```
 coverage run --source=codicoMacrofitas setup.py test
 ```
 
-Para gerar o executável, use:
+Para gerar o executável,na pasta raiz use:
 
 ```
 pyinstaller --windowed --noconsole --clean --onefile .\codicoMacrofitas\main.py
