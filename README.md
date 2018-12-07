@@ -22,12 +22,7 @@ No total, são gerados quatro tabelas:
  
  - Tabela com informações mais detalhadas dos nomes validados, tal como Hierarquia, Forma de vida, Vida e Substrato, ... encontrados no ```Flora do Brasil```.
  
-  - Tabela com as ocorrências de cada nome aceito, tal como latitude, longitude e localização. Esta tabela é gerada a partir do ```Species Link``` e do `````GBIF``.
-
-## Execução
-Para executar o ```Macrofitas Mining```, não é necessário instalação. Apenas baixe o arquivo e o execute:
-
-```https://www.dropbox.com/s/i23ynnqdscbz289/main.exe?dl=0```
+  - Tabela com as ocorrências de cada nome aceito, tal como latitude, longitude e localização. Esta tabela é gerada a partir do ```Species Link``` e do ```GBIF``.
 
 ## Uso
 A imagem a seguir, refere-se a interface principal do programa:
@@ -57,6 +52,8 @@ Quando é terminada uma operação, é mostrado uma janela informando o nome do 
 </p>
 
 ## Desenvolver
+Para desenvolver no ```Macrofitas Mining```, é necessário instalar o ```Python 3``` e as dependências:
+
 Instale o Python 3.7:
 
 ```https://www.python.org/ftp/python/3.7.0/python-3.7.0.exe```
@@ -73,6 +70,24 @@ Instale a dependência ```bs4```:
 
 ```python -m pip install bs4```
 
-Instale a dependência ```coveralls```:
+Instale a dependência ```coveralls``` para executar os testes:
 
 ```python -m pip install coveralls```
+
+Instale a dependência ```pyinstaller``` para gerar o executável:
+
+```python -m pip install coveralls```
+
+Para executar os testes, use:
+
+```
+coverage run --source=codicoMacrofitas setup.py test
+```
+
+Para gerar o executável, use:
+
+```
+pyinstaller --windowed --noconsole --clean --onefile .\codicoMacrofitas\main.py
+```
+
+o arquivo é salvo em ```.\codicoMacrofitas\dist\main.exe```
