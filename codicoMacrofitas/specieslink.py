@@ -111,10 +111,10 @@ def americaSul(lat, longi):
 # retorna a requisição já no formado do BeaultifulSoup
 def requisicaoSL(planta):
 	url = urlSL()
-	for i in range(0, 20):
+	for i in range(0, 50):
 		try:
 			data = urllib.parse.urlencode({'ts_any': planta}).encode('ascii')	# insere o nome da planta no body
-			thepage = urllib.request.urlopen(url, data, timeout=8)				# recupera a página
+			thepage = urllib.request.urlopen(url, data, timeout=15)				# recupera a página
 			soupdata = BeautifulSoup(thepage,"html.parser")						# faz o parse
 			return soupdata
 		except (urllib.error.URLError, urllib.error.HTTPError, socket.timeout) as ex:
@@ -193,7 +193,3 @@ def dadosSL(soup, nomePlanta):  		# valida pelo subtitulo
 	except StopIteration:						# lança StopIteration quando não há mais div
 		#escritor.escreve(['', '', '', ''])
 		return coordenadas
-
-
-#dados = requisicaoSL(urlSL(), 'victoria amazonica')
-#dadosSL(dados)

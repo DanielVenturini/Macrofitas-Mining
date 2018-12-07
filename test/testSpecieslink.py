@@ -10,8 +10,8 @@ class TestSpecieslink(unittest.TestCase):
         resp = specieslink.nextPlanta(self.entrada())
         self.assertTrue(isinstance(resp, types.GeneratorType))
 
-    # def testDadosSL(self):
-    #     self.assertTrue(specieslink.dadosSL(self.entrada()))
+    def testDadosSL(self):
+        self.assertTrue(specieslink.dadosSL(self.entrada(), 'victoria amazonica'))
 
         
     def entrada(self):

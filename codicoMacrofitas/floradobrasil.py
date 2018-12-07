@@ -96,19 +96,3 @@ def getInfoFlora(nomePlanta, info, jsonResp):
             pos1 = siteFlora[duvida].index('(') + 1
             pos2 = siteFlora[duvida].index(')')
             info.possiveisOcorrencias = (siteFlora[duvida][pos1:pos2].split(', '))
-    
-
-
-# # from floraInfo import FloraInfo
-# nomePlanta = 'Steinchisma decipiens'
-# # # print('luiz: = ',type(nomePlanta) )
-# # fInfo = FloraInfo(nomePlanta)
-# # req = requisicaoFB(getURLID(nomePlanta))
-# # getInfoFlora(nomePlanta, fInfo, req)
-# # fInfo.printInfo()
-
-# req = requisicaoFB(urlFB(nomePlanta))
-# # print(req,'\n\n\n\n')
-
-# print(getSinonimosFB(nomePlanta, req))
-

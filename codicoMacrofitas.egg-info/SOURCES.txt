@@ -2,7 +2,6 @@ README.md
 setup.py
 codicoMacrofitas/OperacoesArquivo.py
 codicoMacrofitas/Worker.py
-codicoMacrofitas/coordenadas.py
 codicoMacrofitas/floraInfo.py
 codicoMacrofitas/floradobrasil.py
 codicoMacrofitas/gbif.py
@@ -21,3 +20,4 @@ test/testMacrofita.py
 test/testOperaoesArquivos.py
 test/testPlantlist.py
 test/testSpecieslink.py
+test/testeGBIF.py

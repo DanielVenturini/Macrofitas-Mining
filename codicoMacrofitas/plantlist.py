@@ -97,8 +97,3 @@ def getSinonimosPL(nomePlanta, soup):
 		return sinonimo
 	except :
 		return ['']
-
-# nomePlanta = 'Sesuvium portulacastrum'
-# jsonRespPlantlist = requisicaoPL(urlPL(nomePlanta))
-# # print(jsonRespPlantlist)
-# print(getSinonimosPL(nomePlanta, jsonRespPlantlist))
