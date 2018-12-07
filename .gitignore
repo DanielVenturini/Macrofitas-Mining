@@ -5,4 +5,4 @@ __pycache__/*
 *.csv
 .coverage
 build/*
-dist/*
+codicoMacrofitas/dist/*
