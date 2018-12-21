@@ -119,13 +119,17 @@ class Writer:
         self.escreve(cabecalho)
 
     def escreve(self, linha):
+        avancar = True
         for pos, celula in enumerate(self.worksheet['A{0}'.format(str(self.linhaNum)):'{0}{1}'.format(self.coluna, str(self.linhaNum))][0]):
             try:
                 celula.set_explicit_value(linha[pos])
             except openpyxl.utils.exceptions.IllegalCharacterError:
+                avancar = False
                 pass    # do nothing
 
-        self.linhaNum += 1
+        # se a linha contém um caractér inválido, então não pode avançar de linha
+        if avancar:
+            self.linhaNum += 1
 
     # tipoArquivo será VALIDADOS|SINONIMOS|OCORRENCIAS
     def fim(self, tipoArquivo):
